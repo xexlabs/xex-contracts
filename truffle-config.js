@@ -6,6 +6,10 @@ const liveNetworkPK = process.env.PRIVATE_KEY || ''
 const PRIVATE_KEY = [ liveNetworkPK ]
 const ADDR = process.env.ADDR;
 module.exports = {
+    plugins: ['truffle-plugin-verify'],
+    api_keys: {
+        etherscan: process.env.ETHERSCAN,
+    },
     networks: {
         ganache: {
             host: "127.0.0.1",
