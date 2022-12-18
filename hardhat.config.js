@@ -55,9 +55,6 @@ module.exports = {
             url: 'http://localhost:8545',
         },
     },
-    etherscan: {
-        apiKey: `${process.env.ETHERSCAN}`
-    },
     solidity: {
         compilers: [
             {
@@ -71,4 +68,26 @@ module.exports = {
             }
         ],
     },
+    etherscan: {
+        apiKey: { // npx hardhat verify --list-networks
+            goerli: `${process.env.ETHERSCAN}`,
+            mainnet: `${process.env.ETHERSCAN}`,
+            canto_testnet: `test`,
+            bsc: `${process.env.BSCSCAN}`,
+            bscTestnet: `${process.env.BSCSCAN}`,
+            avalancheFujiTestnet: `${process.env.SNOWTRACE}`,
+            polygon: `${process.env.POLYGONSCAN}`,
+            polygonMumbai: `${process.env.POLYGONSCAN}`,
+        },
+        customChains: [
+            {
+                network: "canto_testnet",
+                chainId: 740,
+                urls: {
+                    apiURL: "https://evm.explorer.canto-testnet.com/api",
+                    browserURL: "https://eth.plexnode.wtf/"
+                }
+            }
+        ]
+    }
 };

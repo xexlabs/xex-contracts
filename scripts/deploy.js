@@ -10,17 +10,17 @@ async function main() {
   if( res ){
     contracts[network.chainId] = res;
     fs.writeFileSync( 'contracts.json', JSON.stringify(contracts) );
-
+    console.log(`verify main: ${res.main}(${cfg.fee}, ${cfg.endpoint})`);
     await hre.run("verify:verify", {
       address: res.main,
       contract: "contracts/Main.sol:Main",
       constructorArguments: [cfg.fee, cfg.endpoint],
       libraries: { Math: res.math }
     });
-
+    console.log(`verify factory: ${res.factory}(${res.main})`);
     await hre.run("verify:verify", {
       address: res.factory,
-      // contract: "contracts/Minter.sol:Factory",
+      contract: "contracts/Minter.sol:Factory",
       constructorArguments: [res.main]
     });
 

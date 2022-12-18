@@ -7,13 +7,13 @@ async function main() {
     const cfg = lz[network.chainId];
     let contracts = JSON.parse(fs.readFileSync('contracts.json'));
     const contract = contracts[network.chainId];
-    /*
+
     await hre.run("verify:verify", {
         address: contract.main,
         constructorArguments: [cfg.fee, cfg.endpoint],
         libraries: { Math: contract.math }
     });
-    */
+
     await hre.run("verify:verify", {
         address: contract.factory, constructorArguments: [contract.main],
     });
