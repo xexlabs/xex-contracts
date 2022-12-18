@@ -58,6 +58,45 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "cRank",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "term",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maturityTs",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amplifier",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "eeaRate",
+          "type": "uint256"
+        }
+      ],
+      "name": "getMintReward",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "to",
           "type": "address"

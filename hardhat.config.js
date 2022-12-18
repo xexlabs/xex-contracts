@@ -1,10 +1,8 @@
 require("@nomicfoundation/hardhat-toolbox");
 const dotenv = require("dotenv");
-// const hre = require("hardhat");
-const fs = require("fs");
 dotenv.config()
-const liveNetworkPK = process.env.PRIVATE_KEY || ''
-const PRIVATE_KEY = [liveNetworkPK]
+require("@nomiclabs/hardhat-etherscan");
+const fs = require("fs");
 
 task("setTreasure", "set treasure address")
     .addParam("contract", "contract to set the treasure")
@@ -21,32 +19,31 @@ module.exports = {
     networks: {
         canto_testnet: {
             url: `https://eth.plexnode.wtf/`,
-            accounts: [`${PRIVATE_KEY}`],
+            accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
         bsc_testnet: {
             url: `https://data-seed-prebsc-1-s1.binance.org:8545`,
-            accounts: [`${PRIVATE_KEY}`],
+            accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
         avax_testnet: {
             url: `https://api.avax-test.network/ext/bc/C/rpc`,
-            accounts: [`${PRIVATE_KEY}`],
+            accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
         eth_testnet: {
-            url: `https://rpc.ankr.com/eth_goerli`,
-            accounts: [`${PRIVATE_KEY}`],
+            url: `https://goerli.infura.io/v3/${process.env.INFURA}`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
-            gas: 7064000
         },
         polygon_testnet: {
             url: `https://rpc.ankr.com/polygon_mumbai`,
-            accounts: [`${PRIVATE_KEY}`],
+            accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
@@ -59,7 +56,7 @@ module.exports = {
         },
     },
     etherscan: {
-        apiKey: `${process.env.API_KEY}`
+        apiKey: `${process.env.ETHERSCAN}`
     },
     solidity: {
         compilers: [
@@ -68,19 +65,10 @@ module.exports = {
                 settings: {
                     optimizer: {
                         enabled: true,
-                        runs: 1
+                        runs: 200
                     },
                 },
-            },
-            {
-                version: '0.8.17',
-                settings: {
-                    optimizer: {
-                        enabled: true,
-                        runs: 1
-                    },
-                },
-            },
+            }
         ],
     },
 };

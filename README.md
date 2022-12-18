@@ -1,4 +1,5 @@
 `truffle migrate --network eth_goerli --compile-none`
+`truffle run verify Main --network eth_goerli `
 
 ## Fees
 

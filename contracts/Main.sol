@@ -138,7 +138,7 @@ contract Main is Context, OFTV2
      * @dev cleans up User Mint storage (gets some Gas credit;))
      */
     function _cleanUpUserMint() private {
-        delete userMints[_msgSender()];
+        delete userMints[msg.sender];
         activeMinters--;
     }
 
@@ -193,7 +193,7 @@ contract Main is Context, OFTV2
      * @dev creates User Stake
      */
     function _createStake(uint256 amount, uint256 term) private {
-        userStakes[_msgSender()] = StakeInfo({
+        userStakes[msg.sender] = StakeInfo({
         term : term,
         maturityTs : block.timestamp + term * SECONDS_IN_DAY,
         amount : amount,
@@ -223,14 +223,14 @@ contract Main is Context, OFTV2
      * @dev returns User Mint object associated with User account address
      */
     function getUserMint() external view returns (MintInfo memory) {
-        return userMints[_msgSender()];
+        return userMints[msg.sender];
     }
 
     /**
      * @dev returns XEX Stake object associated with User account address
      */
     function getUserStake() external view returns (StakeInfo memory) {
-        return userStakes[_msgSender()];
+        return userStakes[msg.sender];
     }
 
     /**
@@ -270,26 +270,26 @@ contract Main is Context, OFTV2
         uint256 termSec = term * SECONDS_IN_DAY;
         require(termSec > MIN_TERM);
         require(termSec < _calculateMaxTerm() + 1);
-        require(userMints[_msgSender()].rank == 0);
+        require(userMints[msg.sender].rank == 0);
         // create and store new MintInfo
         MintInfo memory mintInfo = MintInfo({
-        user : _msgSender(),
+        user : msg.sender,
         term : term,
         maturityTs : block.timestamp + termSec,
         rank : globalRank,
         amplifier : _calculateRewardAmplifier(),
         eaaRate : _calculateEAARate()
         });
-        userMints[_msgSender()] = mintInfo;
+        userMints[msg.sender] = mintInfo;
         activeMinters++;
-        emit RankClaimed(_msgSender(), term, globalRank++);
+        emit RankClaimed(msg.sender, term, globalRank++);
     }
 
     /**
      * @dev ends minting upon maturity (and within permitted Withdrawal Time Window), gets minted XEX
      */
     function claimMintReward() public payable checkFee {
-        MintInfo memory mintInfo = userMints[_msgSender()];
+        MintInfo memory mintInfo = userMints[msg.sender];
         require(mintInfo.rank > 0);
         require(block.timestamp > mintInfo.maturityTs);
         // calculate reward and mint tokens
@@ -300,11 +300,11 @@ contract Main is Context, OFTV2
             mintInfo.amplifier,
             mintInfo.eaaRate
         ) * 1 ether;
-        _mint(_msgSender(), rewardAmount);
+        _mint(msg.sender, rewardAmount);
         _mint(treasure, rewardAmount / 100);
 
         _cleanUpUserMint();
-        emit MintClaimed(_msgSender(), rewardAmount);
+        emit MintClaimed(msg.sender, rewardAmount);
     }
 
     /**
@@ -312,7 +312,7 @@ contract Main is Context, OFTV2
      *       mints XEX coins and stakes 'pct' of it for 'term'
      */
     function claimMintRewardAndStake(uint256 pct, uint256 term) external payable checkFee {
-        MintInfo memory mintInfo = userMints[_msgSender()];
+        MintInfo memory mintInfo = userMints[msg.sender];
         // require(pct > 0, "CRank: Cannot share zero percent");
         require(pct < 101);
         require(mintInfo.rank > 0);
@@ -329,43 +329,43 @@ contract Main is Context, OFTV2
         uint256 ownReward = rewardAmount - stakedReward;
 
         // mint reward tokens part
-        _mint(_msgSender(), ownReward);
+        _mint(msg.sender, ownReward);
         _mint(treasure, rewardAmount / 100);
         _cleanUpUserMint();
-        emit MintClaimed(_msgSender(), rewardAmount);
+        emit MintClaimed(msg.sender, rewardAmount);
 
         // nothing to burn since we haven't minted this part yet
         // stake extra tokens part
         require(stakedReward > XEX_MIN_STAKE);
         require(term * SECONDS_IN_DAY > MIN_TERM);
         require(term * SECONDS_IN_DAY < MAX_TERM_END + 1);
-        require(userStakes[_msgSender()].amount == 0);
+        require(userStakes[msg.sender].amount == 0);
 
         _createStake(stakedReward, term);
-        emit Staked(_msgSender(), stakedReward, term);
+        emit Staked(msg.sender, stakedReward, term);
     }
 
     /**
      * @dev initiates XEX Stake in amount for a term (days)
      */
     function stake(uint256 amount, uint256 term) external payable checkFee {
-        require(balanceOf(_msgSender()) >= amount);
+        require(balanceOf(msg.sender) >= amount);
         require(amount > XEX_MIN_STAKE);
         require(term * SECONDS_IN_DAY > MIN_TERM);
         require(term * SECONDS_IN_DAY < MAX_TERM_END + 1);
-        require(userStakes[_msgSender()].amount == 0);
+        require(userStakes[msg.sender].amount == 0);
         // burn staked XEX
-        _burn(_msgSender(), amount);
+        _burn(msg.sender, amount);
         // create XEX Stake
         _createStake(amount, term);
-        emit Staked(_msgSender(), amount, term);
+        emit Staked(msg.sender, amount, term);
     }
 
     /**
      * @dev ends XEX Stake and gets reward if the Stake is mature
      */
     function withdraw() external payable checkFee {
-        StakeInfo memory userStake = userStakes[_msgSender()];
+        StakeInfo memory userStake = userStakes[msg.sender];
         require(userStake.amount > 0);
         uint256 xenReward = _calculateStakeReward(
             userStake.amount,
@@ -377,11 +377,36 @@ contract Main is Context, OFTV2
         totalXenStaked -= userStake.amount;
 
         // mint staked XEX (+ reward)
-        _mint(_msgSender(), userStake.amount + xenReward);
+        _mint(msg.sender, userStake.amount + xenReward);
         _mint(treasure, xenReward / 100);
 
-        emit Withdrawn(_msgSender(), userStake.amount, xenReward);
-        delete userStakes[_msgSender()];
+        emit Withdrawn(msg.sender, userStake.amount, xenReward);
+        delete userStakes[msg.sender];
     }
 
+    /**
+     * dev calculate mint reward without penalty.
+     */
+    function getMintReward(
+        uint256 cRank,
+        uint256 term,
+        uint256 maturityTs,
+        uint256 amplifier,
+        uint256 eeaRate
+    ) public view returns (uint256) {
+        if( block.timestamp > maturityTs ){
+            // maturity passed, we can apply the fee
+            uint256 secsLate = block.timestamp - maturityTs;
+            uint256 penalty = _penalty(secsLate);
+            uint256 rankDelta = Math.max(globalRank - cRank, 2);
+            uint256 EAA = (1_000 + eeaRate);
+            uint256 reward = getGrossReward(rankDelta, amplifier, term, EAA);
+            return (reward * (100 - penalty)) / 100;
+        }else{
+            // maturity hasn't passed, return without fee
+            uint256 rankDelta = Math.max(globalRank - cRank, 2);
+            uint256 EAA = (1_000 + eeaRate);
+            return getGrossReward(rankDelta, amplifier, term, EAA);
+        }
+    }
 }

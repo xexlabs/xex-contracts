@@ -18,6 +18,11 @@ interface IMain {
     function userMints(address user) external view returns(MintInfo memory);
     function transfer(address to, uint256 amount) external returns (bool);
     function balanceOf(address account) external view returns (uint256);
+    function getMintReward(uint256 cRank,
+        uint256 term,
+        uint256 maturityTs,
+        uint256 amplifier,
+        uint256 eeaRate) external view returns(uint);
 }
 
 contract Minter {
@@ -37,8 +42,12 @@ contract Minter {
         main.claimMintReward{value : fee}();
         main.transfer(owner, main.balanceOf(address(this)));
     }
-    function getUserMintInfo() external view returns(IMain.MintInfo memory){
+    function getUserMintInfo() public view returns(IMain.MintInfo memory){
         return main.userMints(address(this));
+    }
+    function getMintReward() external view returns(uint){
+        IMain.MintInfo memory r = getUserMintInfo();
+        return main.getMintReward(r.rank, r.term, r.maturityTs, r.amplifier, r.eaaRate);
     }
 }
 
@@ -91,7 +100,13 @@ contract Factory
                 minter.claimMintReward{value : fee}();
         }
     }
-    function getTimestamp() public view returns(uint){
-        return block.timestamp;
+    function getMintReward(address user) public view returns (uint[] memory){
+        uint t = minters[user].length;
+        uint[] memory reward = new uint[](t);
+        for( uint i = 0 ; i < t ; ++ i ){
+            Minter minter = Minter(minters[user][i]);
+            reward[i] = minter.getMintReward();
+        }
+        return reward;
     }
 }
