@@ -52,11 +52,10 @@ contract Main is Context, OFTV2
     uint256 public constant XEX_MIN_BURN = 0;
 
     uint256 public constant XEX_APY_START = 35;
-    uint256 public constant XEX_APY_DAYS_STEP = 90;
+    uint256 public constant XEX_APY_DAYS_STEP = 20;
     uint256 public constant XEX_APY_END = 0;
 
 //    string public constant AUTHORS_XEN = "@MrJackLevin @lbelyaev faircrypto.org";
-//    string public constant AUTHORS_XEX = "@wapdev";
 
     // PUBLIC STATE, READABLE VIA NAMESAKE GETTERS
 
