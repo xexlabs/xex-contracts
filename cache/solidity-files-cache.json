@@ -1529,8 +1529,8 @@
       ]
     },
     "C:\\defi\\xex\\xex-contracts\\contracts\\Main.sol": {
-      "lastModificationDate": 1671321257934,
-      "contentHash": "bc66af47e4dbd8effd0a6d5ca526cd02",
+      "lastModificationDate": 1671495524511,
+      "contentHash": "8773d0a8ccca191eb7d2f0cf8b248bfe",
       "sourceName": "contracts/Main.sol",
       "solcConfig": {
         "version": "0.8.4",
