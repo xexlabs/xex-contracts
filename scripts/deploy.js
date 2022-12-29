@@ -20,7 +20,7 @@ async function main() {
     console.log(`verify factory: ${res.factory}(${res.main})`);
     await hre.run("verify:verify", {
       address: res.factory,
-      contract: "contracts/Minter.sol:Factory",
+      // contract: "contracts/Minter.sol:Factory",
       constructorArguments: [res.main]
     });
     console.log(`verify math: ${math}()`);
