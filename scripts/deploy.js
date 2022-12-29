@@ -23,6 +23,10 @@ async function main() {
       contract: "contracts/Minter.sol:Factory",
       constructorArguments: [res.main]
     });
+    console.log(`verify math: ${math}()`);
+    await hre.run("verify:verify", {
+      address: res.math
+    });
 
   }
 }
@@ -40,13 +44,13 @@ async function deploy(fee, endpoint) {
   });
   const main = await Main.deploy(fee, endpoint);
   await main.deployed();
-  await main.deployTransaction.wait(3);
+  await main.deployTransaction.wait(10);
   console.log(`main ${main.address}`);
 
   const Factory = await hre.ethers.getContractFactory("Factory");
   const factory = await Factory.deploy(main.address);
   await factory.deployed();
-  await factory.deployTransaction.wait(6);
+  await factory.deployTransaction.wait(10);
   console.log(`factory ${factory.address}`);
 
   console.log(`setTreasure ${process.env.TREASURE}`);

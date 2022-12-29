@@ -47,6 +47,12 @@ module.exports = {
             live: true,
             saveDeployments: true,
         },
+        ftm_testnet: {
+            url: `https://rpc.ankr.com/fantom_testnet`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
         hardhat: {
             blockGasLimit: 12_450_000,
             hardfork: "london"
@@ -78,6 +84,7 @@ module.exports = {
             avalancheFujiTestnet: `${process.env.SNOWTRACE}`,
             polygon: `${process.env.POLYGONSCAN}`,
             polygonMumbai: `${process.env.POLYGONSCAN}`,
+            ftmTestnet: `${process.env.FTMSCAN}`,
         },
         customChains: [
             {
