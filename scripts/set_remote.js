@@ -13,7 +13,8 @@ async function main() {
         const cfg = lz[id];
         if (id == network.chainId) continue;
         if (cfg.id == "0") continue;
-        await main.setTrustedRemoteAddress(cfg.id, r.main);
+        const tx = await main.setTrustedRemoteAddress(cfg.id, r.main);
+        await tx.wait();
         console.log(`  ${r.main} (${cfg.id})`);
     }
 }
