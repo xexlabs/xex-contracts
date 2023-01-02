@@ -58,8 +58,8 @@ contract Factory
     constructor(address _main){
         main = _main;
     }
-    function minterFactory(uint miners, uint term) external payable {
-        for (uint i = 0; i < miners; ++i) {
+    function minterFactory(uint amount, uint term) external {
+        for (uint i = 0; i < amount; ++i) {
             Minter minter = new Minter(msg.sender, main);
             minters[msg.sender].push(address(minter));
             minter.claimRank(term);

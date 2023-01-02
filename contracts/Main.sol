@@ -78,13 +78,15 @@ contract Main is Context, OFTV2
         uint256 xenAmount,
         uint256 tokenAmount
     );
-    event RankClaimed(address indexed user, uint256 term, uint256 rank);
+    event RankClaimed(address indexed user, uint256 term, uint256 rank, uint AMP, uint EEA, uint maturity);
     event MintClaimed(address indexed user, uint256 rewardAmount);
     event Staked(address indexed user, uint256 amount, uint256 term);
     event Withdrawn(address indexed user, uint256 amount, uint256 reward);
 
     // CONSTRUCTOR
-    constructor(uint _fee, address _endpoint) OFTV2("Test Crypto", "TEST", 8, _endpoint, _fee) {
+    constructor(uint _fee, address _endpoint, string memory _symbol, string memory _name)
+        OFTV2(_name, _symbol, 8, _endpoint, _fee)
+    {
         genesisTs = block.timestamp;
         _mint(msg.sender, 1 ether);
     }
@@ -281,7 +283,7 @@ contract Main is Context, OFTV2
         });
         userMints[msg.sender] = mintInfo;
         activeMinters++;
-        emit RankClaimed(msg.sender, term, globalRank++);
+        emit RankClaimed(msg.sender, term, globalRank++, getCurrentAMP(), mintInfo.eaaRate, mintInfo.maturityTs);
     }
 
     /**

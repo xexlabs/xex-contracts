@@ -2,31 +2,43 @@
   "740": {
     "id": "0",
     "endpoint": "0x0000000000000000000000000000000000000000",
-    "fee": "55072000000000000"
+    "fee": "55072000000000000",
+    "tokenSymbol": "TST",
+    "tokenName": "Test Token"
   },
   "97": {
     "id": "10102",
     "endpoint": "0x6Fcb97553D41516Cb228ac03FdC8B9a0a9df04A1",
-    "fee": "34000000000000"
+    "fee": "34000000000000",
+    "tokenSymbol": "TST",
+    "tokenName": "Test Token"
   },
   "43113": {
     "id": "10106",
     "endpoint": "0x93f54D755A063cE7bB9e6Ac47Eccc8e33411d706",
-    "fee": "810000000000000"
+    "fee": "810000000000000",
+    "tokenSymbol": "TST",
+    "tokenName": "Test Token"
   },
   "5": {
     "id": "10121",
     "endpoint": "0xbfD2135BFfbb0B5378b56643c2Df8a87552Bfa23",
-    "fee": "9000000000000"
+    "fee": "9000000000000",
+    "tokenSymbol": "TST",
+    "tokenName": "Test Token"
   },
   "80001": {
     "id": "10109",
     "endpoint": "0xf69186dfBa60DdB133E91E9A4B5673624293d8F8",
-    "fee": "12178000000000000"
+    "fee": "12178000000000000",
+    "tokenSymbol": "TST",
+    "tokenName": "Test Token"
   },
   "4002": {
     "id": "10112",
     "endpoint": "0x7dcAD72640F835B0FA36EFD3D6d3ec902C7E5acf",
-    "fee": "49487801256990156"
+    "fee": "49487801256990156",
+    "tokenSymbol": "TST",
+    "tokenName": "Test Token"
   }
 }
