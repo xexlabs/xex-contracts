@@ -17,12 +17,6 @@ task("setTreasure", "set treasure address")
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     networks: {
-        canto_testnet: {
-            url: `https://eth.plexnode.wtf/`,
-            accounts: [`${process.env.PRIVATE_KEY}`],
-            live: true,
-            saveDeployments: true,
-        },
         bsc_testnet: {
             url: `https://data-seed-prebsc-1-s1.binance.org:8545`,
             accounts: [`${process.env.PRIVATE_KEY}`],

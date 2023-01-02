@@ -237,7 +237,7 @@ contract Main is Context, OFTV2
     /**
      * @dev returns current AMP
      */
-    function getCurrentAMP() external view returns (uint256) {
+    function getCurrentAMP() public view returns (uint256) {
         return _calculateRewardAmplifier();
     }
 
