@@ -1,38 +1,38 @@
 {
-  "5": {
-    "math": "0x6069fbFe03605BDd08D44ee47481E51A4c9d8690",
-    "main": "0x699F03e5418638721e5A5697534686FA2FCEB64c",
-    "factory": "0x4C2dEa4Bc5AF90f4dE04f8faB56BfF18A2d5da42",
-    "build": "2022-12-22T22:33:43.734Z"
-  },
-  "97": {
-    "math": "0xd5041B2a27590784959e7D6815bc939C490A46e9",
-    "main": "0xBC8AAc9016bFb7F227a3b13aFbB230bBbC157B4f",
-    "factory": "0x46c03CfF14A6796c9D72277DE18a70A0c9fa7BB1",
-    "build": "2022-12-22T22:15:54.564Z"
-  },
-  "740": {
-    "math": "0x556087eFC63E690c1963C26402Fe8EBaA66D11Db",
-    "main": "0x48a9F623612372d6B82e24368C6B2875912cD6F1",
-    "factory": "0x92923e26Ca8720881644cCD1501162Bf691B7f50",
-    "build": "2022-12-22T22:13:25.331Z"
-  },
-  "4002": {
-    "math": "0x1caD01f5028d265E079096B3fBF6E102f7708eE1",
-    "main": "0x1CB3889750A2Ac021FB47043a8a0430dF8dc1367",
-    "factory": "0x1647794f00e5c3A2193f94e71392A21B6a7E4f48",
-    "build": "2022-12-29T19:15:12.264Z"
-  },
-  "43113": {
-    "math": "0x6498B6361A56e7f4cECA74508ad46eD7271F542f",
-    "main": "0xac1Dbed10C96C07fBfFcD86B12Cf70eda756c0Ee",
-    "factory": "0x15c8D37E1B480d3A4c8A3c8904F7336c2d51A14b",
-    "build": "2022-12-22T22:28:51.081Z"
-  },
-  "80001": {
-    "math": "0xa3fdc42693D9Be95eE1AEf60D5B9015DCd98a095",
-    "main": "0x96ef81dA9778b9BCB0f7a7702574C9E99af93487",
-    "factory": "0xf2eB51Fbc4A8552d8d235560Ea8bA80C1D57E663",
-    "build": "2022-12-22T22:37:01.126Z"
-  }
+     "5": {
+          "math": "0x635d97216390deC43A2dAA0E73efA438a495be28",
+          "main": "0xffc5cA9742c498CfF02Ad8A5314bCE082873F7Fb",
+          "factory": "0x421d22F8eF946813AbC69728030c5B2512764bF5",
+          "build": "2023-01-02T23:39:26.130Z"
+     },
+     "97": {
+          "math": "0x3DCbB0290ae8dA3b3dF9Aed8261869f84bB7cC5E",
+          "main": "0x8b2DD6D99c424a6D007d2E4B9E0074D5B7812550",
+          "factory": "0x02Bf14cE18C55D48479161dCf7688815f2Cb7437",
+          "build": "2023-01-02T23:07:59.151Z"
+     },
+     "740": {
+          "math": "0x556087eFC63E690c1963C26402Fe8EBaA66D11Db",
+          "main": "0x48a9F623612372d6B82e24368C6B2875912cD6F1",
+          "factory": "0x92923e26Ca8720881644cCD1501162Bf691B7f50",
+          "build": "2022-12-22T22:13:25.331Z"
+     },
+     "4002": {
+          "math": "0xc8B03BD91c0Dbc0cBc4AD47af3E2c243b182eff8",
+          "main": "0x8437C1669b6793804049515EDb836BCD2169a537",
+          "factory": "0xC9dE39eDEC77AaC8a6A969D84F3d186Eb01D9c9A",
+          "build": "2023-01-03T00:07:35.887Z"
+     },
+     "43113": {
+          "math": "0x6C322c67DcAb641549066BeB849538DE3B1f8600",
+          "main": "0xAE3b27d1D16b5364398266aC1dcafCDD22FE471f",
+          "factory": "0xC068212AbE818F5e2c36Ee053d24863d5a5d66fD",
+          "build": "2023-01-02T23:24:52.949Z"
+     },
+     "80001": {
+          "math": "0x406619D921E5B4E9c29C364993C023eB582908E5",
+          "main": "0x7565345f21d7A86a597c4a3Bd0cd18b501db152C",
+          "factory": "0x02cB4bFA23A4FFA63EbC9bf54B33691A8978Dd07",
+          "build": "2023-01-02T23:56:40.716Z"
+     }
 }

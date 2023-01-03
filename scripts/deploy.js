@@ -12,24 +12,38 @@ async function main() {
   const res = await deploy(cfg);
   if( res ){
     contracts[network.chainId] = res;
-    fs.writeFileSync( 'contracts.json', JSON.stringify(contracts) );
+    fs.writeFileSync( 'contracts.json', JSON.stringify(contracts, undefined, '     ') );
     console.log(`verify main: ${res.main}(${cfg.fee}, ${cfg.endpoint})`);
-    await hre.run("verify:verify", {
-      address: res.main,
-      contract: "contracts/Main.sol:Main",
-      constructorArguments: [cfg.fee, cfg.endpoint, cfg.tokenSymbol, cfg.tokenName],
-      libraries: { Math: res.math }
-    });
-    console.log(`verify factory: ${res.factory}(${res.main})`);
-    await hre.run("verify:verify", {
-      address: res.factory,
-      // contract: "contracts/Minter.sol:Factory",
-      constructorArguments: [res.main]
-    });
-    console.log(`verify math: ${math}()`);
-    await hre.run("verify:verify", {
-      address: res.math
-    });
+    try{
+      await hre.run("verify:verify", {
+        address: res.main,
+        contract: "contracts/Main.sol:Main",
+        constructorArguments: [cfg.fee, cfg.endpoint, cfg.tokenSymbol, cfg.tokenName],
+        libraries: { Math: res.math }
+      });
+    }catch(e){
+      console.log(`main verification error: ${e.toString()}`);
+    }
+
+    try{
+      console.log(`verify math: ${res.math}()`);
+      await hre.run("verify:verify", {
+        address: res.math
+      });
+    }catch(e){
+      console.log(`math verification error: ${e.toString()}`);
+    }
+
+    try{
+      console.log(`verify factory: ${res.factory}(${res.main})`);
+      await hre.run("verify:verify", {
+        address: res.factory,
+        constructorArguments: [res.main]
+      });
+    }catch(e){
+      console.log(`factory verification error: ${e.toString()}`);
+    }
+
 
   }
 }
@@ -38,7 +52,7 @@ async function deploy(cfg) {
   const Math = await hre.ethers.getContractFactory("Math");
   const math = await Math.deploy();
   await math.deployed();
-  await main.deployTransaction.wait(10);
+  await math.deployTransaction.wait(10);
   console.log(`math ${math.address}`);
 
   const Main = await hre.ethers.getContractFactory("Main", {
@@ -46,12 +60,12 @@ async function deploy(cfg) {
       Math: math.address,
     },
   });
-  const main = await Main.deploy(cfg.fee, cfg.endpoint, , cfg.tokenSymbol, cfg.tokenName);
+  const main = await Main.deploy(cfg.fee, cfg.endpoint, cfg.tokenSymbol, cfg.tokenName);
   await main.deployed();
   await main.deployTransaction.wait(10);
   console.log(`main ${main.address}`);
 
-  const Factory = await hre.ethers.getContractFactory("Factory");
+  const Factory = await hre.ethers.getContractFactory("MinterFactory");
   const factory = await Factory.deploy(main.address);
   await factory.deployed();
   await factory.deployTransaction.wait(10);

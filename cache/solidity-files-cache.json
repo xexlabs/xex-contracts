@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\ILayerZeroEndpoint.sol": {
-      "lastModificationDate": 1671028768864,
-      "contentHash": "78613cabc539acec8eed43d86ddd5b6b",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\ILayerZeroEndpoint.sol": {
+      "lastModificationDate": 1670707476627,
+      "contentHash": "008cb6eedb0a3be0c12cdd2307d1d9b1",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/ILayerZeroEndpoint.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -25,7 +25,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -38,9 +39,9 @@
         "ILayerZeroEndpoint"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\ILayerZeroUserApplicationConfig.sol": {
-      "lastModificationDate": 1671028768865,
-      "contentHash": "0383d9b2c94df4c05031a67bec051e79",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\ILayerZeroUserApplicationConfig.sol": {
+      "lastModificationDate": 1670707476636,
+      "contentHash": "ea8e436e41bc96a3d434edb386b63cda",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/ILayerZeroUserApplicationConfig.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -62,7 +63,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -73,9 +75,9 @@
         "ILayerZeroUserApplicationConfig"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\lzApp\\LzApp.sol": {
-      "lastModificationDate": 1671028768867,
-      "contentHash": "47a172928e9babfd38075cc56818e4ed",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\lzApp\\LzApp.sol": {
+      "lastModificationDate": 1670797190315,
+      "contentHash": "39667ae8fd5c85463ed20814f0e17da4",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/lzApp/LzApp.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -97,7 +99,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -114,9 +117,9 @@
         "LzApp"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\ILayerZeroReceiver.sol": {
-      "lastModificationDate": 1671028768864,
-      "contentHash": "b0a046006782f1ba2f45e0f040ce420b",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\ILayerZeroReceiver.sol": {
+      "lastModificationDate": 1670707476630,
+      "contentHash": "62703c3b19a452bfdaca90f5bc59cfef",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/ILayerZeroReceiver.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -138,7 +141,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -149,9 +153,9 @@
         "ILayerZeroReceiver"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\util\\BytesLib.sol": {
-      "lastModificationDate": 1671028768874,
-      "contentHash": "0bd41d48226276716c83bc12ce07b552",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\util\\BytesLib.sol": {
+      "lastModificationDate": 1670707476326,
+      "contentHash": "cd6bbaeb9593134143efee6226602785",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/util/BytesLib.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -173,7 +177,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -184,8 +189,8 @@
         "BytesLib"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
-      "lastModificationDate": 1668003310952,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
+      "lastModificationDate": 1667945014655,
       "contentHash": "e436cea06129be2c73cda4b1acc848b5",
       "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
       "solcConfig": {
@@ -208,7 +213,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -221,8 +227,8 @@
         "Ownable"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
-      "lastModificationDate": 1668003310851,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1667945014319,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -245,7 +251,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -256,9 +263,9 @@
         "Context"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\lzApp\\NonblockingLzApp.sol": {
-      "lastModificationDate": 1671028768867,
-      "contentHash": "b41f93a80106ca38b8798f4135b2a443",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\lzApp\\NonblockingLzApp.sol": {
+      "lastModificationDate": 1670973343683,
+      "contentHash": "f1d3050d0d1bf1341192f0a2dcd4ff70",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/lzApp/NonblockingLzApp.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -280,7 +287,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -294,9 +302,9 @@
         "NonblockingLzApp"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\util\\ExcessivelySafeCall.sol": {
-      "lastModificationDate": 1671028768874,
-      "contentHash": "0914409005a502d4825cd394841c20b2",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\util\\ExcessivelySafeCall.sol": {
+      "lastModificationDate": 1670707476330,
+      "contentHash": "ef974de452c80735e5cc7f0783f32668",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/util/ExcessivelySafeCall.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -318,7 +326,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -329,9 +338,9 @@
         "ExcessivelySafeCall"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\OFTCoreV2.sol": {
-      "lastModificationDate": 1671028768873,
-      "contentHash": "565d8d6509b011cf26e16684c45d40cb",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\OFTCoreV2.sol": {
+      "lastModificationDate": 1670973322249,
+      "contentHash": "a96e7e90c0e699e9c64fa62a0c884dd9",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/OFTCoreV2.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -353,7 +362,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -369,9 +379,9 @@
         "OFTCoreV2"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\ICommonOFT.sol": {
-      "lastModificationDate": 1671028768872,
-      "contentHash": "fd5708bedac6156663027ca8c03a3e84",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\ICommonOFT.sol": {
+      "lastModificationDate": 1670707476441,
+      "contentHash": "ca17b38030749e147d3ff1942abd3ad9",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/ICommonOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -393,7 +403,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -406,9 +417,9 @@
         "ICommonOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\IOFTReceiverV2.sol": {
-      "lastModificationDate": 1671028768872,
-      "contentHash": "4df0d32faf49ada224e7f75dfd44a28b",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\IOFTReceiverV2.sol": {
+      "lastModificationDate": 1670707476448,
+      "contentHash": "38bf2a13f9cb0c01bc6ebecb3722489f",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/IOFTReceiverV2.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -430,7 +441,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -441,8 +453,8 @@
         "IOFTReceiverV2"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
-      "lastModificationDate": 1668003310920,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
+      "lastModificationDate": 1667945014546,
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
       "solcConfig": {
@@ -465,7 +477,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -476,9 +489,9 @@
         "IERC165"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\IOFTV2.sol": {
-      "lastModificationDate": 1671028768873,
-      "contentHash": "53c5923eca4d6f2a2c51a2acb32c76ef",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\IOFTV2.sol": {
+      "lastModificationDate": 1670707476431,
+      "contentHash": "950954268085a26a794336c95c6c7908",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/IOFTV2.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -500,7 +513,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -513,9 +527,9 @@
         "IOFTV2"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\BaseOFTV2.sol": {
-      "lastModificationDate": 1671028768872,
-      "contentHash": "18be9271e0fb97c247273fe967df5601",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\BaseOFTV2.sol": {
+      "lastModificationDate": 1670973185620,
+      "contentHash": "533328cd9970db36af43a420f98ce4d5",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/BaseOFTV2.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -537,7 +551,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -552,8 +567,8 @@
         "BaseOFTV2"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
-      "lastModificationDate": 1668003310874,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
+      "lastModificationDate": 1667945014398,
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
@@ -576,7 +591,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -589,9 +605,9 @@
         "ERC165"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\ProxyOFTV2.sol": {
-      "lastModificationDate": 1671028768874,
-      "contentHash": "5e9834413c992fa8218d1e6535865209",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\ProxyOFTV2.sol": {
+      "lastModificationDate": 1670707476445,
+      "contentHash": "eb6e0ab82ba548150a95b3458327ac34",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/ProxyOFTV2.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -613,7 +629,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -627,8 +644,8 @@
         "ProxyOFTV2"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\utils\\SafeERC20.sol": {
-      "lastModificationDate": 1668003310959,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\utils\\SafeERC20.sol": {
+      "lastModificationDate": 1667945014683,
       "contentHash": "0320a90f714843ca19373ed143fc4466",
       "sourceName": "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
       "solcConfig": {
@@ -651,7 +668,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -666,8 +684,8 @@
         "SafeERC20"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
-      "lastModificationDate": 1668003310924,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
+      "lastModificationDate": 1667945014557,
       "contentHash": "ad7c2d0af148c8f9f097d65deeb4da6b",
       "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
       "solcConfig": {
@@ -690,7 +708,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -701,8 +720,8 @@
         "IERC20"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
-      "lastModificationDate": 1668003310845,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
+      "lastModificationDate": 1667945014274,
       "contentHash": "f31ad6fc4bbf9c06203987220156a6ba",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
@@ -725,7 +744,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -736,8 +756,8 @@
         "Address"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\draft-IERC20Permit.sol": {
-      "lastModificationDate": 1668003310862,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\draft-IERC20Permit.sol": {
+      "lastModificationDate": 1667945014362,
       "contentHash": "fb77f144244b9ab12533aa6ce85ef8c5",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/draft-IERC20Permit.sol",
       "solcConfig": {
@@ -760,7 +780,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -771,8 +792,8 @@
         "IERC20Permit"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
-      "lastModificationDate": 1668003310926,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
+      "lastModificationDate": 1667945014560,
       "contentHash": "909ab67fc5c25033fe6cd364f8c056f9",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
       "solcConfig": {
@@ -795,7 +816,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -808,8 +830,8 @@
         "IERC20Metadata"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
-      "lastModificationDate": 1668003310877,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
+      "lastModificationDate": 1667945014413,
       "contentHash": "834a0dde221759af42b030253315b086",
       "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
       "solcConfig": {
@@ -832,7 +854,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -847,8 +870,8 @@
         "ERC20"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Capped.sol": {
-      "lastModificationDate": 1668003310879,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\ERC20Capped.sol": {
+      "lastModificationDate": 1667945014418,
       "contentHash": "da89e343119284763a5a135243cdb338",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol",
       "solcConfig": {
@@ -871,7 +894,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -884,9 +908,9 @@
         "ERC20Capped"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\GlobalCappedOFT.sol": {
-      "lastModificationDate": 1671028768871,
-      "contentHash": "d062e69880a78db80de6c1835b090ec4",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\GlobalCappedOFT.sol": {
+      "lastModificationDate": 1670707476479,
+      "contentHash": "7516f629439393d64fb823f30c83d373",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/extension/GlobalCappedOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -908,7 +932,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -922,9 +947,9 @@
         "GlobalCappedOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\BasedOFT.sol": {
-      "lastModificationDate": 1671028768870,
-      "contentHash": "f582b96700d04299cd7d5e509fe9d84a",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\BasedOFT.sol": {
+      "lastModificationDate": 1670707476463,
+      "contentHash": "4e8fd5d64b7d9675ee7f011d94e739eb",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/extension/BasedOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -946,7 +971,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -959,9 +985,9 @@
         "BasedOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\OFT.sol": {
-      "lastModificationDate": 1671028768868,
-      "contentHash": "661ef4c3ca138024fce12b1b8c89ecbe",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\OFT.sol": {
+      "lastModificationDate": 1670707476453,
+      "contentHash": "a42742d715c7ec27a89a0d114626828a",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/OFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -983,7 +1009,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -999,9 +1026,9 @@
         "OFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\IOFT.sol": {
-      "lastModificationDate": 1671028768867,
-      "contentHash": "1d1bf4536f508c086e470d3c1e36fe1c",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\IOFT.sol": {
+      "lastModificationDate": 1670707476456,
+      "contentHash": "9ce3aaf6a0fc5f741d73e507fd1b0e5e",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/IOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1023,7 +1050,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1037,9 +1065,9 @@
         "IOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\OFTCore.sol": {
-      "lastModificationDate": 1671028768868,
-      "contentHash": "723cd73897befbbbc2d21d7cd8f91f12",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\OFTCore.sol": {
+      "lastModificationDate": 1670707476510,
+      "contentHash": "d2b36b8bfc0293e78632273ad18a2811",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/OFTCore.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1061,7 +1089,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1076,9 +1105,9 @@
         "OFTCore"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\IOFTCore.sol": {
-      "lastModificationDate": 1671028768868,
-      "contentHash": "64ba762682068f9a9210e72db8606a01",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\IOFTCore.sol": {
+      "lastModificationDate": 1670707476514,
+      "contentHash": "88ac9f03ed739eef4a39e7195d667dae",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/IOFTCore.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1100,7 +1129,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1113,9 +1143,9 @@
         "IOFTCore"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\IComposableOFT.sol": {
-      "lastModificationDate": 1671028768870,
-      "contentHash": "761f545ee4eca06640919d7112190477",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\IComposableOFT.sol": {
+      "lastModificationDate": 1670707476494,
+      "contentHash": "e5ad407b79aab1977b5427204ea7413b",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/composable/IComposableOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1137,7 +1167,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1151,9 +1182,9 @@
         "IComposableOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\IComposableOFTCore.sol": {
-      "lastModificationDate": 1671028768870,
-      "contentHash": "7ab76e0beacdbcad42fd6cadb0f2e62e",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\IComposableOFTCore.sol": {
+      "lastModificationDate": 1670707476507,
+      "contentHash": "b752cdcd4193c038901d3482164ad1c4",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/composable/IComposableOFTCore.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1175,7 +1206,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1188,9 +1220,9 @@
         "IComposableOFTCore"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableOFTCore.sol": {
-      "lastModificationDate": 1671028768869,
-      "contentHash": "6e4308f9fe01c7d9437b7a934a9a26e1",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableOFTCore.sol": {
+      "lastModificationDate": 1670707476497,
+      "contentHash": "c50a9b9f2d85d9d8f2d477dde46a7dad",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/composable/ComposableOFTCore.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1212,7 +1244,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1228,9 +1261,9 @@
         "ComposableOFTCore"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\IOFTReceiver.sol": {
-      "lastModificationDate": 1671028768870,
-      "contentHash": "2202b51490be91b57e955290d635ee09",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\IOFTReceiver.sol": {
+      "lastModificationDate": 1670707476486,
+      "contentHash": "521931c2ed24d692f5b5113a03a0c0a5",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/composable/IOFTReceiver.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1252,7 +1285,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1263,9 +1297,9 @@
         "IOFTReceiver"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableProxyOFT.sol": {
-      "lastModificationDate": 1671028768869,
-      "contentHash": "22d15bc0f13b688edd830cb710bf3f37",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableProxyOFT.sol": {
+      "lastModificationDate": 1670707476504,
+      "contentHash": "4113a27bba473537555bd5f7b07f26f7",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/composable/ComposableProxyOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1287,7 +1321,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1301,9 +1336,9 @@
         "ComposableProxyOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableOFT.sol": {
-      "lastModificationDate": 1671028768869,
-      "contentHash": "7318d39caaa3bc146d49e4980d092504",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableOFT.sol": {
+      "lastModificationDate": 1670707476490,
+      "contentHash": "2a1826ec3573462ff51f72046eef3db3",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/composable/ComposableOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1325,7 +1360,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1340,9 +1376,9 @@
         "ComposableOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableBasedOFT.sol": {
-      "lastModificationDate": 1671028768868,
-      "contentHash": "57639e26de55395c9a8d0aa594adbfa6",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\composable\\ComposableBasedOFT.sol": {
+      "lastModificationDate": 1670707476501,
+      "contentHash": "93e9b9b198ba68550e88f83f47840c04",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/composable/ComposableBasedOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1364,7 +1400,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1377,9 +1414,9 @@
         "ComposableBasedOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\ProxyOFT.sol": {
-      "lastModificationDate": 1671028768871,
-      "contentHash": "77fcd8cfed4b2429c32bc80b19d76e47",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\ProxyOFT.sol": {
+      "lastModificationDate": 1670707476467,
+      "contentHash": "8ebfea5ff674d8dff15325556c479dc5",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/extension/ProxyOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1401,7 +1438,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1415,9 +1453,9 @@
         "ProxyOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\PausableOFT.sol": {
-      "lastModificationDate": 1671028768871,
-      "contentHash": "71d1b11133ff9fb8a5a01f1717328fb4",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\extension\\PausableOFT.sol": {
+      "lastModificationDate": 1670707476476,
+      "contentHash": "ad4ec0cb83d5e598ee2862eab75904cb",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/extension/PausableOFT.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1439,7 +1477,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1453,8 +1492,8 @@
         "PausableOFT"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\security\\Pausable.sol": {
-      "lastModificationDate": 1668003310953,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\@openzeppelin\\contracts\\security\\Pausable.sol": {
+      "lastModificationDate": 1667945014662,
       "contentHash": "25c8108f36fdd472bc78d4c4af240c11",
       "sourceName": "@openzeppelin/contracts/security/Pausable.sol",
       "solcConfig": {
@@ -1477,7 +1516,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1490,9 +1530,9 @@
         "Pausable"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\OFTV2.sol": {
-      "lastModificationDate": 1671028768873,
-      "contentHash": "fccd4b3c7f008583c55ac87f45182971",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\OFTV2.sol": {
+      "lastModificationDate": 1670976623935,
+      "contentHash": "df8a3eca28fbedecc4f38899e429527b",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/OFTV2.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1514,7 +1554,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1528,9 +1569,9 @@
         "OFTV2"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\Main.sol": {
-      "lastModificationDate": 1671633373472,
-      "contentHash": "5ef450fbb8bc75183f3a9f0afe267d5f",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\Main.sol": {
+      "lastModificationDate": 1672698813035,
+      "contentHash": "277466cb47c047ca8d877339940cd0af",
       "sourceName": "contracts/Main.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1552,7 +1593,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1567,8 +1609,8 @@
         "Main"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\Math.sol": {
-      "lastModificationDate": 1671028768875,
+    "C:\\defi\\xex\\xex-contracts\\contracts\\Math.sol": {
+      "lastModificationDate": 1670978252111,
       "contentHash": "95d61f4b80b6d2c8bb8326f251b64986",
       "sourceName": "contracts/Math.sol",
       "solcConfig": {
@@ -1591,7 +1633,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1604,8 +1647,8 @@
         "Math"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\abdk-libraries-solidity\\ABDKMath64x64.sol": {
-      "lastModificationDate": 1672337090321,
+    "C:\\defi\\xex\\xex-contracts\\node_modules\\abdk-libraries-solidity\\ABDKMath64x64.sol": {
+      "lastModificationDate": 1670707515904,
       "contentHash": "2ca845338c023b28b45b709e81f337af",
       "sourceName": "abdk-libraries-solidity/ABDKMath64x64.sol",
       "solcConfig": {
@@ -1628,7 +1671,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1639,9 +1683,48 @@
         "ABDKMath64x64"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\Minter.sol": {
-      "lastModificationDate": 1672341432598,
-      "contentHash": "18339d875ce44a8ffc5bb9f84e156ded",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\MinterFactory.sol": {
+      "lastModificationDate": 1672701614647,
+      "contentHash": "831002584f0758ec98c806eb726e819e",
+      "sourceName": "contracts/MinterFactory.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "./Minter.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "MinterFactory"
+      ]
+    },
+    "C:\\defi\\xex\\xex-contracts\\contracts\\Minter.sol": {
+      "lastModificationDate": 1672700686055,
+      "contentHash": "e3a02866bfae5cf3c7cfc3c5f5147eec",
       "sourceName": "contracts/Minter.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1663,7 +1746,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1673,14 +1757,13 @@
         "^0.8.4"
       ],
       "artifacts": [
-        "Factory",
         "IMain",
         "Minter"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateFactory.sol": {
-      "lastModificationDate": 1671028768865,
-      "contentHash": "1cc52076c792f6fcf7f705aad58f39ee",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateFactory.sol": {
+      "lastModificationDate": 1670707476619,
+      "contentHash": "8c77c05d36788c79196606eb7ae81ef9",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/IStargateFactory.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1702,7 +1785,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1715,9 +1799,9 @@
         "IStargateFactory"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargatePool.sol": {
-      "lastModificationDate": 1671028768865,
-      "contentHash": "639065c6d2de41a6e3edb7da4e7d0c04",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargatePool.sol": {
+      "lastModificationDate": 1670707476610,
+      "contentHash": "a8f5cf9f90c0e9d0afdd34ec58052000",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/IStargatePool.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1739,7 +1823,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1750,9 +1835,9 @@
         "IStargatePool"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateReceiver.sol": {
-      "lastModificationDate": 1671028768865,
-      "contentHash": "9070dae26ff0143a1e0a6e51fc4db60d",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateReceiver.sol": {
+      "lastModificationDate": 1670707476624,
+      "contentHash": "7c1ad8081761de7854553f758f884738",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/IStargateReceiver.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1774,7 +1859,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1785,9 +1871,9 @@
         "IStargateReceiver"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateRouter.sol": {
-      "lastModificationDate": 1671028768866,
-      "contentHash": "3eaf213939bdfdb2a28a82f843f0cc7e",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateRouter.sol": {
+      "lastModificationDate": 1670707476613,
+      "contentHash": "fc1bdba81b32d306c67f46a6cbebfbeb",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/IStargateRouter.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1809,7 +1895,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1820,9 +1907,9 @@
         "IStargateRouter"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateWidget.sol": {
-      "lastModificationDate": 1671028768866,
-      "contentHash": "36dffd84a8c6218ce4d55d281586dff1",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateWidget.sol": {
+      "lastModificationDate": 1670707476617,
+      "contentHash": "97c4c97280af1c3dd99f5c83148a6cd3",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/IStargateWidget.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1844,7 +1931,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1857,9 +1945,9 @@
         "IStargateWidget"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateRouterETH.sol": {
-      "lastModificationDate": 1671028768866,
-      "contentHash": "5c7701c9f69257ed086065ef2f439f29",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\interfaces\\IStargateRouterETH.sol": {
+      "lastModificationDate": 1670707476633,
+      "contentHash": "0b23fc88addf01def6084c82438f41c1",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/interfaces/IStargateRouterETH.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1881,7 +1969,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1892,9 +1981,9 @@
         "IStargateRouterETH"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\libraries\\LzLib.sol": {
-      "lastModificationDate": 1671028768867,
-      "contentHash": "011b7e357bfc260f79b5fa6d89990934",
+    "C:\\defi\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\libraries\\LzLib.sol": {
+      "lastModificationDate": 1670977795306,
+      "contentHash": "952c2c4dd8679e05a8fafd7a18bbdacf",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/libraries/LzLib.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1916,7 +2005,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1927,8 +2017,8 @@
         "LzLib"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\interfaces\\IBurnableToken.sol": {
-      "lastModificationDate": 1671028768876,
+    "C:\\defi\\xex\\xex-contracts\\contracts\\interfaces\\IBurnableToken.sol": {
+      "lastModificationDate": 1670978269791,
       "contentHash": "007361df4f1e721221fe5ceb7b42969d",
       "sourceName": "contracts/interfaces/IBurnableToken.sol",
       "solcConfig": {
@@ -1951,7 +2041,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1962,8 +2053,8 @@
         "IBurnableToken"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\interfaces\\IBurnRedeemable.sol": {
-      "lastModificationDate": 1671028768876,
+    "C:\\defi\\xex\\xex-contracts\\contracts\\interfaces\\IBurnRedeemable.sol": {
+      "lastModificationDate": 1670978266760,
       "contentHash": "a91004921abb3698d45ac754c109003a",
       "sourceName": "contracts/interfaces/IBurnRedeemable.sol",
       "solcConfig": {
@@ -1986,7 +2077,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1997,8 +2089,8 @@
         "IBurnRedeemable"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\interfaces\\IRankedMintingToken.sol": {
-      "lastModificationDate": 1671028768877,
+    "C:\\defi\\xex\\xex-contracts\\contracts\\interfaces\\IRankedMintingToken.sol": {
+      "lastModificationDate": 1670978263576,
       "contentHash": "668b534dad9a918a1cc5721d59a48994",
       "sourceName": "contracts/interfaces/IRankedMintingToken.sol",
       "solcConfig": {
@@ -2021,7 +2113,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -2032,8 +2125,8 @@
         "IRankedMintingToken"
       ]
     },
-    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\interfaces\\IStakingToken.sol": {
-      "lastModificationDate": 1671028768877,
+    "C:\\defi\\xex\\xex-contracts\\contracts\\interfaces\\IStakingToken.sol": {
+      "lastModificationDate": 1670978260632,
       "contentHash": "482684ad5ef052f04e22f0c3de48d021",
       "sourceName": "contracts/interfaces/IStakingToken.sol",
       "solcConfig": {
@@ -2056,7 +2149,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
