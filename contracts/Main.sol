@@ -63,7 +63,7 @@ contract Main is Context, OFTV2
     uint256 public globalRank = GENESIS_RANK;
     uint256 public activeMinters;
     uint256 public activeStakes;
-    uint256 public totalXenStaked;
+    uint256 public totalXexStaked;
     // user address => XEX mint info
     mapping(address => MintInfo) public userMints;
     // user address => XEX stake info
@@ -201,7 +201,7 @@ contract Main is Context, OFTV2
         apy : _calculateAPY()
         });
         activeStakes++;
-        totalXenStaked += amount;
+        totalXexStaked += amount;
     }
 
     // PUBLIC CONVENIENCE GETTERS
@@ -375,7 +375,7 @@ contract Main is Context, OFTV2
             userStake.apy
         );
         activeStakes--;
-        totalXenStaked -= userStake.amount;
+        totalXexStaked -= userStake.amount;
 
         // mint staked XEX (+ reward)
         _mint(msg.sender, userStake.amount + xenReward);
