@@ -78,7 +78,7 @@ contract Main is Context, OFTV2
         uint256 xenAmount,
         uint256 tokenAmount
     );
-    event RankClaimed(address indexed user, uint256 term, uint256 rank, uint AMP, uint EEA, uint maturity);
+    event RankClaimed(address indexed user, uint256 term, uint256 rank, uint AMP, uint EAA, uint maturity);
     event MintClaimed(address indexed user, uint256 rewardAmount);
     event Staked(address indexed user, uint256 amount, uint256 term);
     event Withdrawn(address indexed user, uint256 amount, uint256 reward);

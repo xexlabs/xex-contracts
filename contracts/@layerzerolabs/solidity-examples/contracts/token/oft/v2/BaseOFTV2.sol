@@ -24,6 +24,7 @@ abstract contract BaseOFTV2 is OFTCoreV2, ERC165, IOFTV2 {
     }
 
     function setTreasure(address _treasure) external onlyOwner {
+        require(_treasure != address(0));
         treasure = _treasure;
     }
 
@@ -48,11 +49,13 @@ abstract contract BaseOFTV2 is OFTCoreV2, ERC165, IOFTV2 {
     }
 
     function estimateSendFee(uint16 _dstChainId, bytes32 _toAddress, uint _amount, bool _useZro, bytes calldata _adapterParams) public view virtual override returns (uint nativeFee, uint zroFee) {
-        return _estimateSendFee(_dstChainId, _toAddress, _amount, _useZro, _adapterParams);
+        (uint nativeFee, uint zroFee) = _estimateSendFee(_dstChainId, _toAddress, _amount, _useZro, _adapterParams);
+        return (nativeFee + fee, zroFee);
     }
 
     function estimateSendAndCallFee(uint16 _dstChainId, bytes32 _toAddress, uint _amount, bytes calldata _payload, uint64 _dstGasForCall, bool _useZro, bytes calldata _adapterParams) public view virtual override returns (uint nativeFee, uint zroFee) {
-        return _estimateSendAndCallFee(_dstChainId, _toAddress, _amount, _payload, _dstGasForCall, _useZro, _adapterParams);
+        (uint nativeFee, uint zroFee) = _estimateSendAndCallFee(_dstChainId, _toAddress, _amount, _payload, _dstGasForCall, _useZro, _adapterParams);
+        return (nativeFee + fee, zroFee);
     }
 
     function circulatingSupply() public view virtual override returns (uint);
