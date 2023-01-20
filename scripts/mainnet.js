@@ -2,13 +2,13 @@ const hre = require("hardhat");
 const fs = require("fs");
 
 async function main() {
-  const lz = JSON.parse(fs.readFileSync('lz.json'));
+  const lz = JSON.parse(fs.readFileSync('lz-mainnet.json'));
   const network = await hre.ethers.provider.getNetwork();
   const cfg = lz[network.chainId];
   if( ! cfg ){
     return console.log(`Deployment for chain ${network.chainId} not implemented.`);
   }
-  let contracts = JSON.parse( fs.readFileSync('contracts.json') );
+  let contracts = JSON.parse( fs.readFileSync('contracts-mainnet.json') );
   const res = await deploy(cfg);
   if( res ){
     contracts[network.chainId] = res;
@@ -71,8 +71,8 @@ async function deploy(cfg) {
   await factory.deployTransaction.wait(10);
   console.log(`factory ${factory.address}`);
 
-  console.log(`setTreasure ${process.env.TREASURE}`);
-  const tx = await main.setTreasure(process.env.TREASURE);
+  console.log(`setTreasure ${cfg.treasure}`);
+  const tx = await main.setTreasure(cfg.treasure);
   await tx.wait()
 
   return {math: math.address, main: main.address, factory: factory.address, build: new Date().toISOString() };

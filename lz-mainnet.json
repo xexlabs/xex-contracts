@@ -1,0 +1,42 @@
+{
+  "1": { "chain": "eth",
+    "id": "101",
+    "endpoint": "0x66A71Dcef29A0fFBDBE3c6a460a3B5BC225Cd675",
+    "fee": "9000000000000",
+    "tokenSymbol": "XEX",
+    "tokenName": "XEX Crypto",
+    "treasure": "0xb32D174C217a73594e3895AEEdF4096bA016B3eE"
+  },
+  "56": { "chain": "bsc",
+    "id": "102",
+    "endpoint": "0x3c2269811836af69497E5F486A85D7316753cf62",
+    "fee": "34000000000000",
+    "tokenSymbol": "XEX",
+    "tokenName": "XEX Crypto",
+    "treasure": "0xb5563C0dA3ae618975c65bd4b207A98F0b14C36B"
+  },
+  "43114": { "chain": "avax",
+    "id": "106",
+    "endpoint": "0x3c2269811836af69497E5F486A85D7316753cf62",
+    "fee": "810000000000000",
+    "tokenSymbol": "XEX",
+    "tokenName": "XEX Crypto",
+    "treasure": "0x95E4f54A900C1D802298F3A5D437522a5aF9f9c2"
+  },
+  "137": { "chain": "polygon",
+    "id": "109",
+    "endpoint": "0x3c2269811836af69497E5F486A85D7316753cf62",
+    "fee": "12178000000000000",
+    "tokenSymbol": "XEX",
+    "tokenName": "XEX Crypto",
+    "treasure": "0x5D3E89E67498894E619AD6ba9892F6ae12fcF4D5"
+  },
+  "250": { "chain": "ftm",
+    "id": "112",
+    "endpoint": "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7",
+    "fee": "49487801256990156",
+    "tokenSymbol": "XEX",
+    "tokenName": "XEX Crypto",
+    "treasure": "0x89DdBAcc77A14D505101CE669a683e1B01781701"
+  }
+}
