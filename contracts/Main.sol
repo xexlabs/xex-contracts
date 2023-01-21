@@ -291,8 +291,8 @@ contract Main is Context, OFTV2
      */
     function claimMintReward() public payable checkFee {
         MintInfo memory mintInfo = userMints[msg.sender];
-        require(mintInfo.rank > 0);
-        require(block.timestamp > mintInfo.maturityTs);
+        require(mintInfo.rank > 0,"A");
+        require(block.timestamp > mintInfo.maturityTs,"B");
         // calculate reward and mint tokens
         uint256 rewardAmount = _calculateMintReward(
             mintInfo.rank,
