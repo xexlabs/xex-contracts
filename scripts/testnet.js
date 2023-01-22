@@ -12,6 +12,7 @@ async function main() {
   const res = await deploy(cfg);
   if( res ){
     contracts[network.chainId] = res;
+    /*
     fs.writeFileSync( 'contracts.json', JSON.stringify(contracts, undefined, '     ') );
     console.log(`verify main: ${res.main}(${cfg.fee}, ${cfg.endpoint})`);
     try{
@@ -33,7 +34,7 @@ async function main() {
     }catch(e){
       console.log(`math verification error: ${e.toString()}`);
     }
-
+*/
     try{
       console.log(`verify factory: ${res.factory}(${res.main})`);
       await hre.run("verify:verify", {
@@ -48,7 +49,7 @@ async function main() {
   }
 }
 async function deploy(cfg) {
-
+/*
   const Math = await hre.ethers.getContractFactory("Math");
   const math = await Math.deploy();
   await math.deployed();
@@ -64,18 +65,22 @@ async function deploy(cfg) {
   await main.deployed();
   await main.deployTransaction.wait(10);
   console.log(`main ${main.address}`);
+*/
+  const r = JSON.parse(fs.readFileSync('contracts-testnet.json'));
+  const network = await hre.ethers.provider.getNetwork();
+  const contracts = r[network.chainId];
 
   const Factory = await hre.ethers.getContractFactory("MinterFactory");
-  const factory = await Factory.deploy(main.address);
+  const factory = await Factory.deploy(contracts.main);
   await factory.deployed();
   await factory.deployTransaction.wait(10);
-  console.log(`factory ${factory.address}`);
+  console.log(`factory ${factory.address}(${contracts.main})`);
 
-  console.log(`setTreasure ${process.env.TREASURE}`);
-  const tx = await main.setTreasure(process.env.TREASURE);
-  await tx.wait()
+  // console.log(`setTreasure ${process.env.TREASURE}`);
+  // const tx = await main.setTreasure(process.env.TREASURE);
+  // await tx.wait()
 
-  return {math: math.address, main: main.address, factory: factory.address, build: new Date().toISOString() };
+  return {math: contracts.address, main: contracts.main, factory: factory.address, build: new Date().toISOString() };
 
 }
 

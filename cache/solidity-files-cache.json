@@ -1640,8 +1640,8 @@
       ]
     },
     "C:\\defi\\xex\\xex-contracts\\contracts\\MinterFactory.sol": {
-      "lastModificationDate": 1672701614647,
-      "contentHash": "831002584f0758ec98c806eb726e819e",
+      "lastModificationDate": 1674405696923,
+      "contentHash": "090d60dbb6deb45e498fa7d6eaedb4a7",
       "sourceName": "contracts/MinterFactory.sol",
       "solcConfig": {
         "version": "0.8.4",

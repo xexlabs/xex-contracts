@@ -75,10 +75,12 @@ module.exports = {
             canto_testnet: `test`,
             bsc: `${process.env.BSCSCAN}`,
             bscTestnet: `${process.env.BSCSCAN}`,
+            avalanche: `${process.env.SNOWTRACE}`,
             avalancheFujiTestnet: `${process.env.SNOWTRACE}`,
             polygon: `${process.env.POLYGONSCAN}`,
             polygonMumbai: `${process.env.POLYGONSCAN}`,
             ftmTestnet: `${process.env.FTMSCAN}`,
+            ftm: `${process.env.FTMSCAN}`,
         },
         customChains: [
             {

@@ -32,24 +32,32 @@ contract MinterFactory
         return minterInfo;
     }
 
-    function claimRank() external payable{
+    function claimRank(uint limit) external payable{
         uint t = minters[msg.sender].length;
         for( uint i = 0 ; i < t ; ++ i ){
             Minter minter = Minter(minters[msg.sender][i]);
             IMain.MintInfo memory info = minter.getUserMintInfo();
-            if( info.maturityTs > 0 )
+            if( info.maturityTs > 0 ){
                 continue;
+            }
             minter.claimRank( minter.term() );
+            if( i == limit ){
+                break;
+            }
         }
     }
-    function claimMintReward() external payable{
+    function claimMintReward(uint limit) external payable{
         uint fee = IMain(main).fee();
         uint t = minters[msg.sender].length;
         for( uint i = 0 ; i < t ; ++ i ){
             Minter minter = Minter(minters[msg.sender][i]);
             IMain.MintInfo memory info = minter.getUserMintInfo();
-            if( block.timestamp > info.maturityTs )
+            if( block.timestamp > info.maturityTs ){
                 minter.claimMintReward{value : fee}();
+            }
+            if( i == limit ){
+                break;
+            }
         }
     }
     function getMintReward(address user) public view returns (uint[] memory){
