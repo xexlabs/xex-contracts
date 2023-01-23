@@ -1529,8 +1529,8 @@
       ]
     },
     "C:\\defi\\xex\\xex-contracts\\contracts\\Main.sol": {
-      "lastModificationDate": 1674316540235,
-      "contentHash": "6341fd227659877cc4eb548c60196059",
+      "lastModificationDate": 1674507532364,
+      "contentHash": "ba065e41c9482492791ef6a92fbe9675",
       "sourceName": "contracts/Main.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1640,8 +1640,8 @@
       ]
     },
     "C:\\defi\\xex\\xex-contracts\\contracts\\MinterFactory.sol": {
-      "lastModificationDate": 1674405696923,
-      "contentHash": "090d60dbb6deb45e498fa7d6eaedb4a7",
+      "lastModificationDate": 1674508851687,
+      "contentHash": "e4d2a460d7d3c6ed2f89e827ed6edbde",
       "sourceName": "contracts/MinterFactory.sol",
       "solcConfig": {
         "version": "0.8.4",

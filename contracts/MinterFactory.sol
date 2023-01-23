@@ -32,7 +32,7 @@ contract MinterFactory
         return minterInfo;
     }
 
-    function claimRank(uint limit) external payable{
+    function claimRank(uint limit) external{
         uint t = minters[msg.sender].length;
         for( uint i = 0 ; i < t ; ++ i ){
             Minter minter = Minter(minters[msg.sender][i]);

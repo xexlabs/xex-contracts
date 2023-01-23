@@ -84,11 +84,15 @@ contract Main is Context, OFTV2
     event Withdrawn(address indexed user, uint256 amount, uint256 reward);
 
     // CONSTRUCTOR
-    constructor(uint _fee, address _endpoint, string memory _symbol, string memory _name)
+    constructor(uint _fee, address _endpoint, string memory _symbol, string memory _name, uint _initialMint)
         OFTV2(_name, _symbol, 8, _endpoint, _fee)
     {
         genesisTs = block.timestamp;
-        _mint(msg.sender, 1 ether);
+
+        // initial mint to seed liquidity
+        if( _initialMint > 0 ){
+            _mint(msg.sender, _initialMint);
+        }
     }
 
     // PRIVATE METHODS
