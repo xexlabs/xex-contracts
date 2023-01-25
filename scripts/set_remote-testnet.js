@@ -4,8 +4,8 @@ async function main() {
     const [_dev] = await ethers.getSigners();
     const dev = _dev.address;
     const network = await hre.ethers.provider.getNetwork();
-    const lz = JSON.parse(fs.readFileSync('lz.json'));
-    const contracts = JSON.parse(fs.readFileSync('contracts.json'));
+    const lz = JSON.parse(fs.readFileSync('lz-testnet.json'));
+    const contracts = JSON.parse(fs.readFileSync('contracts-testnet.json'));
     const contract = contracts[network.chainId];
     const Main = await ethers.getContractFactory("Main", {libraries: {Math: contract.math}})
     const main = Main.attach(contract.main);
@@ -22,7 +22,7 @@ async function main() {
         if (cfg.id == "0") continue;
         const tx = await main.setTrustedRemoteAddress(cfg.id, r.main, {nonce: getNonce()});
         await tx.wait();
-        console.log(`  ${r.main} (${cfg.id})`);
+        console.log(`  - ${id}: ${r.main} (${cfg.id})`);
     }
 }
 
