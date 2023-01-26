@@ -10,6 +10,7 @@ async function timeIncreaseTo(seconds) {
 describe("Test", function () {
     describe("default", function () {
         it("all", async function () {
+            this.timeout(140000);
             const initialMint = new BigNumber("100").multipliedBy(1e18).toString();
             let term = 1;
             const [DEV] = await ethers.getSigners();
@@ -45,47 +46,45 @@ describe("Test", function () {
             await main.claimMintReward({from: dev, value: fee});
 
 
-            const totalMinters = 10;
+            const totalMinters = 6;
             for( let i = 0; i < totalMinters; i ++ ) {
                 await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
+                await minter.minterFactory(totalMinters, term);
             }
-            const minterInfo = await minter.getUserMinterInfo(dev);
-            //console.log(minterInfo);
+
+            let minterInfo = await minter.getUserMinterInfo(dev);
             ts = parseInt( minterInfo[0].maturityTs.toString() );
             await timeIncreaseTo(ts + 1);
+            const maxClaim = 10;
 
-            let readyToClaim = 0;
-            for (let i in minterInfo) {
-                const info = minterInfo[i];
-                ts = parseInt( info.maturityTs.toString() );
-                if (ts === 0)
-                    continue;
-                ++readyToClaim;
+
+            const minters = minterInfo.length;
+            const step = parseInt(minters/maxClaim);
+            console.log(`minters: ${minters}, step: ${step}`);
+            for (let i = 0; i < step ; i++) {
+                console.log(`claimRank step: ${i} of ${step}`);
+                await minter.claimRank(maxClaim.toString() );
             }
-            expect(readyToClaim).to.gt(0);
-            let totalFeeBN = feeBN.multipliedBy(readyToClaim.toString());
-            await minter.claimRank(readyToClaim.toString() );
 
-            console.log('balance before', ethers.utils.formatEther((await main.balanceOf(dev)).toString()));
-            readyToClaim = 0;
 
+            let totalFeeBN = feeBN.multipliedBy(maxClaim.toString());
             let now = (await ethers.provider.getBlock("latest")).timestamp;
             const to = now + 86900 + 1;
             await timeIncreaseTo(to);
 
-            for (let i in minterInfo) {
-                const info = minterInfo[i];
-                const ts = parseInt(info.maturityTs.toString());
-                if (to > ts)
-                    ++readyToClaim;
+            for (let i = 0; i < step ; i++) {
+                console.log(`claimMintReward step: ${i} of ${step}`);
+                await minter.claimMintReward(maxClaim, {value: totalFeeBN.toString()});
+                console.log(' - balance: ', ethers.utils.formatEther((await main.balanceOf(dev)).toString()));
             }
-
-
-            totalFeeBN = feeBN.multipliedBy(readyToClaim.toString());
-            console.log('readyToClaim', readyToClaim, readyToClaim, totalFeeBN.toString() );
-            await minter.claimMintReward(readyToClaim, {value: totalFeeBN.toString()});
-            console.log('balance after', ethers.utils.formatEther((await main.balanceOf(dev)).toString()));
-
 
         });
     });

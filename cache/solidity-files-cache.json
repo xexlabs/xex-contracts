@@ -514,8 +514,8 @@
       ]
     },
     "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\@layerzerolabs\\solidity-examples\\contracts\\token\\oft\\v2\\BaseOFTV2.sol": {
-      "lastModificationDate": 1674145773039,
-      "contentHash": "d860961428407b79cc97480d1eb18bf5",
+      "lastModificationDate": 1674752590322,
+      "contentHash": "83f3a5eb6fa3333ea27cca97ed903327",
       "sourceName": "contracts/@layerzerolabs/solidity-examples/contracts/token/oft/v2/BaseOFTV2.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1640,8 +1640,8 @@
       ]
     },
     "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\MinterFactory.sol": {
-      "lastModificationDate": 1674580992655,
-      "contentHash": "f5f2d829fa98a89a10fe92783d23793a",
+      "lastModificationDate": 1674754448088,
+      "contentHash": "017dec8b02a11f3459dd7ef762016bfe",
       "sourceName": "contracts/MinterFactory.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1678,7 +1678,7 @@
       ]
     },
     "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\Minter.sol": {
-      "lastModificationDate": 1672761337678,
+      "lastModificationDate": 1674753130011,
       "contentHash": "e686990f59f134b40a77ced14126da93",
       "sourceName": "contracts/Minter.sol",
       "solcConfig": {
@@ -2102,6 +2102,41 @@
       ],
       "artifacts": [
         "IStakingToken"
+      ]
+    },
+    "C:\\defi\\bitdeep\\xex\\xex-contracts\\node_modules\\hardhat\\console.sol": {
+      "lastModificationDate": 1671643948639,
+      "contentHash": "4ff3cd2f6272c9a6516e9ee4f2b967d3",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">= 0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
       ]
     }
   }

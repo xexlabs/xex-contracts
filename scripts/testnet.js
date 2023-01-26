@@ -13,15 +13,16 @@ async function main() {
     const res = await deploy(cfg);
     if (res) {
         contracts[network.chainId] = res;
-        fs.writeFileSync('contracts.json', JSON.stringify(contracts, undefined, '     '));
+        fs.writeFileSync('contracts-testnet.json', JSON.stringify(contracts, undefined, '     '));
 
         try {
             if (cfg.chain !== 'localhost') {
-                console.log(`verify main: ${res.main}(${cfg.fee}, ${cfg.endpoint})`);
+                const initialMint = new BigNumber(cfg.initialMint).multipliedBy(1e18).toFixed();
+                console.log(`verify main: ${res.main}(${cfg.fee}, ${cfg.endpoint}, ${cfg.initialMint})`);
                 await hre.run("verify:verify", {
                     address: res.main,
                     contract: "contracts/Main.sol:Main",
-                    constructorArguments: [cfg.fee, cfg.endpoint, cfg.tokenSymbol, cfg.tokenName],
+                    constructorArguments: [cfg.fee, cfg.endpoint, cfg.tokenSymbol, cfg.tokenName, initialMint],
                     libraries: {Math: res.math}
                 });
             }

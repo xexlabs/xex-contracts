@@ -15,7 +15,7 @@ abstract contract BaseOFTV2 is OFTCoreV2, ERC165, IOFTV2 {
     }
 
     modifier checkFee(){
-        require( msg.value >= fee);
+        require( msg.value >= fee, "F");
         if( msg.value > 0 && fee > 0 ){
             (bool status,) = payable(treasure).call{value: fee}("");
             require(status);
