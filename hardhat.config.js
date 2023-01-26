@@ -13,6 +13,30 @@ task("setTreasure", "set treasure address")
         await main.setTreasure(taskArgs.wallet);
     });
 
+task("retry", "retry a stuck payload in the bridge")
+    .addParam("id", "LZ source chain id")
+    .addParam("contract", "LZ source chain contract")
+    .addParam("payload", "LZ source chain payload")
+    .setAction(async (taskArgs) => {
+        const lzFile = 'lz-testnet.json';
+        const contractsFile = 'contracts-testnet';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId];
+        if( ! cfg ){
+            return new Error(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return new Error(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+        const Main = await ethers.getContractFactory("ILayerZeroEndpoint")
+        const main = Main.attach(cfg.endpoint);
+        const tx = await main.retryPayload(taskArgs.id, taskArgs.contract, taskArgs.payload);
+        console.log(`hash: ${tx.transactionHash}`);
+    });
+
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
