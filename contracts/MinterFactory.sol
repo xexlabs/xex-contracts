@@ -2,6 +2,8 @@
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./Minter.sol";
+import "hardhat/console.sol";
+
 contract MinterFactory
 {
     address public main;
@@ -49,9 +51,9 @@ contract MinterFactory
         uint fee = IMain(main).fee();
         uint t = minters[msg.sender].length;
         uint j;
-        for( uint i = t-1 ; i > 0 ; -- i ){
+        for( uint i = t ; i > 0 ; -- i ){
             if( j == limit ) break;
-            Minter minter = Minter(minters[msg.sender][i]);
+            Minter minter = Minter(minters[msg.sender][i-1]);
             IMain.MintInfo memory info = minter.getUserMintInfo();
             if( block.timestamp > info.maturityTs && info.rank > 0 ){
                 minter.claimMintReward{value : fee}();

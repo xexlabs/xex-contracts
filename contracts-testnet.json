@@ -2,31 +2,31 @@
      "5": {
           "math": "0xc0fCBc59CFfC8CB7C1A5386DB399b953E91D5A9A",
           "main": "0x682F996aB5a1a528D30B7Ec753bc1721aD30904D",
-          "factory": "0x608be5a369fF9b6B14DbB80809d4546D65C79540",
-          "build": "2023-01-26T21:42:40.005Z"
+          "factory": "0x3f74F57Fc9D3E98AAF1A26DE5f128ab2A0c7f2c7",
+          "build": "2023-01-27T18:27:42.542Z"
      },
      "97": {
           "math": "0xaDc1025f0d8A6E69Dd9e09C5D6cD0D823eF39c87",
           "main": "0xAC51ea75a6afEa7712EeD215bF6649Ba20C689Ad",
-          "factory": "0x671051f3cACA8e6eA4022c82761D3dc04156BC23",
-          "build": "2023-01-26T20:47:37.950Z"
+          "factory": "0x014c99832e1CF4004059BcB289EF7b02C3bb0efE",
+          "build": "2023-01-27T18:22:52.819Z"
      },
      "4002": {
           "math": "0x98281F1f68c1dEAbE01582369b2D374046e5fe40",
           "main": "0xCA0bb30a77b13CB7DE33109f6Cf02f4655b3dd76",
-          "factory": "0x293800967732c7139f86224B1C7909Ca39257848",
-          "build": "2023-01-26T21:57:52.705Z"
+          "factory": "0x39c222666886Ee0ef79fa59BA7261A1D23eB2A58",
+          "build": "2023-01-27T18:30:09.800Z"
      },
      "43113": {
           "math": "0xa3fdc42693D9Be95eE1AEf60D5B9015DCd98a095",
           "main": "0x96ef81dA9778b9BCB0f7a7702574C9E99af93487",
-          "factory": "0xf2eB51Fbc4A8552d8d235560Ea8bA80C1D57E663",
-          "build": "2023-01-26T21:32:13.597Z"
+          "factory": "0xf2fF6CED74e7B8d2Ae3Ee5EFCF719D9925c15122",
+          "build": "2023-01-27T18:24:27.296Z"
      },
      "80001": {
           "math": "0x91a8B019578CF8F27C03A7614BF1F5Ae950bfA3d",
           "main": "0x114a4DB9836c998D9685a9dECb0aEA6985C041c4",
-          "factory": "0x569603BbBaD56c72BE375Af02fFb772D1640Bd39",
-          "build": "2023-01-26T21:48:28.729Z"
+          "factory": "0xB59baebd77F9eFD3a1d0A69c913c0548c68eBB2a",
+          "build": "2023-01-27T18:29:11.497Z"
      }
 }

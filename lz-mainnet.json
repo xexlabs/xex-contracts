@@ -6,7 +6,7 @@
     "tokenSymbol": "XEX",
     "tokenName": "XEX Crypto",
     "treasure": "0xb32D174C217a73594e3895AEEdF4096bA016B3eE",
-    "initialMint": "100000",
+    "initialMint": "20000000",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441"
   },
   "56": { "chain": "bsc",
@@ -16,7 +16,7 @@
     "tokenSymbol": "XEX",
     "tokenName": "XEX Crypto",
     "treasure": "0xb5563C0dA3ae618975c65bd4b207A98F0b14C36B",
-    "initialMint": "100000",
+    "initialMint": "20000000",
     "multicall": "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
   },
   "43114": { "chain": "avax",
@@ -26,7 +26,7 @@
     "tokenSymbol": "XEX",
     "tokenName": "XEX Crypto",
     "treasure": "0x95E4f54A900C1D802298F3A5D437522a5aF9f9c2",
-    "initialMint": "100000",
+    "initialMint": "20000000",
     "multicall": "0xb14067B3C160E378DeEAFA8c0D03FF97Fbf0C408"
   },
   "137": { "chain": "polygon",
@@ -36,7 +36,7 @@
     "tokenSymbol": "XEX",
     "tokenName": "XEX Crypto",
     "treasure": "0x5D3E89E67498894E619AD6ba9892F6ae12fcF4D5",
-    "initialMint": "100000",
+    "initialMint": "20000000",
     "multicall": "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
   },
   "250": { "chain": "ftm",
@@ -46,7 +46,7 @@
     "tokenSymbol": "XEX",
     "tokenName": "XEX Crypto",
     "treasure": "0x89DdBAcc77A14D505101CE669a683e1B01781701",
-    "initialMint": "100000",
+    "initialMint": "20000000",
     "multicall": "0xb828C456600857abd4ed6C32FAcc607bD0464F4F"
   },
   "31337": { "chain": "localhost",
@@ -56,6 +56,6 @@
     "tokenSymbol": "test",
     "tokenName": "test",
     "treasure": "0x89DdBAcc77A14D505101CE669a683e1B01781701",
-    "initialMint": "100000"
+    "initialMint": "20000000"
   }
 }
