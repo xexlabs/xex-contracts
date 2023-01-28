@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./Minter.sol";
-import "hardhat/console.sol";
+//import "hardhat/console.sol";
 
 contract MinterFactory
 {

@@ -41,6 +41,40 @@ task("retry", "retry a stuck payload in the bridge")
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     networks: {
+        bsc: {
+            url: `https://rpc.ankr.com/bsc`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
+        avax: {
+            url: `https://rpc.ankr.com/avalanche`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
+        eth: {
+            url: `https://mainnet.infura.io/v3/${process.env.INFURA}`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
+        polygon: {
+            url: `https://rpc.ankr.com/polygon`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
+        ftm: {
+            url: `https://rpc.ankr.com/fantom`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
+
+
+
+
         bsc_testnet: {
             url: `https://bsc-testnet.public.blastapi.io`,
             accounts: [`${process.env.PRIVATE_KEY}`],
@@ -104,7 +138,7 @@ module.exports = {
             polygon: `${process.env.POLYGONSCAN}`,
             polygonMumbai: `${process.env.POLYGONSCAN}`,
             ftmTestnet: `${process.env.FTMSCAN}`,
-            ftm: `${process.env.FTMSCAN}`,
+            opera: `${process.env.FTMSCAN}`,
         },
         customChains: [
             {

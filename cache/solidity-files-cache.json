@@ -1640,8 +1640,8 @@
       ]
     },
     "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\MinterFactory.sol": {
-      "lastModificationDate": 1674842879543,
-      "contentHash": "dede9adf8c493a10efb13d7d176ee143",
+      "lastModificationDate": 1674923742370,
+      "contentHash": "4531a53328eba82bdbd0084734bba37b",
       "sourceName": "contracts/MinterFactory.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1668,8 +1668,7 @@
       },
       "imports": [
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "./Minter.sol",
-        "hardhat/console.sol"
+        "./Minter.sol"
       ],
       "versionPragmas": [
         "^0.8.4"
@@ -2071,7 +2070,7 @@
       ]
     },
     "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\interfaces\\IStakingToken.sol": {
-      "lastModificationDate": 1671028768877,
+      "lastModificationDate": 1674841964917,
       "contentHash": "482684ad5ef052f04e22f0c3de48d021",
       "sourceName": "contracts/interfaces/IStakingToken.sol",
       "solcConfig": {
@@ -2128,6 +2127,11 @@
               "": [
                 "ast"
               ]
+            }
+          },
+          "libraries": {
+            "contracts/Math.sol": {
+              "Math": "0x23ee1faf9901d91cbb2feab6fc32c4ae07022274"
             }
           }
         }

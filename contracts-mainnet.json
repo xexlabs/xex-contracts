@@ -1,2 +1,26 @@
 {
+     "56": {
+          "math": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+          "main": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "factory": "0xb4415B20975686e5Ad30fa5a664fFd2BC8211427",
+          "build": "2023-01-28T16:06:29.505Z"
+     },
+     "137": {
+          "math": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+          "main": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "factory": "0xb4415B20975686e5Ad30fa5a664fFd2BC8211427",
+          "build": "2023-01-28T16:21:48.040Z"
+     },
+     "250": {
+          "math": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+          "main": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "factory": "0xb4415B20975686e5Ad30fa5a664fFd2BC8211427",
+          "build": "2023-01-28T16:25:52.274Z"
+     },
+     "43114": {
+          "math": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+          "main": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "factory": "0xb4415B20975686e5Ad30fa5a664fFd2BC8211427",
+          "build": "2023-01-28T16:12:24.619Z"
+     }
 }
