@@ -1529,8 +1529,8 @@
       ]
     },
     "C:\\defi\\xex\\xex-contracts\\contracts\\Main.sol": {
-      "lastModificationDate": 1674944827561,
-      "contentHash": "08ad59e959a2787d579423d9fca4cb28",
+      "lastModificationDate": 1674947701273,
+      "contentHash": "f1ce6bc7afb6a06510e14003acd149bd",
       "sourceName": "contracts/Main.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -2140,8 +2140,8 @@
       "artifacts": []
     },
     "C:\\defi\\xex\\xex-contracts\\contracts\\xex.sol": {
-      "lastModificationDate": 1674944514386,
-      "contentHash": "efdc078a7726fffd76dd4fffe5626582",
+      "lastModificationDate": 1674946811854,
+      "contentHash": "90b91be9ba82a5a3b15ffcf28691f336",
       "sourceName": "contracts/xex.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -2167,7 +2167,6 @@
         }
       },
       "imports": [
-        "hardhat/console.sol",
         "./Math.sol",
         "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "@openzeppelin/contracts/interfaces/IERC165.sol",

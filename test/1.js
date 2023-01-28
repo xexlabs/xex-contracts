@@ -1,22 +1,29 @@
 const BigNumber = require('bignumber.js');
 require('dotenv').config()
 const {time} = require("@nomicfoundation/hardhat-network-helpers");
-const { expect } = require("chai");
+const {expect} = require("chai");
 
 async function timeIncreaseTo(seconds) {
     await time.increaseTo(seconds);
 }
 
-async function rewardOnClaim(term, user, main){
+async function rewardOnClaim(term, user, main) {
     await main.connect(user).claimRank(term);
-    const r = await main.userMints(user.address);
-    const reward = await main.getMintReward(r.rank,r.term,r.maturityTs,r.amplifier,r.eaaRate);
-    console.log(`- rewardOnClaim: ${user.address}, reward: ${reward.toString()}`);
+    // let now = (await ethers.provider.getBlock("latest")).timestamp;
+    // const to = now + 1;
+    // await timeIncreaseTo(to);
+    await showReward(user, main);
 }
-async function rewardAfterTimeIncreased(now, user, main){
+
+async function rewardAfterTimeIncreased(user, main) {
+    await showReward(user, main);
+}
+
+async function showReward(user, main){
     const r = await main.userMints(user.address);
-    const reward = await main.getMintReward(r.rank,r.term,r.maturityTs,r.amplifier,r.eaaRate);
-    console.log(`- rewardAfterTimeIncreased: ${user.address}, reward: ${reward.toString()}`);
+    const globalRank = await main.globalRank();
+    const reward = await main.getMintReward(r.rank, r.term, r.maturityTs, r.amplifier, r.eaaRate);
+    console.log(`- ${user.address}, reward: ${reward.toString()}, globalRank: ${globalRank}`);
 }
 
 describe("Test", function () {
@@ -39,7 +46,7 @@ describe("Test", function () {
             const ENDPOINT = '0x0000000000000000000000000000000000000000';
             const main = await Main.deploy(FEE, ENDPOINT, "test", "test", "0");
             await main.setTreasure("0x0000000000000000000000000000000000000001");
-            const [a,b,c,d,e,f,g,h,i,j] = await ethers.getSigners();
+            const [a, b, c, d, e, f, g, h, i, j] = await ethers.getSigners();
             await rewardOnClaim(100, a, main);
             await rewardOnClaim(100, b, main);
             await rewardOnClaim(100, c, main);
@@ -50,19 +57,20 @@ describe("Test", function () {
             await rewardOnClaim(100, h, main);
             await rewardOnClaim(100, i, main);
             await rewardOnClaim(100, j, main);
-            let now = (await ethers.provider.getBlock("latest")).timestamp;
-            const to = now + (86900*100) + 1;
-            await timeIncreaseTo(to);
-            await rewardAfterTimeIncreased(to, a, main);
-            await rewardAfterTimeIncreased(to, b, main);
-            await rewardAfterTimeIncreased(to, c, main);
-            await rewardAfterTimeIncreased(to, d, main);
-            await rewardAfterTimeIncreased(to, e, main);
-            await rewardAfterTimeIncreased(to, f, main);
-            await rewardAfterTimeIncreased(to, g, main);
-            await rewardAfterTimeIncreased(to, h, main);
-            await rewardAfterTimeIncreased(to, i, main);
-            await rewardAfterTimeIncreased(to, j, main);
+            // let now = (await ethers.provider.getBlock("latest")).timestamp;
+            // const to = now + (86900*100) + 1;
+            // await timeIncreaseTo(to);
+            console.log('---');
+            await rewardAfterTimeIncreased(a, main);
+            await rewardAfterTimeIncreased(b, main);
+            await rewardAfterTimeIncreased(c, main);
+            await rewardAfterTimeIncreased(d, main);
+            await rewardAfterTimeIncreased(e, main);
+            await rewardAfterTimeIncreased(f, main);
+            await rewardAfterTimeIncreased(g, main);
+            await rewardAfterTimeIncreased(h, main);
+            await rewardAfterTimeIncreased(i, main);
+            await rewardAfterTimeIncreased(j, main);
         });
     });
 });

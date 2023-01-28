@@ -36,14 +36,14 @@ contract Main is Context, OFTV2
 
     uint256 public constant MIN_TERM = 1 * SECONDS_IN_DAY - 1;
     uint256 public constant MAX_TERM_START = 100 * SECONDS_IN_DAY;
-    uint256 public constant MAX_TERM_END = 730 * SECONDS_IN_DAY;
+    uint256 public constant MAX_TERM_END = 244 * SECONDS_IN_DAY;
     uint256 public constant TERM_AMPLIFIER = 15;
-    uint256 public constant TERM_AMPLIFIER_THRESHOLD = 608;
+    uint256 public constant TERM_AMPLIFIER_THRESHOLD = 1220;
     uint256 public constant REWARD_AMPLIFIER_START = 730;
     uint256 public constant REWARD_AMPLIFIER_END = 1;
-    uint256 public constant EAA_PM_START = 1000;
-    uint256 public constant EAA_PM_STEP = 1;
-    uint256 public constant EAA_RANK_STEP = 100_000;
+    uint256 public constant EAA_PM_START = 1_000;
+    uint256 public constant EAA_PM_STEP = 10;
+    uint256 public constant EAA_RANK_STEP = 10_000;
     uint256 public constant WITHDRAWAL_WINDOW_DAYS = 7;
     uint256 public constant MAX_PENALTY_PCT = 99;
 
@@ -55,7 +55,7 @@ contract Main is Context, OFTV2
     uint256 public constant XEX_APY_DAYS_STEP = 20;
     uint256 public constant XEX_APY_END = 0;
 
-//    string public constant AUTHORS_XEN = "@MrJackLevin @lbelyaev faircrypto.org";
+    string public constant AUTHORS_XEN = "@MrJackLevin @lbelyaev faircrypto.org";
 
     // PUBLIC STATE, READABLE VIA NAMESAKE GETTERS
 
