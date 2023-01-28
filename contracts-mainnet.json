@@ -1,4 +1,10 @@
 {
+     "1": {
+          "math": "0x23ee1faf9901d91cbb2feab6fc32c4ae07022274",
+          "main": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "factory": "0xb4415B20975686e5Ad30fa5a664fFd2BC8211427",
+          "build": "2023-01-28T19:14:28.694Z"
+     },
      "56": {
           "math": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
           "main": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",

@@ -42,31 +42,31 @@ task("retry", "retry a stuck payload in the bridge")
 module.exports = {
     networks: {
         bsc: {
-            url: `https://rpc.ankr.com/bsc`,
+            url: `https://rpc.ankr.com/bsc/${process.env.ANKR}`,
             accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
         avax: {
-            url: `https://rpc.ankr.com/avalanche`,
+            url: `https://rpc.ankr.com/avalanche/${process.env.ANKR}`,
             accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
         eth: {
-            url: `https://mainnet.infura.io/v3/${process.env.INFURA}`,
+            url: `https://rpc.ankr.com/eth/${process.env.ANKR}`,
             accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
         polygon: {
-            url: `https://rpc.ankr.com/polygon`,
+            url: `https://rpc.ankr.com/polygon/${process.env.ANKR}`,
             accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
         },
         ftm: {
-            url: `https://rpc.ankr.com/fantom`,
+            url: `https://rpc.ankr.com/fantom/${process.env.ANKR}`,
             accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,

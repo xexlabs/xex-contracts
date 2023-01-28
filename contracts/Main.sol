@@ -399,19 +399,8 @@ contract Main is Context, OFTV2
         uint256 amplifier,
         uint256 eeaRate
     ) public view returns (uint256) {
-        if( block.timestamp > maturityTs ){
-            // maturity passed, we can apply the fee
-            uint256 secsLate = block.timestamp - maturityTs;
-            uint256 penalty = _penalty(secsLate);
-            uint256 rankDelta = Math.max(globalRank - cRank, 2);
-            uint256 EAA = (1_000 + eeaRate);
-            uint256 reward = getGrossReward(rankDelta, amplifier, term, EAA);
-            return (reward * (100 - penalty)) / 100;
-        }else{
-            // maturity hasn't passed, return without fee
-            uint256 rankDelta = Math.max(globalRank - cRank, 2);
-            uint256 EAA = (1_000 + eeaRate);
-            return getGrossReward(rankDelta, amplifier, term, EAA);
-        }
+        uint256 rankDelta = Math.max(globalRank - cRank, 2);
+        uint256 EAA = (1_000 + eeaRate);
+        return getGrossReward(rankDelta, amplifier, term, EAA);
     }
 }
