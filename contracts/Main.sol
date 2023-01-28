@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
+
 import "./Math.sol";
 import "abdk-libraries-solidity/ABDKMath64x64.sol";
 import "./@layerzerolabs/solidity-examples/contracts/token/oft/v2/OFTV2.sol";
@@ -38,7 +39,7 @@ contract Main is Context, OFTV2
     uint256 public constant MAX_TERM_START = 100 * SECONDS_IN_DAY;
     uint256 public constant MAX_TERM_END = 244 * SECONDS_IN_DAY;
     uint256 public constant TERM_AMPLIFIER = 15;
-    uint256 public constant TERM_AMPLIFIER_THRESHOLD = 1220;
+    uint256 public constant TERM_AMPLIFIER_THRESHOLD = 5_000;
     uint256 public constant REWARD_AMPLIFIER_START = 730;
     uint256 public constant REWARD_AMPLIFIER_END = 1;
     uint256 public constant EAA_PM_START = 1_000;
@@ -85,12 +86,12 @@ contract Main is Context, OFTV2
 
     // CONSTRUCTOR
     constructor(uint _fee, address _endpoint, string memory _symbol, string memory _name, uint _initialMint)
-        OFTV2(_name, _symbol, 8, _endpoint, _fee)
+    OFTV2(_name, _symbol, 8, _endpoint, _fee)
     {
         genesisTs = block.timestamp;
 
         // initial mint to seed liquidity
-        if( _initialMint > 0 ){
+        if (_initialMint > 0) {
             _mint(msg.sender, _initialMint);
         }
     }
@@ -295,8 +296,8 @@ contract Main is Context, OFTV2
      */
     function claimMintReward() public payable checkFee {
         MintInfo memory mintInfo = userMints[msg.sender];
-        require(mintInfo.rank > 0,"A");
-        require(block.timestamp > mintInfo.maturityTs,"B");
+        require(mintInfo.rank > 0, "A");
+        require(block.timestamp > mintInfo.maturityTs, "B");
         // calculate reward and mint tokens
         uint256 rewardAmount = _calculateMintReward(
             mintInfo.rank,
@@ -399,8 +400,19 @@ contract Main is Context, OFTV2
         uint256 amplifier,
         uint256 eeaRate
     ) public view returns (uint256) {
-        uint256 rankDelta = Math.max(globalRank - cRank, 2);
-        uint256 EAA = (1_000 + eeaRate);
-        return getGrossReward(rankDelta, amplifier, term, EAA);
+        if (block.timestamp > maturityTs) {
+            // maturity passed, we can apply the fee
+            uint256 secsLate = block.timestamp - maturityTs;
+            uint256 penalty = _penalty(secsLate);
+            uint256 rankDelta = Math.max(globalRank - cRank, 2);
+            uint256 EAA = (1_000 + eeaRate);
+            uint256 reward = getGrossReward(rankDelta, amplifier, term, EAA);
+            return (reward * (100 - penalty)) / 100;
+        } else {
+            // maturity hasn't passed, return without fee
+            uint256 rankDelta = Math.max(globalRank - cRank, 2);
+            uint256 EAA = (1_000 + eeaRate);
+            return getGrossReward(rankDelta, amplifier, term, EAA);
+        }
     }
 }
