@@ -53,12 +53,6 @@ module.exports = {
             live: true,
             saveDeployments: true,
         },
-        eth: {
-            url: `https://rpc.ankr.com/eth/${process.env.ANKR}`,
-            accounts: [`${process.env.PRIVATE_KEY}`],
-            live: true,
-            saveDeployments: true,
-        },
         polygon: {
             url: `https://rpc.ankr.com/polygon/${process.env.ANKR}`,
             accounts: [`${process.env.PRIVATE_KEY}`],
@@ -67,6 +61,12 @@ module.exports = {
         },
         ftm: {
             url: `https://rpc.ankr.com/fantom/${process.env.ANKR}`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
+        eth: {
+            url: `https://mainnet.infura.io/v3/${process.env.INFURA}`,
             accounts: [`${process.env.PRIVATE_KEY}`],
             live: true,
             saveDeployments: true,
