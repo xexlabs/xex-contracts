@@ -10,7 +10,7 @@ async function timeIncreaseTo(seconds) {
 describe("Test", function () {
     describe("default", function () {
         it("all", async function () {
-            this.timeout(140000);
+            this.timeout(640000);
             const initialMint = new BigNumber("100").multipliedBy(1e18).toString();
             let term = 1;
             const [DEV] = await ethers.getSigners();

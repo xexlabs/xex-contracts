@@ -25,7 +25,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -62,7 +63,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -97,7 +99,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -138,7 +141,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -173,7 +177,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -208,7 +213,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -245,7 +251,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -280,7 +287,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -318,7 +326,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -353,7 +362,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -393,7 +403,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -430,7 +441,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -465,7 +477,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -500,7 +513,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -537,7 +551,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -576,7 +591,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -613,7 +629,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -651,7 +668,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -690,7 +708,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -725,7 +744,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -760,7 +780,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -795,7 +816,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -832,7 +854,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -871,7 +894,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -908,7 +932,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -946,7 +971,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -983,7 +1009,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1023,7 +1050,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1061,7 +1089,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1100,7 +1129,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1137,7 +1167,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1175,7 +1206,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1212,7 +1244,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1252,7 +1285,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1287,7 +1321,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1325,7 +1360,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1364,7 +1400,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1401,7 +1438,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1439,7 +1477,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1477,7 +1516,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1514,7 +1554,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1529,8 +1570,8 @@
       ]
     },
     "C:\\defi\\xex\\xex-contracts\\contracts\\Main.sol": {
-      "lastModificationDate": 1674947898167,
-      "contentHash": "bb9a8a66ba41e162ce278f8fabdcd7e0",
+      "lastModificationDate": 1674947948689,
+      "contentHash": "59e865569740b3f3107f72bd658d42b1",
       "sourceName": "contracts/Main.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -1552,7 +1593,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1591,7 +1633,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1628,7 +1671,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1663,7 +1707,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1701,7 +1746,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1739,7 +1785,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1776,7 +1823,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1811,7 +1859,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1846,7 +1895,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1881,7 +1931,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -1918,7 +1969,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1953,7 +2005,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -1988,7 +2041,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -2023,7 +2077,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -2058,7 +2113,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -2093,7 +2149,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -2128,7 +2185,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -2163,7 +2221,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [

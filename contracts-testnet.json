@@ -1,32 +1,32 @@
 {
      "5": {
-          "math": "0xc0fCBc59CFfC8CB7C1A5386DB399b953E91D5A9A",
-          "main": "0x682F996aB5a1a528D30B7Ec753bc1721aD30904D",
-          "factory": "0x3f74F57Fc9D3E98AAF1A26DE5f128ab2A0c7f2c7",
-          "build": "2023-01-27T18:27:42.542Z"
+          "math": "0xF17f8ab91239A0fe6b8D9DAE4CEB2D19D98083f6",
+          "main": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+          "factory": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "build": "2023-01-29T00:10:53.802Z"
      },
      "97": {
-          "math": "0xaDc1025f0d8A6E69Dd9e09C5D6cD0D823eF39c87",
-          "main": "0xAC51ea75a6afEa7712EeD215bF6649Ba20C689Ad",
-          "factory": "0x014c99832e1CF4004059BcB289EF7b02C3bb0efE",
-          "build": "2023-01-27T18:22:52.819Z"
+          "math": "0xF17f8ab91239A0fe6b8D9DAE4CEB2D19D98083f6",
+          "main": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+          "factory": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "build": "2023-01-28T23:54:09.972Z"
      },
      "4002": {
-          "math": "0x98281F1f68c1dEAbE01582369b2D374046e5fe40",
-          "main": "0xCA0bb30a77b13CB7DE33109f6Cf02f4655b3dd76",
-          "factory": "0x39c222666886Ee0ef79fa59BA7261A1D23eB2A58",
-          "build": "2023-01-27T18:30:09.800Z"
+          "math": "0x51D9033bBF27938603bf59de1E45A04C25293D02",
+          "main": "0x1ca277Bac573A54F18af55479134964372B7D555",
+          "factory": "0x4fa416c3DF1099045181593747f20F198E60e3E6",
+          "build": "2023-01-29T00:27:14.945Z"
      },
      "43113": {
-          "math": "0xa3fdc42693D9Be95eE1AEf60D5B9015DCd98a095",
-          "main": "0x96ef81dA9778b9BCB0f7a7702574C9E99af93487",
-          "factory": "0xf2fF6CED74e7B8d2Ae3Ee5EFCF719D9925c15122",
-          "build": "2023-01-27T18:24:27.296Z"
+          "math": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+          "main": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+          "factory": "0xb4415B20975686e5Ad30fa5a664fFd2BC8211427",
+          "build": "2023-01-29T00:00:29.087Z"
      },
      "80001": {
-          "math": "0x91a8B019578CF8F27C03A7614BF1F5Ae950bfA3d",
-          "main": "0x114a4DB9836c998D9685a9dECb0aEA6985C041c4",
-          "factory": "0xB59baebd77F9eFD3a1d0A69c913c0548c68eBB2a",
-          "build": "2023-01-27T18:29:11.497Z"
+          "math": "0x3A3e40a6deA7A4B20Cc03A3c9b22E41B8c1323D6",
+          "main": "0x3CD80f0dc62C81112d41a9d5D265Da9FFb2dD9Fd",
+          "factory": "0xf9Ab358985ffABE5D000204a9b5a92f61335da4d",
+          "build": "2023-01-29T00:18:54.392Z"
      }
 }
