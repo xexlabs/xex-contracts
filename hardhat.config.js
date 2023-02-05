@@ -4,6 +4,7 @@ dotenv.config()
 require("@nomiclabs/hardhat-etherscan");
 const fs = require("fs");
 
+
 task("setTreasure", "set treasure address")
     .addParam("contract", "contract to set the treasure")
     .addParam("wallet", "wallet to set as treasure")
@@ -37,6 +38,50 @@ task("retry", "retry a stuck payload in the bridge")
         console.log(`hash: ${tx.transactionHash}`);
     });
 
+
+task("getUserMinters", "getUserMinters")
+    .addParam("wallet", "user")
+    .setAction(async (taskArgs) => {
+        const lzFile = 'lz-mainnet.json';
+        const contractsFile = 'contracts-mainnet.json';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId];
+        if( ! cfg ){
+            return console.log(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return console.log(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+        const Main = await ethers.getContractFactory("MinterFactory")
+        const main = Main.attach(contract.factory);
+        const list = await main.getUserMinters(taskArgs.wallet);
+        console.log(list);
+    });
+
+task("getUserMinterInfo", "getUserMinters")
+    .addParam("wallet", "user")
+    .setAction(async (taskArgs) => {
+        const lzFile = 'lz-mainnet.json';
+        const contractsFile = 'contracts-mainnet.json';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId];
+        if( ! cfg ){
+            return console.log(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return console.log(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+        const Main = await ethers.getContractFactory("MinterFactory")
+        const main = Main.attach(contract.factory);
+        const list = await main.getUserMinterInfo(taskArgs.wallet);
+        console.log(`list`, list);
+    });
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
