@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "hardhat test test/main.js",
+    "test": "hardhat test test/factory-stake.js",
     "live": "nodemon --exec yarn test -e sol,js"
   },
   "keywords": [

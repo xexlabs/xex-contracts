@@ -3,30 +3,35 @@
           "math": "0x9953DC76B5E96dffFA0a926aAfAB93A7C988AD08",
           "main": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",
           "factory": "0xA54108A0413f9992dFad7873966fF55d95EBcf7b",
-          "build": "2023-01-29T15:32:26.507Z"
+          "factory_staker": "0xc7ac36256Be95583B26319029695348a017f3386",
+          "build": "2023-02-05T22:17:39.895Z"
      },
      "56": {
           "math": "0x9953DC76B5E96dffFA0a926aAfAB93A7C988AD08",
           "main": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",
           "factory": "0xA54108A0413f9992dFad7873966fF55d95EBcf7b",
-          "build": "2023-01-29T15:06:11.634Z"
+          "factory_staker": "0xc7ac36256Be95583B26319029695348a017f3386",
+          "build": "2023-02-05T22:05:36.485Z"
      },
      "137": {
           "math": "0x9953DC76B5E96dffFA0a926aAfAB93A7C988AD08",
           "main": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",
           "factory": "0xA54108A0413f9992dFad7873966fF55d95EBcf7b",
-          "build": "2023-01-29T15:15:55.076Z"
+          "factory_staker": "0xc7ac36256Be95583B26319029695348a017f3386",
+          "build": "2023-02-05T22:13:35.942Z"
      },
      "250": {
           "math": "0x9953DC76B5E96dffFA0a926aAfAB93A7C988AD08",
           "main": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",
           "factory": "0xA54108A0413f9992dFad7873966fF55d95EBcf7b",
-          "build": "2023-01-29T15:20:01.056Z"
+          "factory_staker": "0xc7ac36256Be95583B26319029695348a017f3386",
+          "build": "2023-02-05T22:14:48.450Z"
      },
      "43114": {
           "math": "0x9953DC76B5E96dffFA0a926aAfAB93A7C988AD08",
           "main": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",
           "factory": "0xA54108A0413f9992dFad7873966fF55d95EBcf7b",
-          "build": "2023-01-29T15:10:39.167Z"
+          "factory_staker": "0xc7ac36256Be95583B26319029695348a017f3386",
+          "build": "2023-02-05T22:09:05.295Z"
      }
 }
