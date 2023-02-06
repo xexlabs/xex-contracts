@@ -2178,6 +2178,41 @@
       "artifacts": [
         "IStakingToken"
       ]
+    },
+    "C:\\defi\\bitdeep\\xex\\xex-contracts\\contracts\\multicall.sol": {
+      "lastModificationDate": 1675446558836,
+      "contentHash": "c6e84fd89b0dcb39c481fdb1bb12d0df",
+      "sourceName": "contracts/multicall.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.0"
+      ],
+      "artifacts": [
+        "Multicall"
+      ]
     }
   }
 }
