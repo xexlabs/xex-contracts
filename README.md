@@ -29,7 +29,9 @@
 - avax `0x758815f3F91063f6c855c8B5f87bc43726AF48AA`
 - eth `0xfD09c0Dd0b1d9D92eD7EdCfeEB57e16004a0dE94`
 
+# multicall mainnet
 
+all chains: `0xba3A0ba62feE5804AfFEdaa497B310D0818Ccc4a`
 
 ## signers
 

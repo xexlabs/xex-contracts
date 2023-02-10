@@ -3,7 +3,7 @@ const fs = require("fs");
 const BigNumber = require("bignumber.js");
 
 async function main() {
-    const Multicall = await hre.ethers.getContractFactory("Multicall");
+    const Multicall = await hre.ethers.getContractFactory("XEX_MULTICALL");
     const multicall = await Multicall.deploy();
     await multicall.deployed();
     await multicall.deployTransaction.wait(10);
