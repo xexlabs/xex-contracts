@@ -25,7 +25,7 @@ describe("Test", function () {
             const FEE = 1e18.toString();
 
             const ENDPOINT = "0x0000000000000000000000000000000000000000";
-            const Multicall = await ethers.getContractFactory("Multicall");
+            const Multicall = await ethers.getContractFactory("XEX_MULTICALL");
             const Factory = await ethers.getContractFactory("MinterFactory");
             const main = await Main.deploy(FEE, ENDPOINT, "test", "test", initialMint);
             const factory = await Factory.deploy(main.address);
@@ -71,19 +71,39 @@ describe("Test", function () {
             const step = parseInt(minters / maxClaim);
             console.log(`minters: ${minters}, step: ${step}`);
             let l = 0;
+
+            console.log('claimMintReward:');
             let ABI = ["function claimMintReward()"];
             let iface = new ethers.utils.Interface(ABI);
-            const encoded = iface.encodeFunctionData("claimMintReward", []);
+            const claimMintReward = iface.encodeFunctionData("claimMintReward", []);
+            for (let i = 0; i < step; i++) {
+                let data = [];
+                for (let j = 0; j < step; j++) {
+                    const addr = minterInfo[l];
+                    if(! addr ) continue;
+                    console.log(l, addr);
+                    data.push({target: addr, callData: claimMintReward, fee: feeBN.toString()});
+                    ++l;
+                }
+                const totalFee = feeBN.multipliedBy(step);
+                await multicall.run(data, {value: totalFee.toString()});
+                data = [];
+            }
+
+            console.log('claimRank:');
+            ABI = ["function claimRank(uint256)"];
+            iface = new ethers.utils.Interface(ABI);
+            const claimRank = iface.encodeFunctionData("claimRank", ["1"]);
+            l = 0;
             for (let i = 0; i < step; i++) {
                 let data = [];
                 for (let j = 0; j < step; j++) {
                     const addr = minterInfo[l];
                     console.log(l, addr);
-                    data.push({target: addr, callData: encoded, fee: feeBN.toString()});
+                    data.push({target: addr, callData: claimRank, fee: "0"});
                     ++l;
                 }
-                const totalFee = feeBN.multipliedBy(step);
-                await multicall.run(data, {value: totalFee.toString()});
+                await multicall.run(data);
                 data = [];
             }
 

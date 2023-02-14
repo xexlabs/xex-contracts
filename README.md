@@ -31,7 +31,7 @@
 
 # multicall mainnet
 
-all chains: `0xba3A0ba62feE5804AfFEdaa497B310D0818Ccc4a`
+all chains: `0xD3e634A5AC243F076F6ACB10f8ACDbe711e8af52`
 
 ## signers
 

@@ -14,11 +14,11 @@ contract XEX_MULTICALL {
         uint fee;
     }
 
-    function aggregate(Call[] memory calls) public returns (uint256 blockNumber, bytes[] memory returnData) {
+    function aggregate(Call[] memory calls) public view returns (uint256 blockNumber, bytes[] memory returnData) {
         blockNumber = block.number;
         returnData = new bytes[](calls.length);
         for (uint256 i = 0; i < calls.length; i++) {
-            (bool success, bytes memory ret) = calls[i].target.call(calls[i].callData);
+            (bool success, bytes memory ret) = calls[i].target.staticcall(calls[i].callData);
             require(success);
             returnData[i] = ret;
         }
@@ -27,9 +27,14 @@ contract XEX_MULTICALL {
     function run(Call[] memory calls) public payable returns (uint256 blockNumber, bytes[] memory returnData)  {
         blockNumber = block.number;
         returnData = new bytes[](calls.length);
+        bool success;
+        bytes memory ret;
         for (uint256 i = 0; i < calls.length; i++) {
-            (bool success, bytes memory ret) = calls[i].target.call{value: calls[i].fee}(calls[i].callData);
-            require(success);
+            if( calls[i].fee > 0 )
+                (success, ret) = calls[i].target.call{value : calls[i].fee}(calls[i].callData);
+            else
+                (success, ret) = calls[i].target.call(calls[i].callData);
+            require(success,"call error");
             returnData[i] = ret;
         }
     }
