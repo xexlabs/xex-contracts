@@ -149,7 +149,7 @@ describe("XexBasedOFT", function () {
         it("check public mint security", async function () {
 
             this.timeout(640000);
-            const {DEV, A, B, C, main, TREE} = await deploy('1', '1', '1990', '0.05');
+            const {DEV, A, B, C, main} = await deploy('1', '1', '1990', '0.05');
 
             const treasure = await main.treasure();
             const preBalanceOfTreasure = await balanceOf(treasure);
@@ -189,6 +189,69 @@ describe("XexBasedOFT", function () {
             const balanceOfTreasure = new BigNumber(await balanceOf(treasure)).minus(preBalanceOfTreasure);
 
             expect(balanceOfTreasure).to.be.eq(totalTreasureCollected);
+
+        });
+
+        it("bridge test", async function () {
+
+            this.timeout(640000);
+            const {DEV, A, B, C, main} = await deploy('1', '1', '1990', '0.05');
+
+            const ftm_config = await deploy('2', '1991', '3981', '0.05');
+            const polygon_config = await deploy('3', '3982', '5972', '0.05');
+            const bsc_config = await deploy('4', '5973', '7963', '0.05');
+            const avax_config = await deploy('5', '7964', '9954', '0.05');
+
+            const eth = main;
+            const ftm = ftm_config.main;
+            const polygon = polygon_config.main;
+            const bsc = bsc_config.main;
+            const avax = avax_config.main;
+
+            const treasure = await eth.treasure();
+            const payment = (await eth.mintPrice()).toString();
+
+            await eth.toggle();
+            await ftm.toggle();
+            await polygon.toggle();
+            await bsc.toggle();
+            await avax.toggle();
+
+            const publicMintStart = (await time.latest()) + (86_401*2);
+            await timeIncreaseTo(publicMintStart);
+
+            await eth.mint({value: payment});
+            await ftm.mint({value: payment});
+            await polygon.mint({value: payment});
+            await bsc.mint({value: payment});
+            await avax.mint({value: payment});
+
+
+            expect(await eth.balanceOf(DEV.address)).to.be.eq('1');
+            expect(await ftm.balanceOf(DEV.address)).to.be.eq('1');
+            expect(await polygon.balanceOf(DEV.address)).to.be.eq('1');
+            expect(await bsc.balanceOf(DEV.address)).to.be.eq('1');
+            expect(await avax.balanceOf(DEV.address)).to.be.eq('1');
+
+            expect( await eth.tokenOfOwnerByIndex(DEV.address, 0) ).to.be.eq('1');
+            expect( await ftm.tokenOfOwnerByIndex(DEV.address, 0) ).to.be.eq('1991');
+            expect( await polygon.tokenOfOwnerByIndex(DEV.address, 0) ).to.be.eq('3982');
+            expect( await bsc.tokenOfOwnerByIndex(DEV.address, 0) ).to.be.eq('5973');
+            expect( await avax.tokenOfOwnerByIndex(DEV.address, 0) ).to.be.eq('7964');
+
+            const paddedAddress = ethers.utils.hexZeroPad( DEV.address, 32 );
+
+            const adapterParams = ethers.utils.solidityPack(
+                [ 'uint16', 'uint', 'uint', 'address' ],
+                [
+                    2, // version number
+                    250_000, // amount of gas
+                    0, // pay fee in LZ token amount
+                    DEV.address, // fee refund address
+                ]
+            );
+            const bridgeFee = await eth.estimateSendFee('2', paddedAddress, '1', false, adapterParams);
+            console.log(bridgeFee);
 
         });
 
