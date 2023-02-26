@@ -15,8 +15,9 @@ contract XexBasedOFT is ONFT721 {
     uint public whitelistEndPeriod;
     bytes32 public immutable merkleRoot;
     mapping(address => bool) public hasClaimed;
-    uint public maxMintPerWallet = 2;
     uint public mintPrice = 0.05 ether;
+    uint public publicMintLimit = 1;
+    uint public whitelistedMintLimit = 2;
     address public treasure;
     string baseURI_;
     error InvalidMintStartId();
@@ -41,6 +42,7 @@ contract XexBasedOFT is ONFT721 {
 
     event Pause(bool status);
     event NewPrice(uint price);
+    event NewLimits(uint _public, uint _whitelisted);
 
     constructor(
         uint _minGasToTransfer, address _layerZeroEndpoint,
@@ -80,6 +82,14 @@ contract XexBasedOFT is ONFT721 {
 
         emit NewPrice(mintPrice);
 
+        emit NewLimits(publicMintLimit, whitelistedMintLimit);
+
+    }
+
+    function setMintLimits(uint _public, uint _whitelisted) external onlyOwner {
+        publicMintLimit = _public;
+        whitelistedMintLimit = _whitelisted;
+        emit NewLimits(publicMintLimit, whitelistedMintLimit);
     }
 
     function setMintPrice(uint _price) external onlyOwner {
@@ -128,6 +138,11 @@ contract XexBasedOFT is ONFT721 {
 
     }
 
+    function checkProof(bytes32[] memory proof) public view returns(bool){
+        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(msg.sender))));
+        return MerkleProof.verify(proof, merkleRoot, leaf);
+    }
+
     function claim(bytes32[] memory proof) external payable standardChecks {
 
 
@@ -136,11 +151,8 @@ contract XexBasedOFT is ONFT721 {
             revert MintPeriodEnded();
         }
 
-        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(msg.sender))));
-        bool isValidLeaf = MerkleProof.verify(proof, merkleRoot, leaf);
-
         // user must be in the whitelist for this chain.
-        if (!isValidLeaf){
+        if (!checkProof(proof)){
             revert InvalidProof();
         }
 
@@ -158,7 +170,7 @@ contract XexBasedOFT is ONFT721 {
 
         nextMintId++;
 
-        _mint(msg.sender, newId);
+        _safeMint(msg.sender, newId);
 
         // check if user is correctly paying for this mint
         if( msg.value < mintPrice ){
@@ -174,17 +186,26 @@ contract XexBasedOFT is ONFT721 {
 
     }
 
-    function mint() external payable standardChecks {
+    function mint( bytes32[] memory proof ) external payable standardChecks {
 
         // above whitelist mint period, user can mint up to 2 nft
         if( block.timestamp < whitelistEndPeriod ){
             revert PublicMintNotStarted();
         }
 
-        if( balanceOf(msg.sender) == maxMintPerWallet ){
-            revert MaxAllowedForPublic();
+        if ( checkProof(proof) ){
+            // if user is whitelisted he can mint:
+            // - 1 from whitelist
+            // - 1 from public mint
+            if( balanceOf(msg.sender) == whitelistedMintLimit ){
+                revert MaxAllowedForWhitelisted();
+            }
+        }else{
+            // if not invalid proof, user can mint only 1
+            if( balanceOf(msg.sender) == publicMintLimit ){
+                revert MaxAllowedForPublic();
+            }
         }
-
 
         uint newId = nextMintId;
         nextMintId++;
@@ -194,7 +215,7 @@ contract XexBasedOFT is ONFT721 {
             revert MaxMintReached();
         }
 
-        _mint(msg.sender, newId);
+        _safeMint(msg.sender, newId);
 
         // check if user is correctly paying for this mint
         if( msg.value < mintPrice ){

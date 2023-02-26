@@ -3,7 +3,7 @@ require('dotenv').config()
 const {time, loadFixture} = require("@nomicfoundation/hardhat-network-helpers");
 const {expect} = require("chai");
 const merkle = require("@openzeppelin/merkle-tree");
-
+const minGas = '150000';
 async function timeIncreaseTo(seconds) {
     await time.increaseTo(seconds);
 }
@@ -34,7 +34,7 @@ async function deploy(chainId, startMintId, maxMintId, mintPrice) {
     const endDate = (await time.latest()) + (86_400 * 2);
     const endpoint = await LZEndpointMock.deploy(chainId);
     const main = await Main.deploy(
-        '10000000000000',
+        minGas,
         endpoint.address,
         startMintId,
         maxMintId,
@@ -44,7 +44,7 @@ async function deploy(chainId, startMintId, maxMintId, mintPrice) {
         toWei(mintPrice),
         '0x0000000000000000000000000000000000000001'
     );
-    return {DEV, A, B, C, main, TREE}
+    return {DEV, A, B, C, main, TREE, endpoint}
 }
 
 function getProof(TREE, wallet) {
@@ -112,15 +112,15 @@ describe("XexBasedOFT", function () {
             await main.connect(B).claim(getProof(TREE, B), {value: payment});
             await main.connect(C).claim(getProof(TREE, C), {value: payment});
 
-            await expect(main.mint({value: payment})).to.be.revertedWithCustomError(main, "PublicMintNotStarted");
+            await expect(main.mint(proof, {value: payment})).to.be.revertedWithCustomError(main, "PublicMintNotStarted");
 
             const publicMintStart = (await time.latest()) + (86_401*2);
             await timeIncreaseTo(publicMintStart);
 
-            await main.mint({value: payment});
-            await main.connect(A).mint({value: payment});
-            await main.connect(B).mint({value: payment});
-            await main.connect(C).mint({value: payment});
+            await main.mint(proof, {value: payment});
+            await main.connect(A).mint(getProof(TREE, A), {value: payment});
+            await main.connect(B).mint(getProof(TREE, B), {value: payment});
+            await main.connect(C).mint(getProof(TREE, C), {value: payment});
 
 
             expect(await main.balanceOf(DEV.address)).to.be.eq('2');
@@ -159,15 +159,15 @@ describe("XexBasedOFT", function () {
 
             const payment = (await main.mintPrice()).toString();
 
-            await expect(main.mint({value: payment})).to.be.revertedWithCustomError(main, "PublicMintNotStarted");
+            await expect(main.mint([], {value: payment})).to.be.revertedWithCustomError(main, "PublicMintNotStarted");
 
             const publicMintStart = (await time.latest()) + (86_401*2);
             await timeIncreaseTo(publicMintStart);
 
-            await main.mint({value: payment});
-            await main.connect(A).mint({value: payment});
-            await main.connect(B).mint({value: payment});
-            await main.connect(C).mint({value: payment});
+            await main.mint([], {value: payment});
+            await main.connect(A).mint([], {value: payment});
+            await main.connect(B).mint([], {value: payment});
+            await main.connect(C).mint([], {value: payment});
 
 
             expect(await main.balanceOf(DEV.address)).to.be.eq('1');
@@ -195,15 +195,18 @@ describe("XexBasedOFT", function () {
         it("bridge test", async function () {
 
             this.timeout(640000);
-            const {DEV, A, B, C, main} = await deploy('1', '1', '1990', '0.05');
 
+            const eth_config = await deploy('1', '1', '1990', '0.05');
             const ftm_config = await deploy('2', '1991', '3981', '0.05');
             const polygon_config = await deploy('3', '3982', '5972', '0.05');
             const bsc_config = await deploy('4', '5973', '7963', '0.05');
             const avax_config = await deploy('5', '7964', '9954', '0.05');
 
-            const eth = main;
+            const DEV = eth_config.DEV;
+            const eth = eth_config.main;
+            const eth_endpoint = eth_config.endpoint;
             const ftm = ftm_config.main;
+            const ftm_endpoint = ftm_config.endpoint;
             const polygon = polygon_config.main;
             const bsc = bsc_config.main;
             const avax = avax_config.main;
@@ -220,11 +223,11 @@ describe("XexBasedOFT", function () {
             const publicMintStart = (await time.latest()) + (86_401*2);
             await timeIncreaseTo(publicMintStart);
 
-            await eth.mint({value: payment});
-            await ftm.mint({value: payment});
-            await polygon.mint({value: payment});
-            await bsc.mint({value: payment});
-            await avax.mint({value: payment});
+            await eth.mint([], {value: payment});
+            await ftm.mint([], {value: payment});
+            await polygon.mint([], {value: payment});
+            await bsc.mint([], {value: payment});
+            await avax.mint([], {value: payment});
 
 
             expect(await eth.balanceOf(DEV.address)).to.be.eq('1');
@@ -239,7 +242,7 @@ describe("XexBasedOFT", function () {
             expect( await bsc.tokenOfOwnerByIndex(DEV.address, 0) ).to.be.eq('5973');
             expect( await avax.tokenOfOwnerByIndex(DEV.address, 0) ).to.be.eq('7964');
 
-            const paddedAddress = ethers.utils.hexZeroPad( DEV.address, 32 );
+            const paddedAddress = DEV.address;
 
             const adapterParams = ethers.utils.solidityPack(
                 [ 'uint16', 'uint', 'uint', 'address' ],
@@ -251,7 +254,19 @@ describe("XexBasedOFT", function () {
                 ]
             );
             const bridgeFee = await eth.estimateSendFee('2', paddedAddress, '1', false, adapterParams);
-            console.log(bridgeFee);
+            const nativeFee = bridgeFee.nativeFee;
+            const dstChain = '2', srcChain = '1';
+            const FUNCTION_TYPE_SEND = '1';
+            await eth.setMinDstGas(dstChain, FUNCTION_TYPE_SEND, minGas);
+            await eth.setTrustedRemoteAddress(dstChain, ftm.address);
+            await ftm.setTrustedRemoteAddress(srcChain, eth.address);
+            await eth_endpoint.setDestLzEndpoint(ftm.address, ftm_endpoint.address);
+            await eth.sendFrom(DEV.address, dstChain, paddedAddress, '1', DEV.address, DEV.address, adapterParams, {value: nativeFee});
+
+            expect( (await ftm.totalSupply()) ).to.be.eq('2');
+            const ftmOwnerOf1 = await ftm.ownerOf('1');
+            expect( (await ftm.balanceOf(DEV.address)) ).to.be.eq('2');
+            expect(ftmOwnerOf1).to.be.eq(DEV.address);
 
         });
 
