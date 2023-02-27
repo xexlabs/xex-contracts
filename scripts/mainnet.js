@@ -62,7 +62,7 @@ async function main() {
 async function deploy(cfg) {
     const initialMint = new BigNumber(cfg.initialMint).multipliedBy(1e18).toFixed();
     console.log('initialMint', initialMint);
-    const Math = await hre.ethers.getContractFactory("Math");
+    const Math = await hre.ethers.getContractFactory("contracts/Math.sol:Math");
     const math = await Math.deploy();
     await math.deployed();
     if( cfg.chain !== 'localhost')

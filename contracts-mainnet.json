@@ -27,6 +27,12 @@
           "factory_staker": "0xc7ac36256Be95583B26319029695348a017f3386",
           "build": "2023-02-05T22:14:48.450Z"
      },
+     "42161": {
+          "math": "0x9953DC76B5E96dffFA0a926aAfAB93A7C988AD08",
+          "main": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",
+          "factory": "0xA54108A0413f9992dFad7873966fF55d95EBcf7b",
+          "build": "2023-02-27T14:58:21.161Z"
+     },
      "43114": {
           "math": "0x9953DC76B5E96dffFA0a926aAfAB93A7C988AD08",
           "main": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",

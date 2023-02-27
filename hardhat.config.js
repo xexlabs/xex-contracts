@@ -116,6 +116,12 @@ module.exports = {
             live: true,
             saveDeployments: true,
         },
+        arb: {
+            url: `https://arb1.arbitrum.io/rpc`,
+            accounts: [`${process.env.PRIVATE_KEY}`],
+            live: true,
+            saveDeployments: true,
+        },
 
 
 
@@ -184,6 +190,7 @@ module.exports = {
             polygonMumbai: `${process.env.POLYGONSCAN}`,
             ftmTestnet: `${process.env.FTMSCAN}`,
             opera: `${process.env.FTMSCAN}`,
+            arbitrumOne: `${process.env.ARBSCAN}`,
         },
         customChains: [
             {

@@ -40,7 +40,7 @@ contract Main is Context, OFTV2
     uint256 public constant MAX_TERM_END = 244 * SECONDS_IN_DAY;
     uint256 public constant TERM_AMPLIFIER = 15;
     uint256 public constant TERM_AMPLIFIER_THRESHOLD = 5_000;
-    uint256 public constant REWARD_AMPLIFIER_START = 730;
+    uint256 public constant REWARD_AMPLIFIER_START = 701;
     uint256 public constant REWARD_AMPLIFIER_END = 1;
     uint256 public constant EAA_PM_START = 1_000;
     uint256 public constant EAA_PM_STEP = 10;
@@ -52,8 +52,8 @@ contract Main is Context, OFTV2
 
     uint256 public constant XEX_MIN_BURN = 0;
 
-    uint256 public constant XEX_APY_START = 35;
-    uint256 public constant XEX_APY_DAYS_STEP = 20;
+    uint256 public constant XEX_APY_START = 50;
+    uint256 public constant XEX_APY_DAYS_STEP = 14;
     uint256 public constant XEX_APY_END = 0;
 
     string public constant AUTHORS_XEN = "@MrJackLevin @lbelyaev faircrypto.org";
