@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "hardhat test test/nft.js",
+    "test": "hardhat test test/tail-mint.js",
     "live": "nodemon --exec yarn test -e sol,js"
   },
   "keywords": [

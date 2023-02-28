@@ -61,7 +61,7 @@ contract Main is Context, OFTV2
     // PUBLIC STATE, READABLE VIA NAMESAKE GETTERS
 
     uint256 public immutable genesisTs;
-    uint256 public globalRank = GENESIS_RANK;
+    uint256 public globalRank = TERM_AMPLIFIER_THRESHOLD;
     uint256 public activeMinters;
     uint256 public activeStakes;
     uint256 public totalXexStaked;
