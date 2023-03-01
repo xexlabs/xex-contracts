@@ -6,7 +6,7 @@ import {MerkleProof} from "@openzeppelin/contracts/utils/cryptography/MerkleProo
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract XexBasedOFT is ONFT721 {
+contract XDON is ONFT721 {
     using Strings for uint256;
     uint public nextMintId;
     uint public maxMintId;
@@ -139,7 +139,7 @@ contract XexBasedOFT is ONFT721 {
     }
 
     function checkProof(bytes32[] memory proof) public view returns(bool){
-        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(msg.sender))));
+        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(msg.sender, block.chainid))));
         return MerkleProof.verify(proof, merkleRoot, leaf);
     }
 

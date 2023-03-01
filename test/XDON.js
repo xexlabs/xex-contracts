@@ -3,6 +3,7 @@ require('dotenv').config()
 const {time, loadFixture} = require("@nomicfoundation/hardhat-network-helpers");
 const {expect} = require("chai");
 const merkle = require("@openzeppelin/merkle-tree");
+const hre = require("hardhat");
 const minGas = '150000';
 async function timeIncreaseTo(seconds) {
     await time.increaseTo(seconds);
@@ -25,11 +26,11 @@ async function deploy(chainId, startMintId, maxMintId, mintPrice) {
     const [DEV, A, B, C] = await ethers.getSigners();
     const LZEndpointMock = await ethers.getContractFactory("LZEndpointMock");
 
-    const airdrop_data = [[DEV.address], [A.address], [B.address], [C.address]];
-    const tree = merkle.StandardMerkleTree.of(airdrop_data, ["address"]);
+    const airdrop_data = [[DEV.address, chainId], [A.address, chainId], [B.address, chainId], [C.address, chainId]];
+    const tree = merkle.StandardMerkleTree.of(airdrop_data, ["address", "uint256"]);
     const TREE = tree.dump();
 
-    const Main = await ethers.getContractFactory("XexBasedOFT");
+    const Main = await ethers.getContractFactory("XDON");
     const startDate = (await time.latest()) + 86_400;
     const endDate = (await time.latest()) + (86_400 * 2);
     const endpoint = await LZEndpointMock.deploy(chainId);
@@ -63,7 +64,8 @@ describe("XexBasedOFT", function () {
     describe("Security", function () {
         it("whitelisted security checks", async function () {
             this.timeout(640000);
-            const {DEV, A, B, C, main, TREE} = await deploy('1', '1', '2', '0.05');
+            const network = await hre.ethers.provider.getNetwork();
+            const {DEV, A, B, C, main, TREE} = await deploy(network.chainId, '1', '2', '0.05');
             const proof = getProof(TREE, DEV);
             expect(proof.length).to.be.gt(0);
             await expect(main.claim(proof)).to.be.revertedWithCustomError(main, "MintIsPaused");
@@ -94,9 +96,9 @@ describe("XexBasedOFT", function () {
         });
 
         it("whitelisted mint and check ownership", async function () {
-
+            const network = await hre.ethers.provider.getNetwork();
             this.timeout(640000);
-            const {DEV, A, B, C, main, TREE} = await deploy('1', '1', '1990', '0.05');
+            const {DEV, A, B, C, main, TREE} = await deploy(network.chainId, '1', '1990', '0.05');
             const treasure = await main.treasure();
             const preBalanceOfTreasure = await balanceOf(treasure);
 
@@ -147,9 +149,9 @@ describe("XexBasedOFT", function () {
         });
 
         it("check public mint security", async function () {
-
+            const network = await hre.ethers.provider.getNetwork();
             this.timeout(640000);
-            const {DEV, A, B, C, main} = await deploy('1', '1', '1990', '0.05');
+            const {DEV, A, B, C, main} = await deploy(network.chainId, '1', '1990', '0.05');
 
             const treasure = await main.treasure();
             const preBalanceOfTreasure = await balanceOf(treasure);
@@ -193,10 +195,10 @@ describe("XexBasedOFT", function () {
         });
 
         it("bridge test", async function () {
-
+            const network = await hre.ethers.provider.getNetwork();
             this.timeout(640000);
 
-            const eth_config = await deploy('1', '1', '1990', '0.05');
+            const eth_config = await deploy(network.chainId, '1', '1990', '0.05');
             const ftm_config = await deploy('2', '1991', '3981', '0.05');
             const polygon_config = await deploy('3', '3982', '5972', '0.05');
             const bsc_config = await deploy('4', '5973', '7963', '0.05');
@@ -211,7 +213,6 @@ describe("XexBasedOFT", function () {
             const bsc = bsc_config.main;
             const avax = avax_config.main;
 
-            const treasure = await eth.treasure();
             const payment = (await eth.mintPrice()).toString();
 
             await eth.toggle();
@@ -255,7 +256,7 @@ describe("XexBasedOFT", function () {
             );
             const bridgeFee = await eth.estimateSendFee('2', paddedAddress, '1', false, adapterParams);
             const nativeFee = bridgeFee.nativeFee;
-            const dstChain = '2', srcChain = '1';
+            const dstChain = '2', srcChain = network.chainId;
             const FUNCTION_TYPE_SEND = '1';
             await eth.setMinDstGas(dstChain, FUNCTION_TYPE_SEND, minGas);
             await eth.setTrustedRemoteAddress(dstChain, ftm.address);
