@@ -43,6 +43,7 @@ contract XDON is ONFT721 {
     event Pause(bool status);
     event NewPrice(uint price);
     event NewLimits(uint _public, uint _whitelisted);
+    event MintPeriod(uint _public, uint _whitelisted);
 
     constructor(
         uint _minGasToTransfer, address _layerZeroEndpoint,
@@ -84,12 +85,20 @@ contract XDON is ONFT721 {
 
         emit NewLimits(publicMintLimit, whitelistedMintLimit);
 
+        emit MintPeriod(whitelistStartPeriod, whitelistEndPeriod);
+
     }
 
     function setMintLimits(uint _public, uint _whitelisted) external onlyOwner {
         publicMintLimit = _public;
         whitelistedMintLimit = _whitelisted;
         emit NewLimits(publicMintLimit, whitelistedMintLimit);
+    }
+
+    function setMintPeriods(uint _start, uint _end) external onlyOwner {
+        whitelistStartPeriod = _start;
+        whitelistEndPeriod = _end;
+        emit MintPeriod(whitelistStartPeriod, whitelistEndPeriod);
     }
 
     function setMintPrice(uint _price) external onlyOwner {

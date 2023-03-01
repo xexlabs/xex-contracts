@@ -6,7 +6,16 @@
     "tokenSymbol": "TST",
     "tokenName": "Test Token",
     "initialMint": "20000000",
-    "multicall": "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C"
+    "multicall": "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C",
+
+    "minGas": "150000",
+    "startMintId": "5973",
+    "maxMintId": "7963",
+    "startDate": "1",
+    "endDate": "1993314177",
+    "root": "0x1d77919def3d35b46dfce2dffbd120d25cffc3fd8678ca9457f7a5de479387d9",
+    "mintPrice": "0.231397",
+    "treasure": "0x78b3ec25d285f7a9eca8da8eb6b20be4d5d70e84"
   },
   "43113": {
     "id": "10106",
@@ -15,7 +24,16 @@
     "tokenSymbol": "TST",
     "tokenName": "Test Token",
     "initialMint": "20000000",
-    "multicall": "0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a"
+    "multicall": "0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a",
+
+    "minGas": "150000",
+    "startMintId": "7964",
+    "maxMintId": "9954",
+    "startDate": "1",
+    "endDate": "1993314177",
+    "root": "0x1d77919def3d35b46dfce2dffbd120d25cffc3fd8678ca9457f7a5de479387d9",
+    "mintPrice": "3.98179",
+    "treasure": "0x78b3ec25d285f7a9eca8da8eb6b20be4d5d70e84"
   },
   "5": {
     "id": "10121",
@@ -24,7 +42,16 @@
     "tokenSymbol": "TST",
     "tokenName": "Test Token",
     "initialMint": "20000000",
-    "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e"
+    "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
+
+    "minGas": "150000",
+    "startMintId": "1",
+    "maxMintId": "1990",
+    "startDate": "1",
+    "endDate": "1993314177",
+    "root": "0x1d77919def3d35b46dfce2dffbd120d25cffc3fd8678ca9457f7a5de479387d9",
+    "mintPrice": "0.04227",
+    "treasure": "0x78b3ec25d285f7a9eca8da8eb6b20be4d5d70e84"
   },
   "80001": {
     "id": "10109",
@@ -33,7 +60,16 @@
     "tokenSymbol": "TST",
     "tokenName": "Test Token",
     "initialMint": "20000000",
-    "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc"
+    "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
+
+    "minGas": "150000",
+    "startMintId": "3982",
+    "maxMintId": "5972",
+    "startDate": "1",
+    "endDate": "1993314177",
+    "root": "0x1d77919def3d35b46dfce2dffbd120d25cffc3fd8678ca9457f7a5de479387d9",
+    "mintPrice": "56.9105",
+    "treasure": "0x78b3ec25d285f7a9eca8da8eb6b20be4d5d70e84"
   },
   "4002": {
     "id": "10112",
@@ -42,7 +78,16 @@
     "tokenSymbol": "TST",
     "tokenName": "Test Token",
     "initialMint": "20000000",
-    "multicall": "0x60EfCba00A8d5Ed8e905a7C96a86377caF8cb76A"
+    "multicall": "0x60EfCba00A8d5Ed8e905a7C96a86377caF8cb76A",
+
+    "minGas": "150000",
+    "startMintId": "1991",
+    "maxMintId": "3981",
+    "startDate": "1",
+    "endDate": "1993314177",
+    "root": "0x1d77919def3d35b46dfce2dffbd120d25cffc3fd8678ca9457f7a5de479387d9",
+    "mintPrice": "152.0823",
+    "treasure": "0x78b3ec25d285f7a9eca8da8eb6b20be4d5d70e84"
   },
   "31337": { "chain": "localhost",
     "id": "31337",
@@ -50,6 +95,15 @@
     "fee": "49487801256990156",
     "tokenSymbol": "test",
     "tokenName": "test",
-    "initialMint": "20000000"
+    "initialMint": "20000000",
+
+    "minGas": "150000",
+    "startMintId": "1",
+    "maxMintId": "2",
+    "startDate": "1",
+    "endDate": "1993314177",
+    "root": "0x1d77919def3d35b46dfce2dffbd120d25cffc3fd8678ca9457f7a5de479387d9",
+    "mintPrice": "1",
+    "treasure": "0x78b3ec25d285f7a9eca8da8eb6b20be4d5d70e84"
   }
 }
