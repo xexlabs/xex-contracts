@@ -16,8 +16,8 @@ contract XDON is ONFT721 {
     bytes32 public immutable merkleRoot;
     mapping(address => bool) public hasClaimed;
     uint public mintPrice = 0.05 ether;
-    uint public publicMintLimit = 1;
-    uint public whitelistedMintLimit = 2;
+    uint public publicMintLimit = 2;
+    uint public whitelistedMintLimit = 3;
     address public treasure;
     string baseURI_;
     error InvalidMintStartId();
@@ -166,7 +166,7 @@ contract XDON is ONFT721 {
         }
 
         // each whitelisted user can mint only 1 nft
-        if( balanceOf(msg.sender) == 1 ){
+        if( balanceOf(msg.sender) >= 1 ){
             revert MaxAllowedForWhitelisted();
         }
 
@@ -206,12 +206,12 @@ contract XDON is ONFT721 {
             // if user is whitelisted he can mint:
             // - 1 from whitelist
             // - 1 from public mint
-            if( balanceOf(msg.sender) == whitelistedMintLimit ){
+            if( balanceOf(msg.sender) >= whitelistedMintLimit ){
                 revert MaxAllowedForWhitelisted();
             }
         }else{
             // if not invalid proof, user can mint only 1
-            if( balanceOf(msg.sender) == publicMintLimit ){
+            if( balanceOf(msg.sender) >= publicMintLimit ){
                 revert MaxAllowedForPublic();
             }
         }
