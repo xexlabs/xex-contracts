@@ -10,7 +10,6 @@ contract XDON is ONFT721 {
     using Strings for uint256;
     uint public nextMintId;
     uint public maxMintId;
-    bool public paused = true;
     uint public whitelistStartPeriod;
     uint public whitelistEndPeriod;
     bytes32 public immutable merkleRoot;
@@ -19,10 +18,10 @@ contract XDON is ONFT721 {
     uint public publicMintLimit = 1;
     uint public whitelistedMintLimit = 2;
     address public treasure;
+    bool public mintHalted = false;
     string baseURI_;
     error InvalidMintStartId();
     error InvalidMaxMint();
-    error MintIsPaused();
     error MintPeriodNotStarted();
     error MintPeriodEnded();
     error InvalidMintDates();
@@ -39,8 +38,8 @@ contract XDON is ONFT721 {
     error MintingByContractNotAllowed();
     error InvalidMintPrice();
     error InvalidTreasureAddress();
+    error MintHalted();
 
-    event Pause(bool status);
     event NewPrice(uint price);
     event NewLimits(uint _public, uint _whitelisted);
     event MintPeriod(uint _public, uint _whitelisted);
@@ -79,14 +78,16 @@ contract XDON is ONFT721 {
 
         treasure = _treasure;
 
-        emit Pause(paused);
-
         emit NewPrice(mintPrice);
 
         emit NewLimits(publicMintLimit, whitelistedMintLimit);
 
         emit MintPeriod(whitelistStartPeriod, whitelistEndPeriod);
 
+    }
+
+    function haltMint() external onlyOwner{
+        mintHalted = true;
     }
 
     function setMintLimits(uint _public, uint _whitelisted) external onlyOwner {
@@ -114,11 +115,6 @@ contract XDON is ONFT721 {
         treasure = _treasure;
     }
 
-    function toggle() external onlyOwner{
-        paused = ! paused;
-        emit Pause(paused);
-    }
-
     function tokenURI(uint tokenId) public view override returns (string memory) {
         return bytes(baseURI_).length > 0 ? string(abi.encodePacked(baseURI_, tokenId.toString(), ".json")) : "";
     }
@@ -133,9 +129,9 @@ contract XDON is ONFT721 {
             revert MintingByContractNotAllowed();
         }
 
-        // in case of any problem, admin can pause the contract.
-        if (paused){
-            revert MintIsPaused();
+        // stop minting at any time, not possible to mint again
+        if (mintHalted){
+            revert MintHalted();
         }
 
         // prevent minting before mint period start
