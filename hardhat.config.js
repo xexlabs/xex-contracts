@@ -14,6 +14,28 @@ task("setTreasure", "set treasure address")
         await main.setTreasure(taskArgs.wallet);
     });
 
+task("claim", "execute a claim")
+    .setAction(async (taskArgs) => {
+        const lzFile = 'lz-testnet.json';
+        const contractsFile = 'contracts-testnet.json';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId];
+        if( ! cfg ){
+            return new Error(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return new Error(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+        const proof = ["0x21f179225765b68879783a2211bbf63ca4115c86ca7411dac88086f68f087da0","0x4b9693dd7615d825eb90a35798bb959dd375e847f822809f2dd126869d045b6b","0x99951ab51b124d1f61ee20d67faf170eab94b7549078188f0a76518817fd5f1a","0x350702ef7db3ba485e4c424d8ac5924dbef297d123b3f9d8cdf48c75ed15ebf2","0x2ba1175d111f260303bdc84c5a2a7f0bc8fa18a428d4127fff0be2b0ded426a3"];
+        const Main = await ethers.getContractFactory("XDON")
+        const main = Main.attach(contract.XDON);
+        const mintPrice = (await main.mintPrice()).toString();
+        await main.claim(proof, {value: mintPrice});
+    });
+
 task("retry", "retry a stuck payload in the bridge")
     .addParam("id", "LZ source chain id")
     .addParam("contract", "LZ source chain contract")
