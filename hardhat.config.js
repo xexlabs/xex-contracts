@@ -4,7 +4,6 @@ dotenv.config()
 require("@nomiclabs/hardhat-etherscan");
 const fs = require("fs");
 
-
 task("setTreasure", "set treasure address")
     .addParam("contract", "contract to set the treasure")
     .addParam("wallet", "wallet to set as treasure")
