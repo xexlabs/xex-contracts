@@ -13,13 +13,14 @@ contract XDON is ONFT721 {
     uint public whitelistStartPeriod;
     uint public whitelistEndPeriod;
     bytes32 public immutable merkleRoot;
-    mapping(address => bool) public hasClaimed;
+    mapping(address => uint) public userMints;
     uint public mintPrice = 0.05 ether;
     uint public publicMintLimit = 2;
     uint public whitelistedMintLimit = 3;
     address public treasure;
     bool public mintHalted = false;
     string baseURI_;
+
     error InvalidMintStartId();
     error InvalidMaxMint();
     error MintPeriodNotStarted();
@@ -162,7 +163,7 @@ contract XDON is ONFT721 {
         }
 
         // each whitelisted user can mint only 1 nft
-        if( balanceOf(msg.sender) >= 1 ){
+        if( userMints[msg.sender] >= 1 ){
             revert MaxAllowedForWhitelisted();
         }
 
@@ -174,6 +175,7 @@ contract XDON is ONFT721 {
         }
 
         nextMintId++;
+        userMints[msg.sender]++;
 
         _safeMint(msg.sender, newId);
 
@@ -202,12 +204,12 @@ contract XDON is ONFT721 {
             // if user is whitelisted he can mint:
             // - 1 from whitelist
             // - 1 from public mint
-            if( balanceOf(msg.sender) >= whitelistedMintLimit ){
+            if( userMints[msg.sender] >= whitelistedMintLimit ){
                 revert MaxAllowedForWhitelisted();
             }
         }else{
             // if not invalid proof, user can mint only 1
-            if( balanceOf(msg.sender) >= publicMintLimit ){
+            if( userMints[msg.sender] >= publicMintLimit ){
                 revert MaxAllowedForPublic();
             }
         }
@@ -220,6 +222,7 @@ contract XDON is ONFT721 {
             revert MaxMintReached();
         }
 
+        userMints[msg.sender]++;
         _safeMint(msg.sender, newId);
 
         // check if user is correctly paying for this mint
