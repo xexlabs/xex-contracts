@@ -13,6 +13,28 @@ task("setTreasure", "set treasure address")
         await main.setTreasure(taskArgs.wallet);
     });
 
+
+task("setMintPeriods", "reset mint periods during testnet")
+    .setAction(async (taskArgs) => {
+        const lzFile = 'lz-testnet.json';
+        const contractsFile = 'contracts-testnet.json';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId];
+        if( ! cfg ){
+            return new Error(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return new Error(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+        const timestamp = (await hre.ethers.provider.getBlock("latest")).timestamp;
+        const Main = await ethers.getContractFactory("XDON")
+        const main = Main.attach(contract.XDON);
+        await main.setMintPeriods(timestamp-3600, timestamp);
+    });
+
 task("claim", "execute a claim")
     .setAction(async (taskArgs) => {
         const lzFile = 'lz-testnet.json';
