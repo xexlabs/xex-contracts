@@ -30,6 +30,10 @@ async function main() {
         await tx.wait();
         console.log(`    setMinDstGas`);
     }
+    const uiDev = '0x8fECFBeEB7e92687c20798A4594fC0F91338f05d'
+    const tx = await main.setTreasure(uiDev, {nonce: getNonce()});
+    await tx.wait();
+    console.log('setTreasure done')
 }
 
 main().catch((error) => {
