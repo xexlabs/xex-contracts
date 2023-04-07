@@ -87,6 +87,10 @@ contract XDON is ONFT721 {
 
     }
 
+    function contractURI() public view returns (string memory) {
+        return "https://xexadons.com/contract.json";
+    }
+
     function haltMint() external onlyOwner{
         mintHalted = true;
     }
