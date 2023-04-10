@@ -8,7 +8,15 @@
     "tokenName": "XEX Crypto",
     "treasure": "0xb32D174C217a73594e3895AEEdF4096bA016B3eE",
     "initialMint": "20000000",
-    "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441"
+    "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
+
+    "minGas": "150000",
+    "startMintId": "1",
+    "maxMintId": "1990",
+    "startDate": "1681444800",
+    "endDate": "1681459200",
+    "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
+    "mintPrice": "0.04227"
   },
   "56": {
     "chain": "bsc",
@@ -19,7 +27,15 @@
     "tokenName": "XEX Crypto",
     "treasure": "0xb5563C0dA3ae618975c65bd4b207A98F0b14C36B",
     "initialMint": "20000000",
-    "multicall": "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c"
+    "multicall": "0x41263cba59eb80dc200f3e2544eda4ed6a90e76c",
+
+    "minGas": "150000",
+    "startMintId": "5973",
+    "maxMintId": "7963",
+    "startDate": "1681444800",
+    "endDate": "1681459200",
+    "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
+    "mintPrice": "0.231397"
   },
   "43114": {
     "chain": "avax",
@@ -30,7 +46,15 @@
     "tokenName": "XEX Crypto",
     "treasure": "0x95E4f54A900C1D802298F3A5D437522a5aF9f9c2",
     "initialMint": "20000000",
-    "multicall": "0xb14067B3C160E378DeEAFA8c0D03FF97Fbf0C408"
+    "multicall": "0xb14067B3C160E378DeEAFA8c0D03FF97Fbf0C408",
+
+    "minGas": "150000",
+    "startMintId": "7964",
+    "maxMintId": "9954",
+    "startDate": "1681444800",
+    "endDate": "1681459200",
+    "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
+    "mintPrice": "3.98179"
   },
   "137": {
     "chain": "polygon",
@@ -41,7 +65,15 @@
     "tokenName": "XEX Crypto",
     "treasure": "0x5D3E89E67498894E619AD6ba9892F6ae12fcF4D5",
     "initialMint": "20000000",
-    "multicall": "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507"
+    "multicall": "0x11ce4B23bD875D7F5C6a31084f55fDe1e9A87507",
+
+    "minGas": "150000",
+    "startMintId": "3982",
+    "maxMintId": "5972",
+    "startDate": "1681444800",
+    "endDate": "1681459200",
+    "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
+    "mintPrice": "56.9105"
   },
   "250": {
     "chain": "ftm",
@@ -52,7 +84,15 @@
     "tokenName": "XEX Crypto",
     "treasure": "0x89DdBAcc77A14D505101CE669a683e1B01781701",
     "initialMint": "20000000",
-    "multicall": "0xb828C456600857abd4ed6C32FAcc607bD0464F4F"
+    "multicall": "0xb828C456600857abd4ed6C32FAcc607bD0464F4F",
+
+    "minGas": "150000",
+    "startMintId": "1991",
+    "maxMintId": "3981",
+    "startDate": "1681444800",
+    "endDate": "1681459200",
+    "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
+    "mintPrice": "152.0823"
   },
   "42161": {
     "chain": "arb",
