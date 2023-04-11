@@ -29,8 +29,8 @@
     "multicall": "0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C",
 
     "minGas": "150000",
-    "startMintId": "4452",
-    "maxMintId": "5952",
+    "startMintId": "4451",
+    "maxMintId": "5950",
     "startDate": "1681315200",
     "endDate": "1681329600",
     "root": "0xaa1e3510537a7f003e0031cd521184b2f3daf2be993d903e5405c31e43e2b594",
@@ -48,8 +48,8 @@
     "multicall": "0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a",
 
     "minGas": "150000",
-    "startMintId": "5953",
-    "maxMintId": "7453",
+    "startMintId": "5951",
+    "maxMintId": "7450",
     "startDate": "1681315200",
     "endDate": "1681329600",
     "root": "0xaa1e3510537a7f003e0031cd521184b2f3daf2be993d903e5405c31e43e2b594",
@@ -68,7 +68,7 @@
 
     "minGas": "150000",
     "startMintId": "2451",
-    "maxMintId": "4451",
+    "maxMintId": "4450",
     "startDate": "1681315200",
     "endDate": "1681329600",
     "root": "0xaa1e3510537a7f003e0031cd521184b2f3daf2be993d903e5405c31e43e2b594",
@@ -86,8 +86,8 @@
     "multicall": "0x60EfCba00A8d5Ed8e905a7C96a86377caF8cb76A",
 
     "minGas": "150000",
-    "startMintId": "7454",
-    "maxMintId": "9954",
+    "startMintId": "7451",
+    "maxMintId": "9950",
     "startDate": "1681315200",
     "endDate": "1681329600",
     "root": "0xaa1e3510537a7f003e0031cd521184b2f3daf2be993d903e5405c31e43e2b594",
