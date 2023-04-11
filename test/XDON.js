@@ -68,8 +68,7 @@ describe("XexBasedOFT", function () {
             const {DEV, A, B, C, main, TREE} = await deploy(network.chainId, '1', '2', '0.05');
             const proof = getProof(TREE, DEV);
             expect(proof.length).to.be.gt(0);
-            await expect(main.claim(proof)).to.be.revertedWithCustomError(main, "MintIsPaused");
-            await main.toggle();
+
             await expect(main.claim(proof)).to.be.revertedWithCustomError(main, "MintPeriodNotStarted");
 
             const mintStart = (await time.latest()) + 86_401;
@@ -103,7 +102,7 @@ describe("XexBasedOFT", function () {
             const preBalanceOfTreasure = await balanceOf(treasure);
 
             const proof = getProof(TREE, DEV);
-            await main.toggle();
+
             const mintStart = (await time.latest()) + 86_401;
             await timeIncreaseTo(mintStart);
 
@@ -155,7 +154,7 @@ describe("XexBasedOFT", function () {
 
             const treasure = await main.treasure();
             const preBalanceOfTreasure = await balanceOf(treasure);
-            await main.toggle();
+
             const mintStart = (await time.latest()) + 86_401;
             await timeIncreaseTo(mintStart);
 
@@ -214,12 +213,6 @@ describe("XexBasedOFT", function () {
             const avax = avax_config.main;
 
             const payment = (await eth.mintPrice()).toString();
-
-            await eth.toggle();
-            await ftm.toggle();
-            await polygon.toggle();
-            await bsc.toggle();
-            await avax.toggle();
 
             const publicMintStart = (await time.latest()) + (86_401*2);
             await timeIncreaseTo(publicMintStart);

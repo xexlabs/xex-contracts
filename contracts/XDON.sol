@@ -14,9 +14,11 @@ contract XDON is ONFT721 {
     uint public whitelistEndPeriod;
     bytes32 public immutable merkleRoot;
     mapping(address => uint) public userMints;
-    uint public mintPrice = 0.05 ether;
+    uint public mintPrice;
     uint public publicMintLimit = 2;
-    uint public whitelistedMintLimit = 3;
+    uint public whitelistedInitialLimit = 1;
+    uint public whitelistedMintLimit;
+
     address public treasure;
     bool public mintHalted = false;
     string baseURI_;
@@ -42,7 +44,7 @@ contract XDON is ONFT721 {
     error MintHalted();
 
     event NewPrice(uint price);
-    event NewLimits(uint _public, uint _whitelisted);
+    event NewLimits(uint _public, uint _whitelisted, uint _wlInitial);
     event MintPeriod(uint _public, uint _whitelisted);
 
     constructor(
@@ -81,7 +83,9 @@ contract XDON is ONFT721 {
 
         emit NewPrice(mintPrice);
 
-        emit NewLimits(publicMintLimit, whitelistedMintLimit);
+        whitelistedMintLimit = publicMintLimit + whitelistedInitialLimit;
+
+        emit NewLimits(publicMintLimit, whitelistedMintLimit, whitelistedInitialLimit);
 
         emit MintPeriod(whitelistStartPeriod, whitelistEndPeriod);
 
@@ -95,10 +99,12 @@ contract XDON is ONFT721 {
         mintHalted = true;
     }
 
-    function setMintLimits(uint _public, uint _whitelisted) external onlyOwner {
+    function setMintLimits(uint _public, uint _whitelistedInitialLimit) external onlyOwner {
         publicMintLimit = _public;
-        whitelistedMintLimit = _whitelisted;
-        emit NewLimits(publicMintLimit, whitelistedMintLimit);
+        whitelistedInitialLimit = _whitelistedInitialLimit;
+        whitelistedMintLimit = publicMintLimit + whitelistedInitialLimit;
+
+        emit NewLimits(publicMintLimit, whitelistedMintLimit, _whitelistedInitialLimit);
     }
 
     function setMintPeriods(uint _start, uint _end) external onlyOwner {
@@ -167,7 +173,7 @@ contract XDON is ONFT721 {
         }
 
         // each whitelisted user can mint only 1 nft
-        if( userMints[msg.sender] >= 1 ){
+        if( userMints[msg.sender] >= whitelistedInitialLimit ){
             revert MaxAllowedForWhitelisted();
         }
 
