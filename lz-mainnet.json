@@ -16,7 +16,7 @@
     "startDate": "1681444800",
     "endDate": "1681459200",
     "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
-    "mintPrice": "0.04227"
+    "mintPrice": "0.05"
   },
   "56": {
     "chain": "bsc",
@@ -35,7 +35,7 @@
     "startDate": "1681444800",
     "endDate": "1681459200",
     "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
-    "mintPrice": "0.231397"
+    "mintPrice": "0.29"
   },
   "43114": {
     "chain": "avax",
@@ -54,7 +54,7 @@
     "startDate": "1681444800",
     "endDate": "1681459200",
     "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
-    "mintPrice": "3.98179"
+    "mintPrice": "5.2"
   },
   "137": {
     "chain": "polygon",
@@ -73,7 +73,7 @@
     "startDate": "1681444800",
     "endDate": "1681459200",
     "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
-    "mintPrice": "56.9105"
+    "mintPrice": "84.75"
   },
   "250": {
     "chain": "ftm",
@@ -92,7 +92,7 @@
     "startDate": "1681444800",
     "endDate": "1681459200",
     "root": "0x85c8b1d2bb3f0deaaefa06072533fed411a5a67bf8bbfaea6d293311a5189002",
-    "mintPrice": "152.0823"
+    "mintPrice": "191.5"
   },
   "42161": {
     "chain": "arb",
