@@ -16,7 +16,7 @@ contract XDON is ONFT721 {
     mapping(address => uint) public userMints;
     uint public mintPrice;
     uint public publicMintLimit = 2;
-    uint public whitelistedInitialLimit = 1;
+    uint public whitelistedInitialLimit = 2;
     uint public whitelistedMintLimit;
 
     address public treasure;
