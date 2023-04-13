@@ -15,6 +15,8 @@ task("setTreasure", "set treasure address")
 
 
 task("setMintPeriods", "reset mint periods during testnet")
+    .addParam("start", "start")
+    .addParam("end", "end")
     .setAction(async (taskArgs) => {
         const lzFile = 'lz-testnet.json';
         const contractsFile = 'contracts-testnet.json';
@@ -29,10 +31,9 @@ task("setMintPeriods", "reset mint periods during testnet")
         if( ! contract ){
             return new Error(`Invalid chain ${network.chainId} (${contractsFile}).`);
         }
-        const timestamp = (await hre.ethers.provider.getBlock("latest")).timestamp;
         const Main = await ethers.getContractFactory("XDON")
         const main = Main.attach(contract.XDON);
-        await main.setMintPeriods(timestamp-3600, timestamp);
+        await main.setMintPeriods(taskArgs.start, taskArgs.end);
     });
 
 task("claim", "execute a claim")
