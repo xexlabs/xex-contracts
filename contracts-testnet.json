@@ -4,21 +4,21 @@
           "main": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
           "factory": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
           "build": "2023-01-29T00:10:53.802Z",
-          "XDON": "0x6D401016d0515F6d471952001b8e571364D666d6"
+          "XDON": "0x7f193B827c088821d84D58e2aD94543f32459481"
      },
      "97": {
           "math": "0xF17f8ab91239A0fe6b8D9DAE4CEB2D19D98083f6",
           "main": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
           "factory": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
           "build": "2023-01-28T23:54:09.972Z",
-          "XDON": "0xcFEc51c048bF401670b29a4FF83927CAC4362E7b"
+          "XDON": "0xfDfDEf29431f20d8C50cDf357bCff7F4bD126e8A"
      },
      "4002": {
           "math": "0x51D9033bBF27938603bf59de1E45A04C25293D02",
           "main": "0x1ca277Bac573A54F18af55479134964372B7D555",
           "factory": "0x4fa416c3DF1099045181593747f20F198E60e3E6",
           "build": "2023-01-29T00:27:14.945Z",
-          "XDON": "0x9111664C1DEf115A73DbcbF4c05f6DFefdee57C9"
+          "XDON": "0x406619D921E5B4E9c29C364993C023eB582908E5"
      },
      "31337": {
           "XDON": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
@@ -35,6 +35,6 @@
           "main": "0x3CD80f0dc62C81112d41a9d5D265Da9FFb2dD9Fd",
           "factory": "0xf9Ab358985ffABE5D000204a9b5a92f61335da4d",
           "build": "2023-01-29T00:18:54.392Z",
-          "XDON": "0xdFDe6AB14ca2502Dfc7d41B5c3E84e8cEb13FAAD"
+          "XDON": "0x77F86ACed99c15dF64c1ee5e60F004c13B01017d"
      }
 }

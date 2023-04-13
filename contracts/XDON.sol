@@ -129,7 +129,7 @@ contract XDON is ONFT721 {
     function tokenURI(uint tokenId) public view override returns (string memory) {
         return bytes(baseURI_).length > 0 ?
             string(abi.encodePacked(baseURI_, tokenId.toString(), ".json")) :
-            "https://xexadons.com/xdon.png";
+            "https://xexadons.com/xdon.json";
     }
 
     function setBaseURI(string memory _baseURI_) public onlyOwner {
