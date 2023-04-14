@@ -22,6 +22,8 @@ async function main() {
         const cfg = lz[id];
         if (id == network.chainId) continue;
         if (cfg.id == "0") continue;
+        if (!r.XDON) continue;
+        //if(["1", "137"].indexOf(id) !== -1 ) continue;
         console.log(`  - network=${id} -> allow ${r.XDON} from ${cfg.id}.`);
         let tx = await main.setTrustedRemoteAddress(cfg.id, r.XDON, {nonce: getNonce()});
         await tx.wait();
