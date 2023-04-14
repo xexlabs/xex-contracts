@@ -4,6 +4,28 @@ dotenv.config()
 require("@nomiclabs/hardhat-etherscan");
 const fs = require("fs");
 
+
+task("setBaseURI", "set XDON URI")
+    .addParam("uri", "the IPFS URI")
+    .setAction(async (taskArgs) => {
+        const lzFile = 'lz-testnet.json';
+        const contractsFile = 'contracts-testnet.json';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId];
+        if( ! cfg ){
+            return new Error(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return new Error(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+        const Main = await ethers.getContractFactory("XDON")
+        const main = Main.attach(contract.XDON);
+        await main.setBaseURI(taskArgs.uri);
+    });
+
 task("setTreasure", "set treasure address")
     .addParam("contract", "contract to set the treasure")
     .addParam("wallet", "wallet to set as treasure")
