@@ -105,7 +105,7 @@
 
     "minGas": "150000",
     "startMintId": "1",
-    "maxMintId": "2",
+    "maxMintId": "10000",
     "startDate": "1681401600",
     "endDate": "1681416000",
     "root": "0x2457c7d9134fcf0413442de54f8f629b0362db124fe1abd440338c8bc96005eb",

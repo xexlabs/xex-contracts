@@ -5,11 +5,33 @@ require("@nomiclabs/hardhat-etherscan");
 const fs = require("fs");
 
 
+task("halt", "stop minting")
+    .setAction(async (taskArgs) => {
+        const lzFile = 'lz-mainnet.json';
+        const contractsFile = 'contracts-mainnet.json';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId];
+        if( ! cfg ){
+            return new Error(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return new Error(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+        const Main = await ethers.getContractFactory("XDON")
+        const main = Main.attach(contract.XDON);
+        await main.haltMint();
+        console.log('done')
+    });
+
+
 task("setBaseURI", "set XDON URI")
     .addParam("uri", "the IPFS URI")
     .setAction(async (taskArgs) => {
-        const lzFile = 'lz-testnet.json';
-        const contractsFile = 'contracts-testnet.json';
+        const lzFile = 'lz-mainnet.json';
+        const contractsFile = 'contracts-mainnet.json';
         const lz = JSON.parse(fs.readFileSync(lzFile));
         const contracts = JSON.parse(fs.readFileSync(contractsFile));
         const network = await hre.ethers.provider.getNetwork();
@@ -24,6 +46,7 @@ task("setBaseURI", "set XDON URI")
         const Main = await ethers.getContractFactory("XDON")
         const main = Main.attach(contract.XDON);
         await main.setBaseURI(taskArgs.uri);
+        console.log('done')
     });
 
 task("setTreasure", "set treasure address")
