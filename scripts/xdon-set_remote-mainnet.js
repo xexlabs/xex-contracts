@@ -23,14 +23,19 @@ async function main() {
         if (id == network.chainId) continue;
         if (cfg.id == "0") continue;
         if (!r.XDON) continue;
-        //if(["1", "137"].indexOf(id) !== -1 ) continue;
-        console.log(`  - network=${id} -> allow ${r.XDON} from ${cfg.id}.`);
+        try {
+            await main.getTrustedRemoteAddress(cfg.id);
+            continue;
+        } catch (e) {
+            console.log(`  - network=${id} -> not trusted ${r.XDON} from ${cfg.id}: ${cfg.chain}.`);
+        }
+        console.log(`  - network=${id} -> allow ${r.XDON} from ${cfg.id}: ${cfg.chain}...`);
         let tx = await main.setTrustedRemoteAddress(cfg.id, r.XDON, {nonce: getNonce()});
         await tx.wait();
-        console.log(`    setTrustedRemoteAddress`);
+        console.log(`    setTrustedRemoteAddress DONE`);
         tx = await main.setMinDstGas(cfg.id, FUNCTION_TYPE_SEND, minGas, {nonce: getNonce()});
         await tx.wait();
-        console.log(`    setMinDstGas`);
+        console.log(`    setMinDstGas DONE`);
     }
 }
 

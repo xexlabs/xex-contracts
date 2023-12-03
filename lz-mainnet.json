@@ -103,7 +103,15 @@
     "tokenName": "XEX Crypto",
     "treasure": "0xa41A879bcFdd75983a987FD6b68fae37777e8b28",
     "initialMint": "20000000",
-    "multicall": "0xc7ac36256Be95583B26319029695348a017f3386"
+    "multicall": "0xc7ac36256Be95583B26319029695348a017f3386",
+
+    "minGas": "150000",
+    "startMintId": "0",
+    "maxMintId": "0",
+    "startDate": "0",
+    "endDate": "0",
+    "root": "0xfd65f6d371265aa96eae58b1f890b5fbce83b66b58858a3d6de65fca6be7e14e",
+    "mintPrice": "0"
   },
   "31337": {
     "chain": "localhost",

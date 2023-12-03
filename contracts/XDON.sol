@@ -54,17 +54,17 @@ contract XDON is ONFT721 {
         bytes32 _merkleRoot, uint _mintPrice, address _treasure )
     ONFT721("Xexadons", "XDON", _minGasToTransfer, _layerZeroEndpoint)
     {
-        if( _startMintId == 0)
-            revert InvalidMintStartId();
-
-        if (_maxMintId == 0)
-            revert InvalidMaxMint();
-
-        if (_whitelistStartPeriod == 0 || _whitelistEndPeriod == 0 || _whitelistStartPeriod >= _whitelistEndPeriod)
-            revert InvalidMintDates();
-
-        if( _mintPrice == 0 )
-            revert InvalidMintPrice();
+//        if( _startMintId == 0)
+//            revert InvalidMintStartId();
+//
+//        if (_maxMintId == 0)
+//            revert InvalidMaxMint();
+//
+//        if (_whitelistStartPeriod == 0 || _whitelistEndPeriod == 0 || _whitelistStartPeriod >= _whitelistEndPeriod)
+//            revert InvalidMintDates();
+//
+//        if( _mintPrice == 0 )
+//            revert InvalidMintPrice();
 
         if( _treasure == address(0) )
             revert InvalidTreasureAddress();

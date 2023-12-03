@@ -4,6 +4,24 @@ dotenv.config()
 require("@nomiclabs/hardhat-etherscan");
 const fs = require("fs");
 
+task("zeropad", "zeropad")
+    .addParam("value", "value")
+    .addParam("length", "length")
+    .setAction(async (taskArgs) => {
+        const {ethers} = require("hardhat");
+        const result = ethers.utils.hexlify(ethers.utils.zeroPad(taskArgs.value, 32));
+        console.log(result);
+    });
+
+// task to random create a new private key:
+// npx hardhat create-private-key
+task("create-private-key", "Create a new private key")
+    .setAction(async () => {
+        const {ethers} = require("hardhat");
+        const wallet = ethers.Wallet.createRandom();
+        console.log(`wallet: ${wallet.address}`);
+        console.log(`privateKey: ${wallet.privateKey}`);
+    });
 
 task("setBaseURI", "set XDON URI")
     .addParam("uri", "the IPFS URI")
@@ -27,11 +45,24 @@ task("setBaseURI", "set XDON URI")
     });
 
 task("setTreasure", "set treasure address")
-    .addParam("contract", "contract to set the treasure")
     .addParam("wallet", "wallet to set as treasure")
     .setAction(async (taskArgs) => {
-        const Main = await ethers.getContractFactory("Main")
-        const main = Main.attach(taskArgs.contract);
+        const lzFile = 'lz-testnet.json';
+        const contractsFile = 'contracts-testnet.json';
+        const lz = JSON.parse(fs.readFileSync(lzFile));
+        const contracts = JSON.parse(fs.readFileSync(contractsFile));
+        const network = await hre.ethers.provider.getNetwork();
+        const cfg = lz[network.chainId];
+        const contract = contracts[network.chainId].XDON;
+        if( ! cfg ){
+            return console.log(`Invalid chain ${network.chainId} (${lzFile}).`);
+        }
+        if( ! contract ){
+            return console.log(`Invalid chain ${network.chainId} (${contractsFile}).`);
+        }
+
+        const Main = await ethers.getContractFactory("XDON")
+        const main = Main.attach(contract);
         await main.setTreasure(taskArgs.wallet);
     });
 
