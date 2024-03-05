@@ -16,7 +16,8 @@
     "startDate": "1681488000",
     "endDate": "1681502400",
     "root": "0xfd65f6d371265aa96eae58b1f890b5fbce83b66b58858a3d6de65fca6be7e14e",
-    "mintPrice": "0.05"
+    "mintPrice": "0.05",
+    "explorer": "https://etherscan.io"
   },
   "56": {
     "chain": "bsc",
@@ -35,7 +36,8 @@
     "startDate": "1681488000",
     "endDate": "1681502400",
     "root": "0xfd65f6d371265aa96eae58b1f890b5fbce83b66b58858a3d6de65fca6be7e14e",
-    "mintPrice": "0.29"
+    "mintPrice": "0.29",
+    "explorer": "https://bscscan.com"
   },
   "43114": {
     "chain": "avax",
@@ -54,7 +56,8 @@
     "startDate": "1681488000",
     "endDate": "1681502400",
     "root": "0xfd65f6d371265aa96eae58b1f890b5fbce83b66b58858a3d6de65fca6be7e14e",
-    "mintPrice": "5.2"
+    "mintPrice": "5.2",
+    "explorer": "https://snowtrace.io"
   },
   "137": {
     "chain": "polygon",
@@ -73,7 +76,8 @@
     "startDate": "1681488000",
     "endDate": "1681502400",
     "root": "0xfd65f6d371265aa96eae58b1f890b5fbce83b66b58858a3d6de65fca6be7e14e",
-    "mintPrice": "84.75"
+    "mintPrice": "84.75",
+    "explorer": "https://polygonscan.com"
   },
   "250": {
     "chain": "ftm",
@@ -92,7 +96,8 @@
     "startDate": "1681488000",
     "endDate": "1681502400",
     "root": "0xfd65f6d371265aa96eae58b1f890b5fbce83b66b58858a3d6de65fca6be7e14e",
-    "mintPrice": "191.5"
+    "mintPrice": "191.5",
+    "explorer": "https://ftmscan.com"
   },
   "42161": {
     "chain": "arb",
@@ -111,7 +116,8 @@
     "startDate": "0",
     "endDate": "0",
     "root": "0xfd65f6d371265aa96eae58b1f890b5fbce83b66b58858a3d6de65fca6be7e14e",
-    "mintPrice": "0"
+    "mintPrice": "0",
+    "explorer": "https://arbiscan.io"
   },
   "31337": {
     "chain": "localhost",

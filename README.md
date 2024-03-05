@@ -1,3 +1,28 @@
+# XEX Token
+- Description: XEX is the manifestation of time as a resource, as you must input how much time you are willing to wait before you can claim, or 'harvest' XEX. What you do with this resource is up to you!
+- XEX Logo Download: https://drive.google.com/file/d/1t1bWfoe5GB6GxQ_-BF8-Q9QmI3kBSFrI/view?usp=sharing
+- Official Mail ID: team@xexlabs.com
+
+## Links:
+- Website: https://xexlabs.com
+- Docs: https://xex-crypto.gitbook.io/xex/xex-token/what-is-xex
+- Twitter: https://twitter.com/XEXLabs
+- Discord: https://discord.gg/xexlabs
+- Instagram: https://www.instagram.com/xexlabs/
+- TikTok: https://www.tiktok.com/@xexlabs 
+- Github: https://github.com/xexcrypto
+
+# XEX NFT
+- Description: Xexadons are an AI-Generated Crosschain NFT Collection, comprising of 4,592 creatures unique in their design through traits, rarity, and randomness. Xexadons are sentient creatures from another universe, known as the Xexaverse. They are part of the society responsible for revealing the XEX formula, which can morph time into a resource.
+- Xexadon Logo Download: https://drive.google.com/file/d/1Fjzi1HnwLYqFGgOCLzJyA-fhB7u0dyo3/view?usp=sharing
+- Official Mail ID: team.xexlabs@proton.me
+
+## Links:
+- Website: https://xexadons.com
+- Docs: https://xex-crypto.gitbook.io/xex/xexadon-nft/what-are-xexadons
+- Twitter: https://twitter.com/Xexadons
+- Discord: https://discord.gg/xexlabs
+
 # mainnet token contracts
 
 - bsc 0xa41A879bcFdd75983a987FD6b68fae37777e8b28
