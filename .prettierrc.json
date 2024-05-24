@@ -1,0 +1,36 @@
+{
+	"html.format.wrapAttributes": "force-aligned",
+	"html.format.wrapLineLength": 120,
+	"html.format.indentInnerHtml": true,
+	"html.format.preserveNewLines": true,
+	"html.format.maxPreserveNewLines": 2,
+	"html.format.extraLiners": "head, body, /html",
+	"printWidth": 180,
+	"tabWidth": 4,
+	"useTabs": true,
+	"semi": false,
+	"singleQuote": true,
+	"bracketSpacing": true,
+	"arrowParens": "avoid",
+	"plugins": ["prettier-plugin-solidity"],
+	"trailingComma": "none",
+	"overrides": [
+		{
+			"files": "*.ts",
+			"options": {
+				"parser": "typescript"
+			}
+		},
+		{
+			"files": "*.sol",
+			"options": {
+				"parser": "solidity-parse",
+				"printWidth": 180,
+				"tabWidth": 4,
+				"useTabs": false,
+				"singleQuote": false,
+				"bracketSpacing": false
+			}
+		}
+	]
+}

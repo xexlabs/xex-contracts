@@ -32,3 +32,5 @@ coverage.json
 coverage/
 
 cache
+
+typechain-types
