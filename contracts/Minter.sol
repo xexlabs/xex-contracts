@@ -43,4 +43,8 @@ contract Minter {
         IXEX.MintInfo memory r = getUserMintInfo();
         return main.getMintReward(r.rank, r.term, r.maturityTs, r.amplifier, r.eaaRate);
     }
+
+    function balanceOf() public view returns (uint) {
+        return IERC20(address(main)).balanceOf(address(this));
+    }
 }

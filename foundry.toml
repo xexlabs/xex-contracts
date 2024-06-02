@@ -1,7 +1,10 @@
 [profile.default]
-src = "src"
+src = "contracts"
 out = "artifacts"
-libs = ["node_modules"]
+libs = ["node_modules", "lib"]
+optimizer = true
+optimizer_runs = 200
+solc = "0.8.26"
 remappings = [
     "@openzeppelin/=node_modules/@openzeppelin/",
     "abdk-libraries-solidity/=node_modules/abdk-libraries-solidity/",
