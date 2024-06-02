@@ -6,6 +6,8 @@ import '@nomicfoundation/hardhat-toolbox'
 import dotenv from 'dotenv'
 dotenv.config({ path: '/media/veracrypt1/xex/.env' })
 import '@openzeppelin/hardhat-upgrades'
+import 'hardhat-tracer'
+
 const FTMSCAN = process.env.FTMSCAN as string
 const PRIVATE_KEY = process.env.PRIVATE_KEY as string
 const ANKR = process.env.ANKR as string

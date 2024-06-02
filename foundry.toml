@@ -1,0 +1,12 @@
+[profile.default]
+src = "src"
+out = "artifacts"
+libs = ["node_modules"]
+remappings = [
+    "@openzeppelin/=node_modules/@openzeppelin/",
+    "abdk-libraries-solidity/=node_modules/abdk-libraries-solidity/",
+    "eth-gas-reporter/=node_modules/eth-gas-reporter/",
+    "hardhat/=node_modules/hardhat/",
+]
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

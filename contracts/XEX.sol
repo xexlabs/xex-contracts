@@ -74,7 +74,6 @@ contract XEX is ERC20, Ownable, IXEX {
     mapping(address => address[]) minters;
 
     address public implementation;
-    MinterBeacon public minterBeacon;
     // CONSTRUCTOR
     constructor() ERC20("XEX", "XEX") Ownable(msg.sender) {
         treasure = msg.sender;
@@ -83,8 +82,7 @@ contract XEX is ERC20, Ownable, IXEX {
     }
     function setup() public {
         if (implementation != address(0)) revert BeaconAlreadyInitialized();
-        implementation = address(new Minter());
-        minterBeacon = new MinterBeacon();
+        implementation = address(new Minter(address(this)));
     }
 
     /**
@@ -390,8 +388,9 @@ contract XEX is ERC20, Ownable, IXEX {
     // MINT FACTORY
     function minter_create(uint amount, uint term) external {
         for (uint i = 0; i < amount; ++i) {
-            Minter minter = new Minter();
+            Minter minter = Minter(address(new MinterBeacon()));
             minters[msg.sender].push(address(minter));
+            minter.initialize(msg.sender, term);
             minter.claimRank(term);
         }
     }

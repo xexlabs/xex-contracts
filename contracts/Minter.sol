@@ -9,28 +9,30 @@ contract Minter {
     IXEX main;
     uint public term;
     error Minter__Initialized();
-    event Minter__Created();
-    event Minter__ClaimRank(uint term);
-    event Minter__ClaimMintReward(address owner, address to);
-    constructor() {
-        main = IXEX(msg.sender);
+    event Minter__Created(address minter, address owner, uint term);
+    event Minter__ClaimRank(address minter, address owner, uint term);
+    event Minter__ClaimMintReward(address minter, address owner, address to);
+    constructor(address _main) {
+        main = IXEX(_main);
+        main.calculateMaxTerm();
     }
 
-    function initialize() external {
+    function initialize(address _owner, uint _term) external {
         if (owner != address(0)) revert Minter__Initialized();
-        owner = msg.sender;
-        emit Minter__Created();
+        owner = _owner;
+        emit Minter__Created(address(this), _owner, _term);
+        claimRank(_term);
     }
 
-    function claimRank(uint _term) external {
+    function claimRank(uint _term) public {
         term = _term;
         main.claimRank(term);
-        emit Minter__ClaimRank(term);
+        emit Minter__ClaimRank(address(this), owner, _term);
     }
 
     function claimMintReward(address to) external {
         main.claimMintReward(to);
-        emit Minter__ClaimMintReward(owner, to);
+        emit Minter__ClaimMintReward(address(this), owner, to);
     }
 
     function getUserMintInfo() public view returns (IXEX.MintInfo memory) {
