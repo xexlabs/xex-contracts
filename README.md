@@ -1,66 +1,117 @@
-## Foundry
+````ts
+uint public constant MIN_TERM = 1 * SECONDS_IN_DAY - 1;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=194/244 reward=232605/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=194/244 reward=138169/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=194/244 reward=43734/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=194/244 reward=387/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=194/244 reward=387/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=194/244 reward=387/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=194/244 reward=387/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=194/244 reward=387/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=194/244 reward=387/486
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-Foundry consists of:
+uint public constant MAX_TERM_START = 10 _ SECONDS_IN_DAY;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2254/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=19/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=19/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=19/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=19/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+uint public constant TERM_AMPLIFIER = 1;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2254/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=19/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=19/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=19/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=19/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
 
-## Documentation
+uint public constant TERM_AMPLIFIER_THRESHOLD = 1;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=14020/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=12020/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7140/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2260/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=20/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=20/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=20/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=20/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=20/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=20/486
 
-https://book.getfoundry.sh/
+uint public constant REWARD_AMPLIFIER_START = 1;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=20/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=20/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=20/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=20/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=20/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=20/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=20/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=20/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=20/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=20/486
 
-## Usage
+uint public constant EAA_PM_START = 1;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
 
-### Build
+uint public constant EAA_PM_STEP = 1;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
 
-```shell
-$ forge build
+uint public constant EAA_RANK_STEP = 1;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
+
+uint public constant MAX_PENALTY_PCT = 90;
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
+
+uint public constant XEX_APY_START = 20;
+uint public constant XEX_APY_DAYS_STEP = 0;
+uint public constant XEX_APY_END = 20;
+
 ```
 
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+````

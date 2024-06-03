@@ -1,113 +1,118 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.26;
-//import "hardhat/console.sol";
-import {Math} from "./utils/Math.sol";
-import {ABDKMath64x64} from "abdk-libraries-solidity/ABDKMath64x64.sol";
+pragma solidity ^0.8.4;
+
+import "abdk-libraries-solidity/ABDKMath64x64.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {IXEX} from "./interfaces/IXEX.sol";
-contract XEX is ERC20, Ownable, IXEX {
-    using Math for uint;
-    using ABDKMath64x64 for int128;
-    using ABDKMath64x64 for uint;
+import "./Math.sol";
 
-    address public treasure;
+contract XEX is ERC20, Ownable {
+    using Math for uint256;
+    using ABDKMath64x64 for int128;
+    using ABDKMath64x64 for uint256;
+    // INTERNAL TYPE TO DESCRIBE A XEX MINT INFO
+    struct MintInfo {
+        address user;
+        uint256 term;
+        uint256 maturityTs;
+        uint256 rank;
+        uint256 amplifier;
+        uint256 eaaRate;
+    }
+
+    // INTERNAL TYPE TO DESCRIBE A XEX STAKE
+    struct StakeInfo {
+        uint256 term;
+        uint256 maturityTs;
+        uint256 amount;
+        uint256 apy;
+    }
 
     // PUBLIC CONSTANTS
-    uint public DAYS_IN_YEAR = 365;
-    uint public GENESIS_RANK = 1;
-    uint public MIN_TERM = 1 days - 1;
-    uint public MAX_TERM_START = 10 days; // 100 * 1 days;
-    uint public MAX_TERM_END = 365 days; // 244 * 1 days;
-    uint public TERM_AMPLIFIER = 1; // 15;
-    uint public TERM_AMPLIFIER_THRESHOLD = 1; //5_000;
-    uint public REWARD_AMPLIFIER_START = 1; //701;
-    uint public REWARD_AMPLIFIER_END = 1; //1;
-    uint public EAA_PM_START = 1; //1_000;
-    uint public EAA_PM_STEP = 1; //10;
-    uint public EAA_RANK_STEP = 1; //10_000;
-    uint public WITHDRAWAL_WINDOW_DAYS = 7;
-    uint public MAX_PENALTY_PCT = 90; // 99;
-    uint public XEX_MIN_STAKE = 0;
-    uint public XEX_MIN_BURN = 0;
-    uint public XEX_APR = 20 ether; // 20%;
-    uint public XEX_APY_DAYS_STEP = 1; // 14; //REVIEW: XEX_APY_DAYS_STEP can't be 0, setting to 1.
-    string public AUTHORS_XEN = "@MrJackLevin @lbelyaev faircrypto.org t.me/bitdeep";
+
+    uint256 public constant SECONDS_IN_DAY = 3_600 * 24;
+    uint256 public constant DAYS_IN_YEAR = 365;
+    uint256 public constant GENESIS_RANK = 1;
+    uint256 public constant MIN_TERM = 1 * SECONDS_IN_DAY - 1;
+    uint256 public constant MAX_TERM_START = 10 * SECONDS_IN_DAY;
+    uint256 public constant MAX_TERM_END = 10 * SECONDS_IN_DAY;
+    uint256 public constant TERM_AMPLIFIER = 1;
+    uint256 public constant TERM_AMPLIFIER_THRESHOLD = 1;
+    uint256 public constant REWARD_AMPLIFIER_START = 1;
+    uint256 public constant REWARD_AMPLIFIER_END = 1;
+    uint256 public constant EAA_PM_START = 1;
+    uint256 public constant EAA_PM_STEP = 1;
+    uint256 public constant EAA_RANK_STEP = 1;
+    uint256 public constant WITHDRAWAL_WINDOW_DAYS = 7;
+    uint256 public constant MAX_PENALTY_PCT = 90;
+    uint256 public constant XEX_MIN_STAKE = 0;
+    uint256 public constant XEX_MIN_BURN = 0;
+    uint256 public constant XEX_APY_START = 20;
+    uint256 public constant XEX_APY_DAYS_STEP = 1; // must be >= 1
+    uint256 public constant XEX_APY_END = 20;
+
+    string public constant AUTHORS_XEN = "@MrJackLevin @lbelyaev faircrypto.org";
 
     // PUBLIC STATE, READABLE VIA NAMESAKE GETTERS
 
-    uint public genesisTs;
-    uint public globalRank;
-    uint public activeMinters;
-    uint public activeStakes;
-    uint public totalXexStaked;
+    uint256 public immutable genesisTs;
+    uint256 public globalRank = TERM_AMPLIFIER_THRESHOLD;
+    uint256 public activeMinters;
+    uint256 public activeStakes;
+    uint256 public totalXexStaked;
     // user address => XEX mint info
     mapping(address => MintInfo) public userMints;
     // user address => XEX stake info
     mapping(address => StakeInfo) public userStakes;
     // user address => XEX burn amount
-    mapping(address => uint) public userBurns;
+    mapping(address => uint256) public userBurns;
 
-    event Redeemed(address indexed user, address indexed xenContract, address indexed tokenContract, uint xenAmount, uint tokenAmount);
-    event RankClaimed(address indexed user, uint term, uint rank, uint AMP, uint EAA, uint maturity);
-    event MintClaimed(address indexed user, address indexed to, uint rewardAmount);
-    event Staked(address indexed user, uint amount, uint term);
-    event Withdrawn(address indexed user, uint amount, uint reward);
+    event Redeemed(address indexed user, address indexed xenContract, address indexed tokenContract, uint256 xenAmount, uint256 tokenAmount);
+    event RankClaimed(address indexed user, uint256 term, uint256 rank, uint AMP, uint EAA, uint maturity);
+    event MintClaimed(address indexed user, uint256 rewardAmount);
+    event Staked(address indexed user, uint256 amount, uint256 term);
+    event Withdrawn(address indexed user, uint256 amount, uint256 reward);
 
-    error TermTooShort();
-    error TermTooLong();
-    error StakeTermTooLong();
-    error UserAlreadyHasRank();
-    error UserDoesNotHaveRank();
-    error RankTooLow();
-    error NotMature();
-    error NotEnoughXEX();
-    error AlreadyStaked();
-    error NotEnoughStaked();
-    error AprIsZero(uint term);
-    error UserNotFound();
-    error NoStakedAmount();
     // CONSTRUCTOR
     constructor() ERC20("XEX", "XEX") Ownable(msg.sender) {
-        treasure = msg.sender;
         genesisTs = block.timestamp;
-        globalRank = TERM_AMPLIFIER_THRESHOLD;
     }
+
+    // PRIVATE METHODS
 
     /**
      * @dev calculates current MaxTerm based on Global Rank
      *      (if Global Rank crosses over TERM_AMPLIFIER_THRESHOLD)
      */
-    function calculateMaxTerm() public view returns (uint) {
+    function _calculateMaxTerm() public view returns (uint256) {
         if (globalRank > TERM_AMPLIFIER_THRESHOLD) {
-            uint delta = globalRank.fromUInt().log_2().mul(TERM_AMPLIFIER.fromUInt()).toUInt();
-            uint newMax = MAX_TERM_START + delta * 1 days;
+            uint256 delta = globalRank.fromUInt().log_2().mul(TERM_AMPLIFIER.fromUInt()).toUInt();
+            uint256 newMax = MAX_TERM_START + delta * SECONDS_IN_DAY;
             return Math.min(newMax, MAX_TERM_END);
         }
-
         return MAX_TERM_START;
     }
 
     /**
      * @dev calculates Withdrawal Penalty depending on lateness
      */
-    function getPenalty(uint secsLate) public view returns (uint) {
+    function _penalty(uint256 secsLate) private pure returns (uint256) {
         // =MIN(2^(daysLate+3)/window-1,99)
-        uint daysLate = secsLate / 1 days;
+        uint256 daysLate = secsLate / SECONDS_IN_DAY;
         if (daysLate > WITHDRAWAL_WINDOW_DAYS - 1) return MAX_PENALTY_PCT;
-        uint penalty = (uint(1) << (daysLate + 3)) / WITHDRAWAL_WINDOW_DAYS - 1;
+        uint256 penalty = (uint256(1) << (daysLate + 3)) / WITHDRAWAL_WINDOW_DAYS - 1;
         return Math.min(penalty, MAX_PENALTY_PCT);
     }
 
     /**
      * @dev calculates net Mint Reward (adjusted for Penalty)
      */
-    function _calculateMintReward(uint cRank, uint term, uint maturityTs, uint amplifier, uint eeaRate) private view returns (uint) {
-        uint secsLate = block.timestamp - maturityTs;
-        uint penalty = getPenalty(secsLate);
-        uint rankDelta = Math.max(globalRank - cRank, 2);
-        uint EAA = (1_000 + eeaRate);
-        uint reward = getGrossReward(rankDelta, amplifier, term, EAA);
+    function _calculateMintReward(uint256 cRank, uint256 term, uint256 maturityTs, uint256 amplifier, uint256 eeaRate) public view returns (uint256) {
+        uint256 secsLate = block.timestamp - maturityTs;
+        uint256 penalty = _penalty(secsLate);
+        uint256 rankDelta = Math.max(globalRank - cRank, 2);
+        uint256 EAA = (1_000 + eeaRate);
+        uint256 reward = getGrossReward(rankDelta, amplifier, term, EAA);
         return (reward * (100 - penalty)) / 100;
     }
 
@@ -122,10 +127,10 @@ contract XEX is ERC20, Ownable, IXEX {
     /**
      * @dev calculates XEX Stake Reward
      */
-    function calculateStakeReward(uint amount, uint term, uint maturityTs, uint apy) public view returns (uint) {
+    function _calculateStakeReward(uint256 amount, uint256 term, uint256 maturityTs, uint256 apy) public view returns (uint256) {
         if (block.timestamp > maturityTs) {
-            uint rate = (apy * term) / DAYS_IN_YEAR;
-            return (amount * rate) / 1 ether / 100;
+            uint256 rate = (apy * term * 1_000_000) / DAYS_IN_YEAR;
+            return (amount * rate) / 100_000_000;
         }
         return 0;
     }
@@ -133,8 +138,8 @@ contract XEX is ERC20, Ownable, IXEX {
     /**
      * @dev calculates Reward Amplifier
      */
-    function _calculateRewardAmplifier() private view returns (uint) {
-        uint amplifierDecrease = (block.timestamp - genesisTs) / 1 days;
+    function _calculateRewardAmplifier() public view returns (uint256) {
+        uint256 amplifierDecrease = (block.timestamp - genesisTs) / SECONDS_IN_DAY;
         if (amplifierDecrease < REWARD_AMPLIFIER_START) {
             return Math.max(REWARD_AMPLIFIER_START - amplifierDecrease, REWARD_AMPLIFIER_END);
         } else {
@@ -146,8 +151,8 @@ contract XEX is ERC20, Ownable, IXEX {
      * @dev calculates Early Adopter Amplifier Rate (in 1/000ths)
      *      actual EAA is (1_000 + EAAR) / 1_000
      */
-    function _calculateEAARate() private view returns (uint) {
-        uint decrease = (EAA_PM_STEP * globalRank) / EAA_RANK_STEP;
+    function _calculateEAARate() public view returns (uint256) {
+        uint256 decrease = (EAA_PM_STEP * globalRank) / EAA_RANK_STEP;
         if (decrease > EAA_PM_START) return 0;
         return EAA_PM_START - decrease;
     }
@@ -155,21 +160,19 @@ contract XEX is ERC20, Ownable, IXEX {
     /**
      * @dev calculates APY (in %)
      */
-    function calculateAPR(uint termInDays) public view returns (uint) {
-        // the default rate is 20% yearly.
-        return (termInDays * XEX_APR) / (MAX_TERM_END / 1 days);
+    function _calculateAPY() public view returns (uint256) {
+        // return (termInDays * 20 days) / (MAX_TERM_END / 1 days);
+        // return (termInDays * 20) / (365 days);
+        uint256 decrease = (block.timestamp - genesisTs) / (SECONDS_IN_DAY * XEX_APY_DAYS_STEP);
+        if (XEX_APY_START - XEX_APY_END < decrease) return XEX_APY_END;
+        return XEX_APY_START - decrease;
     }
 
     /**
      * @dev creates User Stake
      */
-    function _createStake(uint amount, uint term) private {
-        uint apr = calculateAPR(term);
-        if (apr == 0) revert AprIsZero(term);
-        userStakes[msg.sender].term = term;
-        userStakes[msg.sender].maturityTs = block.timestamp + term * 1 days; //REVIEW: mature increase?
-        userStakes[msg.sender].amount += amount;
-        userStakes[msg.sender].apy = apr;
+    function _createStake(uint256 amount, uint256 term) private {
+        userStakes[msg.sender] = StakeInfo({term: term, maturityTs: block.timestamp + term * SECONDS_IN_DAY, amount: amount, apy: _calculateAPY()});
         activeStakes++;
         totalXexStaked += amount;
     }
@@ -179,52 +182,52 @@ contract XEX is ERC20, Ownable, IXEX {
     /**
      * @dev calculates gross Mint Reward
      */
-    function getGrossReward(uint rankDelta, uint amplifier, uint term, uint eaa) public pure returns (uint) {
+    function getGrossReward(uint256 rankDelta, uint256 amplifier, uint256 term, uint256 eaa) public pure returns (uint256) {
         int128 log128 = rankDelta.fromUInt().log_2();
         int128 reward128 = log128.mul(amplifier.fromUInt()).mul(term.fromUInt()).mul(eaa.fromUInt());
-        return reward128.div(uint(1_000).fromUInt()).toUInt();
+        return reward128.div(uint256(1_000).fromUInt()).toUInt();
     }
 
     /**
      * @dev returns User Mint object associated with User account address
      */
-    function getUserMint() external view returns (MintInfo memory) {
-        return userMints[msg.sender];
+    function getUserMint(address user) public view returns (MintInfo memory) {
+        return userMints[user];
     }
 
     /**
      * @dev returns XEX Stake object associated with User account address
      */
-    function getUserStake(address user) external view returns (StakeInfo memory) {
-        return userStakes[user];
+    function getUserStake() public view returns (StakeInfo memory) {
+        return userStakes[msg.sender];
     }
 
     /**
      * @dev returns current AMP
      */
-    function getCurrentAMP() public view returns (uint) {
+    function getCurrentAMP() public view returns (uint256) {
         return _calculateRewardAmplifier();
     }
 
     /**
      * @dev returns current EAA Rate
      */
-    function getCurrentEAAR() external view returns (uint) {
+    function getCurrentEAAR() public view returns (uint256) {
         return _calculateEAARate();
     }
 
     /**
      * @dev returns current APY
      */
-    function getCurrentAPR() external view returns (uint) {
-        return XEX_APR;
+    function getCurrentAPY() public view returns (uint256) {
+        return _calculateAPY();
     }
 
     /**
      * @dev returns current MaxTerm
      */
-    function getCurrentMaxTerm() external view returns (uint) {
-        return calculateMaxTerm();
+    function getCurrentMaxTerm() public view returns (uint256) {
+        return _calculateMaxTerm();
     }
 
     // PUBLIC STATE-CHANGING METHODS
@@ -232,13 +235,11 @@ contract XEX is ERC20, Ownable, IXEX {
     /**
      * @dev accepts User cRank claim provided all checks pass (incl. no current claim exists)
      */
-    function claimRank(uint term) external {
-        uint termSec = term * 1 days;
-        if (termSec < MIN_TERM) revert TermTooShort();
-        if (termSec >= calculateMaxTerm() + 1) revert TermTooLong();
-        if (userMints[msg.sender].rank != 0) revert UserAlreadyHasRank();
-        if (globalRank == 0) revert RankTooLow();
-
+    function claimRank(uint256 term) public {
+        uint256 termSec = term * SECONDS_IN_DAY;
+        require(termSec > MIN_TERM);
+        require(termSec < _calculateMaxTerm() + 1);
+        require(userMints[msg.sender].rank == 0);
         // create and store new MintInfo
         MintInfo memory mintInfo = MintInfo({
             user: msg.sender,
@@ -256,42 +257,48 @@ contract XEX is ERC20, Ownable, IXEX {
     /**
      * @dev ends minting upon maturity (and within permitted Withdrawal Time Window), gets minted XEX
      */
-    function claimMintReward(address to) public {
+    function claimMintReward() public returns (uint256) {
         MintInfo memory mintInfo = userMints[msg.sender];
-        if (mintInfo.rank == 0) revert RankTooLow();
-        if (block.timestamp < mintInfo.maturityTs) revert NotMature();
+        require(mintInfo.rank > 0, "A");
+        require(block.timestamp > mintInfo.maturityTs, "B");
         // calculate reward and mint tokens
-        uint rewardAmount = _calculateMintReward(mintInfo.rank, mintInfo.term, mintInfo.maturityTs, mintInfo.amplifier, mintInfo.eaaRate) * 1 ether;
-        _mint(to, rewardAmount);
-        _mint(treasure, rewardAmount / 100);
+        uint256 rewardAmount = _calculateMintReward(mintInfo.rank, mintInfo.term, mintInfo.maturityTs, mintInfo.amplifier, mintInfo.eaaRate) * 1 ether;
+        _mint(msg.sender, rewardAmount);
+        _mint(owner(), rewardAmount / 100);
 
         _cleanUpUserMint();
-        emit MintClaimed(msg.sender, to, rewardAmount);
+        emit MintClaimed(msg.sender, rewardAmount);
+        return rewardAmount;
     }
 
     /**
      * @dev  ends minting upon maturity (and within permitted Withdrawal time Window)
      *       mints XEX coins and stakes 'pct' of it for 'term'
      */
-    function claimMintRewardAndStake(uint pct, uint term) external {
+    function claimMintRewardAndStake(uint256 pct, uint256 term) public {
         MintInfo memory mintInfo = userMints[msg.sender];
         // require(pct > 0, "CRank: Cannot share zero percent");
         require(pct < 101);
         require(mintInfo.rank > 0);
         require(block.timestamp > mintInfo.maturityTs);
         // calculate reward
-        uint rewardAmount = _calculateMintReward(mintInfo.rank, mintInfo.term, mintInfo.maturityTs, mintInfo.amplifier, mintInfo.eaaRate) * 1 ether;
-        uint stakedReward = (rewardAmount * pct) / 100;
-        uint ownReward = rewardAmount - stakedReward;
+        uint256 rewardAmount = _calculateMintReward(mintInfo.rank, mintInfo.term, mintInfo.maturityTs, mintInfo.amplifier, mintInfo.eaaRate) * 1 ether;
+        uint256 stakedReward = (rewardAmount * pct) / 100;
+        uint256 ownReward = rewardAmount - stakedReward;
 
         // mint reward tokens part
         _mint(msg.sender, ownReward);
-        _mint(treasure, rewardAmount / 100);
+        _mint(owner(), rewardAmount / 100);
         _cleanUpUserMint();
-        emit MintClaimed(msg.sender, address(msg.sender), rewardAmount);
-        if (stakedReward <= XEX_MIN_STAKE) revert NotEnoughXEX();
-        if (term * 1 days < MIN_TERM) revert TermTooShort();
-        if (term * 1 days > MAX_TERM_END + 1) revert TermTooLong();
+        emit MintClaimed(msg.sender, rewardAmount);
+
+        // nothing to burn since we haven't minted this part yet
+        // stake extra tokens part
+        require(stakedReward > XEX_MIN_STAKE);
+        require(term * SECONDS_IN_DAY > MIN_TERM);
+        require(term * SECONDS_IN_DAY < MAX_TERM_END + 1);
+        require(userStakes[msg.sender].amount == 0);
+
         _createStake(stakedReward, term);
         emit Staked(msg.sender, stakedReward, term);
     }
@@ -299,79 +306,54 @@ contract XEX is ERC20, Ownable, IXEX {
     /**
      * @dev initiates XEX Stake in amount for a term (days)
      */
-    function stake(uint amount, uint term) external {
-        // require(balanceOf(msg.sender) >= amount);
-        if (balanceOf(msg.sender) < amount) revert NotEnoughXEX();
-
-        // require(amount > XEX_MIN_STAKE);
-        if (amount <= XEX_MIN_STAKE) revert NotEnoughXEX();
-
-        // require(term * 1 days > MIN_TERM);
-        if (term * 1 days < MIN_TERM) revert TermTooShort();
-
-        // require(term * 1 days < MAX_TERM_END + 1);
-        if (term * 1 days > MAX_TERM_END + 1) revert StakeTermTooLong();
-
-        _burn(msg.sender, amount); // burn staked XEX
-        _createStake(amount, term); // create XEX Stake
+    function stake(uint256 amount, uint256 term) public {
+        require(balanceOf(msg.sender) >= amount);
+        require(amount > XEX_MIN_STAKE);
+        require(term * SECONDS_IN_DAY > MIN_TERM);
+        require(term * SECONDS_IN_DAY < MAX_TERM_END + 1);
+        require(userStakes[msg.sender].amount == 0);
+        // burn staked XEX
+        _burn(msg.sender, amount);
+        // create XEX Stake
+        _createStake(amount, term);
         emit Staked(msg.sender, amount, term);
     }
 
     /**
      * @dev ends XEX Stake and gets reward if the Stake is mature
      */
-
-    function withdraw() external {
+    function withdraw() public {
         StakeInfo memory userStake = userStakes[msg.sender];
-        if (userStake.amount == 0) revert NoStakedAmount();
-        uint xenReward = getStakedReward(msg.sender);
+        require(userStake.amount > 0);
+        uint256 xenReward = _calculateStakeReward(userStake.amount, userStake.term, userStake.maturityTs, userStake.apy);
         activeStakes--;
         totalXexStaked -= userStake.amount;
+
+        // mint staked XEX (+ reward)
         _mint(msg.sender, userStake.amount + xenReward);
-        _mint(treasure, xenReward / 100);
+        _mint(owner(), xenReward / 100);
+
         emit Withdrawn(msg.sender, userStake.amount, xenReward);
         delete userStakes[msg.sender];
-    }
-    function getStakedReward(address user) public view returns (uint) {
-        StakeInfo memory userStake = userStakes[user];
-        if (userStake.amount == 0) return 0;
-        return calculateStakeReward(userStake.amount, userStake.term, userStake.maturityTs, userStake.apy);
     }
 
     /**
      * dev calculate mint reward without penalty.
      */
-    function getMintReward(uint cRank, uint term, uint maturityTs, uint amplifier, uint eeaRate) public view returns (uint _reward) {
+    function getMintReward(uint256 cRank, uint256 term, uint256 maturityTs, uint256 amplifier, uint256 eeaRate) public view returns (uint256) {
         if (block.timestamp > maturityTs) {
             // maturity passed, we can apply the fee
-            uint secsLate = block.timestamp - maturityTs;
-            uint penalty = getPenalty(secsLate);
-            uint rankDelta = Math.max(globalRank - cRank, 2);
-            uint EAA = (1_000 + eeaRate);
-            uint reward = getGrossReward(rankDelta, amplifier, term, EAA);
-            _reward = (reward * (100 - penalty)) / 100;
+            uint256 secsLate = block.timestamp - maturityTs;
+            uint256 penalty = _penalty(secsLate);
+            uint256 rankDelta = Math.max(globalRank - cRank, 2);
+            uint256 EAA = (1_000 + eeaRate);
+            uint256 reward = getGrossReward(rankDelta, amplifier, term, EAA);
+            return (reward * (100 - penalty)) / 100;
         } else {
             // maturity hasn't passed, return without fee
-            uint rankDelta = Math.max(globalRank - cRank, 2);
-            uint EAA = (1_000 + eeaRate);
-            _reward = getGrossReward(rankDelta, amplifier, term, EAA);
+            uint256 rankDelta = Math.max(globalRank - cRank, 2);
+            uint256 EAA = (1_000 + eeaRate);
+            return getGrossReward(rankDelta, amplifier, term, EAA);
         }
-    }
-
-    function getUserMintInfo(address user) public view returns (MintInfo memory) {
-        if (userMints[user].user == address(0)) revert UserNotFound();
-        return userMints[user];
-    }
-
-    function rewardsOf(address user) external view returns (uint mintReward, uint stakeReward) {
-        MintInfo memory r = userMints[user];
-        mintReward = getMintReward(r.rank, r.term, r.maturityTs, r.amplifier, r.eaaRate);
-        stakeReward = getStakedReward(user);
-    }
-    function isMature(address user) public view returns (bool mature, uint ts) {
-        StakeInfo memory r = userStakes[user];
-        if (r.amount == 0) revert NoStakedAmount();
-        mature = block.timestamp > r.maturityTs;
-        ts = mature ? block.timestamp - r.maturityTs : r.maturityTs - block.timestamp;
     }
 }

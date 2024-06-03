@@ -14,7 +14,6 @@ contract Minter {
     event Minter__ClaimMintReward(address minter, address owner, address to);
     constructor(address _main) {
         main = IXEX(_main);
-        main.calculateMaxTerm();
     }
 
     function initialize(address _owner, uint _term) external {

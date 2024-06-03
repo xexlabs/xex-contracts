@@ -22,6 +22,7 @@ interface IXEX {
     function getMintReward(uint cRank, uint term, uint maturityTs, uint amplifier, uint eeaRate) external view returns (uint _reward);
     function claimRank(uint256 limit) external;
     function getUserMintInfo(address user) external view returns (MintInfo memory);
-    function claimMintReward(address to) external;
-    function calculateMaxTerm() external view returns (uint);
+    function claimMintReward(address to) external returns (uint rewardAmount);
+    function getMaxTerm() external view returns (uint);
+    function getMinTerm() external view returns (uint);
 }
