@@ -1,5 +1,17 @@
-````ts
-uint public constant MIN_TERM = 1 * SECONDS_IN_DAY - 1;
+```ts
+- ORIGINAL OUTPUT:
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=100/100 reward=139849/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=244/244 reward=292554/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=244/244 reward=173780/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=244/244 reward=55006/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=244/244 reward=486/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=244/244 reward=486/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=244/244 reward=486/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=244/244 reward=486/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=244/244 reward=486/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=244/244 reward=486/486
+
+- uint public constant MAX_TERM_START = 10 * SECONDS_IN_DAY; // from 100
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=194/244 reward=232605/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=194/244 reward=138169/173780
@@ -11,8 +23,7 @@ uint public constant MIN_TERM = 1 * SECONDS_IN_DAY - 1;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=194/244 reward=387/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=194/244 reward=387/486
 
-
-uint public constant MAX_TERM_START = 10 _ SECONDS_IN_DAY;
+- uint public constant MAX_TERM_END = 10 * SECONDS_IN_DAY; // 244
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
@@ -24,7 +35,7 @@ uint public constant MAX_TERM_START = 10 _ SECONDS_IN_DAY;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
 
-uint public constant TERM_AMPLIFIER = 1;
+- uint public constant TERM_AMPLIFIER = 1; // from 15
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
@@ -36,19 +47,19 @@ uint public constant TERM_AMPLIFIER = 1;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
 
-uint public constant TERM_AMPLIFIER_THRESHOLD = 1;
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=14020/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=12020/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7140/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2260/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=20/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=20/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=20/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=20/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=20/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=20/486
+- uint public constant TERM_AMPLIFIER_THRESHOLD = 1; // from 5_000
+  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
+  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
+  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
+  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2254/55006
+  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=19/486
+  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=19/486
+  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=19/486
+  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=19/486
+  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
+  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
 
-uint public constant REWARD_AMPLIFIER_START = 1;
+- uint public constant REWARD_AMPLIFIER_START = 1; // from 701
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=20/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=20/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=20/173780
@@ -60,7 +71,7 @@ uint public constant REWARD_AMPLIFIER_START = 1;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=20/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=20/486
 
-uint public constant EAA_PM_START = 1;
+- uint public constant EAA_PM_START = 1; // 1_000
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
@@ -72,7 +83,7 @@ uint public constant EAA_PM_START = 1;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
 
-uint public constant EAA_PM_STEP = 1;
+- uint public constant EAA_PM_STEP = 1; // from 10
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
@@ -84,7 +95,7 @@ uint public constant EAA_PM_STEP = 1;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
 
-uint public constant EAA_RANK_STEP = 1;
+- uint public constant EAA_RANK_STEP = 1; // 10_000
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
@@ -96,7 +107,7 @@ uint public constant EAA_RANK_STEP = 1;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
 
-uint public constant MAX_PENALTY_PCT = 90;
+- uint public constant MAX_PENALTY_PCT = 90; // from 90
   1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
   2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
   3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
@@ -108,10 +119,11 @@ uint public constant MAX_PENALTY_PCT = 90;
   9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
   10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
 
-uint public constant XEX_APY_START = 20;
-uint public constant XEX_APY_DAYS_STEP = 0;
-uint public constant XEX_APY_END = 20;
+// to review later:
+- uint public constant XEX_MIN_STAKE = 0;
+- uint public constant XEX_MIN_BURN = 0;
+- uint public constant XEX_APY_START = 20;
+- uint public constant XEX_APY_DAYS_STEP = 0;
+- uint public constant XEX_APY_END = 20;
 
 ```
-
-````

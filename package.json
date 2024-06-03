@@ -3,7 +3,7 @@
 	"version": "2.0.0",
 	"scripts": {
 		"hh-test": "hardhat test",
-		"test": "forge test -vvv",
+		"test": "cls && forge test -vvv",
 		"live": "nodemon --exec yarn test -e sol,ts,js"
 	},
 	"nodemonConfig": {

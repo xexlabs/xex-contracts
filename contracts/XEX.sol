@@ -36,7 +36,7 @@ contract XEX is ERC20, Ownable {
     uint256 public constant MIN_TERM = 1 * SECONDS_IN_DAY - 1;
     uint256 public constant MAX_TERM_START = 10 * SECONDS_IN_DAY;
     uint256 public constant MAX_TERM_END = 10 * SECONDS_IN_DAY;
-    uint256 public constant TERM_AMPLIFIER = 1;
+    uint256 public constant TERM_AMPLIFIER = 15;
     uint256 public constant TERM_AMPLIFIER_THRESHOLD = 1;
     uint256 public constant REWARD_AMPLIFIER_START = 1;
     uint256 public constant REWARD_AMPLIFIER_END = 1;
@@ -45,11 +45,14 @@ contract XEX is ERC20, Ownable {
     uint256 public constant EAA_RANK_STEP = 1;
     uint256 public constant WITHDRAWAL_WINDOW_DAYS = 7;
     uint256 public constant MAX_PENALTY_PCT = 90;
+
     uint256 public constant XEX_MIN_STAKE = 0;
+
     uint256 public constant XEX_MIN_BURN = 0;
-    uint256 public constant XEX_APY_START = 20;
-    uint256 public constant XEX_APY_DAYS_STEP = 1; // must be >= 1
-    uint256 public constant XEX_APY_END = 20;
+
+    uint256 public constant XEX_APY_START = 50;
+    uint256 public constant XEX_APY_DAYS_STEP = 14;
+    uint256 public constant XEX_APY_END = 0;
 
     string public constant AUTHORS_XEN = "@MrJackLevin @lbelyaev faircrypto.org";
 
