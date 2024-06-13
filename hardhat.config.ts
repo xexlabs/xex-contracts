@@ -16,6 +16,12 @@ if (!PRIVATE_KEY) throw new Error('Please set your PRIVATE_KEY in a .env file')
 if (!ANKR) throw new Error('Please set your ANKR API key in a .env file')
 const config: HardhatUserConfig = {
 	networks: {
+		hardhat: {
+			forking: {
+				url: `https://rpc.ankr.com/eth/${ANKR}`,
+				blockNumber: 20070400
+			}
+		},
 		ftm: {
 			url: `https://rpc.ankr.com/fantom/${ANKR}`,
 			accounts: [PRIVATE_KEY]

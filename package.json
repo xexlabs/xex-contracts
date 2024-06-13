@@ -2,9 +2,9 @@
 	"name": "xex",
 	"version": "2.0.0",
 	"scripts": {
-		"hh-test": "hardhat test",
-		"test": "cls && forge test -vvv",
-		"live": "nodemon --exec yarn test -e sol,ts,js"
+		"test:hardhat": "cls && hardhat test",
+		"test:forge": "cls && forge test -vvv",
+		"live": "nodemon --exec yarn test:hardhat -e sol,ts,js"
 	},
 	"nodemonConfig": {
 		"ignore": [
