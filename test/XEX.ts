@@ -35,6 +35,56 @@ describe('XEXv2', function () {
 		})
 		xex = (await XEX.deploy()) as unknown as XEX
 	})
+
+	describe('Minting Amounts', function () {
+		const expectedMintAmounts = [
+			{ term: 1, expected: toWei(5) },
+			{ term: 2, expected: toWei(10) },
+			{ term: 3, expected: toWei(15) },
+			{ term: 4, expected: toWei(20) },
+			{ term: 5, expected: toWei(25) },
+			{ term: 6, expected: toWei(30) },
+			{ term: 7, expected: toWei(35) },
+			{ term: 8, expected: toWei(40) },
+			{ term: 9, expected: toWei(45) },
+			{ term: 10, expected: toWei(50) },
+		]
+
+		expectedMintAmounts.forEach(({ term, expected }) => {
+			it(`should mint ${expected.toString()} XEX for a ${term}-day term`, async function () {
+				await xex.connect(user1).claimRank(term)
+				await warp(BigInt(term) * 24n * 3600n)
+				await xex.connect(user1).claimMintRewardTo(user1.address)
+				const balance = await xex.balanceOf(user1.address)
+				expect(balance).to.equal(expected)
+			})
+		})
+
+		it('should observe the impact of global rank increase on minting amounts', async function () {
+			const initialTerm = 1
+			const initialExpected = toWei(5)
+			await xex.connect(user1).claimRank(initialTerm)
+			await warp(BigInt(initialTerm) * 24n * 3600n)
+			await xex.connect(user1).claimMintRewardTo(user1.address)
+			let balance = await xex.balanceOf(user1.address)
+			expect(balance).to.equal(initialExpected)
+
+			// Increase global rank by tens of thousands
+			for (let i = 0; i < 10000; i++) {
+				await xex.connect(user2).claimRank(1)
+				await warp(24n * 3600n)
+				await xex.connect(user2).claimMintRewardTo(user2.address)
+			}
+
+			const newTerm = 1
+			const newExpected = toWei(5) // Adjust this based on the expected impact
+			await xex.connect(user1).claimRank(newTerm)
+			await warp(BigInt(newTerm) * 24n * 3600n)
+			await xex.connect(user1).claimMintRewardTo(user1.address)
+			balance = await xex.balanceOf(user1.address)
+			expect(balance).to.be.closeTo(newExpected, toWei(1)) // Allow some tolerance
+		})
+	})
 	describe('calculateAPR', function () {
 		let MAX_TERM_END: bigint
 		let XEX_APR: bigint
