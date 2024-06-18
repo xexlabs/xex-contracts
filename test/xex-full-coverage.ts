@@ -1,9 +1,13 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { BigNumber } from "ethers";
+import { BigNumber, Contract, Signer } from "ethers";
 
 describe("XEX Contract", function () {
-  let XEX, xex, owner, addr1, addr2;
+  let XEX: ContractFactory;
+  let xex: Contract;
+  let owner: Signer;
+  let addr1: Signer;
+  let addr2: Signer;
 
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
@@ -28,7 +32,7 @@ describe("XEX Contract", function () {
 
   it("Should claim rank", async function () {
     await xex.connect(addr1).claimRank(10);
-    const mintInfo = await xex.getUserMint(addr1.address);
+    const mintInfo = await xex.getUserMint(await addr1.getAddress());
     expect(mintInfo.rank).to.equal(1);
   });
 
@@ -37,7 +41,7 @@ describe("XEX Contract", function () {
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
     await xex.connect(addr1).claimMintReward();
-    const balance = await xex.balanceOf(addr1.address);
+    const balance = await xex.balanceOf(await addr1.getAddress());
     expect(balance).to.be.gt(0);
   });
 
@@ -46,9 +50,9 @@ describe("XEX Contract", function () {
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
     await xex.connect(addr1).claimMintReward();
-    const balance = await xex.balanceOf(addr1.address);
+    const balance = await xex.balanceOf(await addr1.getAddress());
     await xex.connect(addr1).stake(balance, 10);
-    const stakeInfo = await xex.getUserStake(addr1.address);
+    const stakeInfo = await xex.getUserStake(await addr1.getAddress());
     expect(stakeInfo.amount).to.equal(balance);
   });
 
@@ -57,12 +61,12 @@ describe("XEX Contract", function () {
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
     await xex.connect(addr1).claimMintReward();
-    const balance = await xex.balanceOf(addr1.address);
+    const balance = await xex.balanceOf(await addr1.getAddress());
     await xex.connect(addr1).stake(balance, 1);
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
     await xex.connect(addr1).withdraw();
-    const finalBalance = await xex.balanceOf(addr1.address);
+    const finalBalance = await xex.balanceOf(await addr1.getAddress());
     expect(finalBalance).to.be.gt(balance);
   });
 
@@ -80,7 +84,7 @@ describe("XEX Contract", function () {
     await xex.connect(addr1).claimRank(1);
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
-    const mintInfo = await xex.getUserMint(addr1.address);
+    const mintInfo = await xex.getUserMint(await addr1.getAddress());
     const reward = await xex.calculateMintReward(
       mintInfo.rank,
       mintInfo.term,
@@ -113,7 +117,7 @@ describe("XEX Contract", function () {
 
   it("Should get user mint info", async function () {
     await xex.connect(addr1).claimRank(10);
-    const mintInfo = await xex.getUserMint(addr1.address);
+    const mintInfo = await xex.getUserMint(await addr1.getAddress());
     expect(mintInfo.rank).to.equal(1);
   });
 
@@ -122,9 +126,9 @@ describe("XEX Contract", function () {
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
     await xex.connect(addr1).claimMintReward();
-    const balance = await xex.balanceOf(addr1.address);
+    const balance = await xex.balanceOf(await addr1.getAddress());
     await xex.connect(addr1).stake(balance, 10);
-    const stakeInfo = await xex.getUserStake(addr1.address);
+    const stakeInfo = await xex.getUserStake(await addr1.getAddress());
     expect(stakeInfo.amount).to.equal(balance);
   });
 
@@ -145,20 +149,20 @@ describe("XEX Contract", function () {
 
   it("Should create minter", async function () {
     await xex.connect(addr1).minter_create(1, 10);
-    const minters = await xex.mintersOf(addr1.address);
+    const minters = await xex.mintersOf(await addr1.getAddress());
     expect(minters.length).to.equal(1);
   });
 
   it("Should get minter info", async function () {
     await xex.connect(addr1).minter_create(1, 10);
-    const minterInfo = await xex.minterInfoOf(addr1.address);
+    const minterInfo = await xex.minterInfoOf(await addr1.getAddress());
     expect(minterInfo.length).to.equal(1);
   });
 
   it("Should claim minter rank", async function () {
     await xex.connect(addr1).minter_create(1, 10);
     await xex.connect(addr1).minter_claimRank(1);
-    const minterInfo = await xex.minterInfoOf(addr1.address);
+    const minterInfo = await xex.minterInfoOf(await addr1.getAddress());
     expect(minterInfo[0].rank).to.be.gt(0);
   });
 
@@ -166,8 +170,8 @@ describe("XEX Contract", function () {
     await xex.connect(addr1).minter_create(1, 1);
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
-    await xex.connect(addr1).minter_claimMintReward(1, addr1.address);
-    const balance = await xex.balanceOf(addr1.address);
+    await xex.connect(addr1).minter_claimMintReward(1, await addr1.getAddress());
+    const balance = await xex.balanceOf(await addr1.getAddress());
     expect(balance).to.be.gt(0);
   });
 
@@ -175,7 +179,7 @@ describe("XEX Contract", function () {
     await xex.connect(addr1).minter_create(1, 1);
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
-    const rewards = await xex.minter_getMintReward(addr1.address);
+    const rewards = await xex.minter_getMintReward(await addr1.getAddress());
     expect(rewards.length).to.equal(1);
   });
 
@@ -184,9 +188,9 @@ describe("XEX Contract", function () {
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
     await xex.connect(addr1).claimMintReward();
-    const balance = await xex.balanceOf(addr1.address);
+    const balance = await xex.balanceOf(await addr1.getAddress());
     await xex.connect(addr1).stake(balance, 1);
-    const reward = await xex.calculateStakeReward(addr1.address);
+    const reward = await xex.calculateStakeReward(await addr1.getAddress());
     expect(reward).to.be.a("number");
   });
 
@@ -195,9 +199,9 @@ describe("XEX Contract", function () {
     await ethers.provider.send("evm_increaseTime", [86400]); // 1 day
     await ethers.provider.send("evm_mine", []);
     await xex.connect(addr1).claimMintReward();
-    const balance = await xex.balanceOf(addr1.address);
+    const balance = await xex.balanceOf(await addr1.getAddress());
     await xex.connect(addr1).stake(balance, 1);
-    const reward = await xex.stakeRewardOf(addr1.address);
+    const reward = await xex.stakeRewardOf(await addr1.getAddress());
     expect(reward).to.be.a("number");
   });
 });
