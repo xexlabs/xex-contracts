@@ -12,7 +12,7 @@ Xexaverse Smart Contracts Project
 
 > _IMPORTANT: Test XEX minting thoroughly_
 
-## 2. Xexaverse Game Contracts: XEX rewards are gamified
+## ✅ 2. Xexaverse Game Contracts: XEX rewards are gamified
 
 **Overview**: This document outlines the contracts required for the XEX in-game rewards. These contracts should be SEPARATE from the XEX Minting Contracts for INTERNAL TESTING, but should be integrated into XEX Minting contracts so that users MUST PLAY THE GAME to mint XEX on testnet / mainnet.
 
@@ -31,7 +31,7 @@ Xexaverse Smart Contracts Project
 
 **Example #2**: The user begins a dungeon by paying gas for an XEX mint with a 1-day term date. They fail to complete the dungeon and die after playing for 10 minutes. The contract allows the user to claim 20% of their XEX mint in a single transaction, 24 hours later (Should be about 1 XEX). The remaining 80% of the XEX is sent to the rewardsPool contract at the time of the claim.
 
-#### CHANGELOG
+#### 📝 CHANGELOG
 
 -   Integrated XEX minting by changing the reward token to an IXEX interface that includes a mint function.
 -   Updated the IXEX interface to include the `mint` function.
@@ -44,7 +44,7 @@ Xexaverse Smart Contracts Project
 -   Added check to ensure that the claim amount does not exceed 2x the initial mint.
 -   Added max bonus as max deposit.
 
-## 3. Xexadons: Simplified staking with scalable rewards
+## ✅ 3. Xexadons: Simplified staking with scalable rewards
 
 **Overview**: This document outlines the Staking mechanisms for Xexadon NFTs. This document will outline the process for staking, the 'Boost' variable and how it is obtained, and the process for a new NFT given to a user when staking each Xexadon NFT.
 
@@ -70,7 +70,7 @@ There is a MAXIMUM VALUE that the 'Boost' variable can reach, which is a value o
 
 For each Xexadon staked, the user will receive a new NFT. This NFT is meant to serve as a 'Receipt' that keeps a record of their staked Xexadon. It should not be able to be transferred. In order to unstake an Xexadon, this NFT must be burned.
 
-#### CHANGELOG
+#### 📝 CHANGELOG
 
 -   1 Added a \_transfer function override to prevent the transfer of staking receipt NFTs.
 -   2 Implemented a new updateBoost function that can only be called at 23:59 UTC to update the boost value.
