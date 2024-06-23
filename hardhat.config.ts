@@ -18,16 +18,12 @@ const config: HardhatUserConfig = {
 	networks: {
 		hardhat: {
 			forking: {
-				url: `https://rpc.ankr.com/eth/${ANKR}`,
-				blockNumber: 20070400
+				url: `https://rpc.sonic.fantom.network/`,
+				blockNumber: 55165384
 			}
 		},
-		ftm: {
-			url: `https://rpc.ankr.com/fantom/${ANKR}`,
-			accounts: [PRIVATE_KEY]
-		},
-		ftm_testnet: {
-			url: `https://rpc.ankr.com/fantom_testnet/${ANKR}`,
+		sonic: {
+			url: 'https://rpc.sonic.fantom.network/',
 			accounts: [PRIVATE_KEY]
 		}
 	},

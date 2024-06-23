@@ -13,4 +13,5 @@ interface IXDON is IERC721 {
     function checkProof(bytes32[] memory proof) external view returns (bool);
     function claim(bytes32[] memory proof) external payable;
     function mint(bytes32[] memory proof) external payable;
+    function tokenOfOwnerByIndex(address owner, uint index) external view returns (uint);
 }

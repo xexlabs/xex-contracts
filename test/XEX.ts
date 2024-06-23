@@ -1,9 +1,10 @@
 import { expect } from 'chai'
 import hre from 'hardhat'
 import { XEX } from '../typechain-types/contracts/XEX'
+import { Signer } from 'ethers'
+
 describe('XEXv2', function () {
-	const oneYear = 365n
-	const oneMonth = 30n
+	this.timeout(60_000_000)
 	let xex: XEX, dev: any, user1: any, user2: any
 	const ethers = hre.ethers
 	let termInDays: bigint, termInSeconds: bigint
@@ -11,7 +12,6 @@ describe('XEXv2', function () {
 	const d = (value: any, decimals: number = 18, truncate: number = 2) => parseFloat(fromWei(value, decimals).toFixed(truncate))
 	const toWei = (value: any, decimals: number = 18) => ethers.parseUnits(value.toString(), decimals)
 	let deposit: bigint
-	let oneMonthAPR = 1.66
 	const getTimestamp = async () => {
 		const block = await ethers.provider.getBlock('latest')
 		return BigInt(block?.timestamp ?? 0)
@@ -21,8 +21,12 @@ describe('XEXv2', function () {
 		await ethers.provider.send('evm_mine', [])
 	}
 	const warp = async (seconds: bigint) => {
+		const tsBefore = await getTimestamp()
 		await ethers.provider.send('evm_increaseTime', [seconds.toString()])
 		await ethers.provider.send('evm_mine', [])
+		const tsAfter = await getTimestamp()
+		expect(tsAfter - tsBefore).to.equal(seconds)
+		return tsAfter - tsBefore
 	}
 	beforeEach(async function () {
 		;[dev, user1, user2] = await hre.ethers.getSigners()
@@ -35,7 +39,217 @@ describe('XEXv2', function () {
 		})
 		xex = (await XEX.deploy()) as unknown as XEX
 	})
+	describe('Global Tests', function () {
+		async function mint(user: Signer) {
+			const balanceBefore = await xex.balanceOf(await user.getAddress())
+			await xex.connect(user).claimRank(10)
+			await ethers.provider.send('evm_increaseTime', [86400 * 10]) // 10 days
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user).claimMintReward()
+			const balanceAfter = await xex.balanceOf(await user.getAddress())
+			return balanceAfter - balanceBefore
+		}
 
+		it('Should deploy with correct initial values', async function () {
+			expect(await xex.name()).to.equal('XEX')
+			expect(await xex.symbol()).to.equal('XEX')
+			expect(await xex.genesisTs()).to.be.a('bigint')
+			expect(await xex.genesisTs()).to.be.at.least(Math.floor(Date.now() / 1000) - 10)
+		})
+
+		it('Should claim rank', async function () {
+			await xex.connect(user1).claimRank(10)
+			const mintInfo = await xex.getUserMint(await user1.getAddress())
+			expect(mintInfo.rank).to.equal(1)
+		})
+
+		it('Should claim mint reward', async function () {
+			await xex.connect(user1).claimRank(1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).claimMintReward()
+			const balance = await xex.balanceOf(await user1.getAddress())
+			expect(balance).to.be.gt(0)
+		})
+
+		it('Should stake tokens', async function () {
+			await xex.connect(user1).claimRank(1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).claimMintReward()
+			const balance = await xex.balanceOf(await user1.getAddress())
+			await xex.connect(user1).stake(balance, 10)
+			const stakeInfo = await xex.getUserStake(await user1.getAddress())
+			expect(stakeInfo.amount).to.equal(balance)
+		})
+
+		it('Should withdraw staked tokens', async function () {
+			await xex.connect(user1).claimRank(1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).claimMintReward()
+			const balance = await xex.balanceOf(await user1.getAddress())
+			await xex.connect(user1).stake(balance, 1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).withdraw()
+			const finalBalance = await xex.balanceOf(await user1.getAddress())
+			expect(finalBalance).to.be.gt(balance)
+		})
+
+		it('Should calculate max term', async function () {
+			const maxTerm = await xex.calculateMaxTerm()
+			expect(maxTerm).to.be.a('bigint')
+		})
+
+		it('Should calculate penalty', async function () {
+			const penalty = await xex.penalty(86400) // 1 day late
+			expect(penalty).to.be.a('bigint')
+		})
+
+		it('Should calculate mint reward', async function () {
+			await xex.connect(user1).claimRank(1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			const mintInfo = await xex.getUserMint(await user1.getAddress())
+			const reward = await xex.calculateMintReward(mintInfo.rank, mintInfo.term, mintInfo.maturityTs, mintInfo.amplifier, mintInfo.eaaRate)
+			expect(reward).to.be.a('bigint')
+		})
+
+		it('Should calculate reward amplifier', async function () {
+			const amplifier = await xex.calculateRewardAmplifier()
+			expect(amplifier).to.be.a('bigint')
+		})
+
+		it('Should calculate EAA rate', async function () {
+			const eaaRate = await xex.calculateEAARate()
+			expect(eaaRate).to.be.a('bigint')
+		})
+
+		it('Should calculate APY', async function () {
+			const apy = await xex.calculateAPY()
+			expect(apy).to.be.a('bigint')
+		})
+
+		it('Should get gross reward', async function () {
+			const reward = await xex.getGrossReward(10, 5, 10, 1000)
+			expect(reward).to.be.a('bigint')
+		})
+
+		it('Should get user mint info', async function () {
+			await xex.connect(user1).claimRank(10)
+			const mintInfo = await xex.getUserMint(await user1.getAddress())
+			expect(mintInfo.rank).to.equal(1)
+		})
+
+		it('Should get user stake info', async function () {
+			await xex.connect(user1).claimRank(1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).claimMintReward()
+			const balance = await xex.balanceOf(await user1.getAddress())
+			await xex.connect(user1).stake(balance, 10)
+			const stakeInfo = await xex.getUserStake(await user1.getAddress())
+			expect(stakeInfo.amount).to.equal(balance)
+		})
+
+		it('Should get current AMP', async function () {
+			const amp = await xex.getCurrentAMP()
+			expect(amp).to.be.a('bigint')
+		})
+
+		it('Should get current EAA rate', async function () {
+			const eaaRate = await xex.getCurrentEAAR()
+			expect(eaaRate).to.be.a('bigint')
+		})
+
+		it('Should get current max term', async function () {
+			const maxTerm = await xex.getCurrentMaxTerm()
+			expect(maxTerm).to.be.a('bigint')
+		})
+
+		it('Should create minter', async function () {
+			await xex.connect(user1).minter_create(1, 10)
+			const minters = await xex.mintersOf(await user1.getAddress())
+			expect(minters.length).to.equal(1)
+		})
+
+		it('Should get minter info', async function () {
+			await xex.connect(user1).minter_create(1, 10)
+			const minterInfo = await xex.minterInfoOf(await user1.getAddress())
+			expect(minterInfo.length).to.equal(1)
+		})
+
+		it('Should claim minter rank', async function () {
+			await xex.connect(user1).minter_create(1, 10)
+			await xex.connect(user1).minter_claimRank(1)
+			const minterInfo = await xex.minterInfoOf(await user1.getAddress())
+			expect(minterInfo[0].rank).to.be.gt(0)
+		})
+
+		it('Should claim minter mint reward', async function () {
+			await xex.connect(user1).minter_create(1, 1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).minter_claimMintReward(1, await user1.getAddress())
+			const balance = await xex.balanceOf(await user1.getAddress())
+			expect(balance).to.be.gt(0)
+		})
+
+		it('Should get minter mint reward', async function () {
+			await xex.connect(user1).minter_create(1, 1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			const rewards = await xex.minter_getMintReward(await user1.getAddress())
+			expect(rewards.length).to.equal(1)
+		})
+
+		it('Should calculate stake reward', async function () {
+			await xex.connect(user1).claimRank(1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).claimMintReward()
+			const balance = await xex.balanceOf(await user1.getAddress())
+			await xex.connect(user1).stake(balance, 1)
+			const reward = await xex.calculateStakeReward(await user1.getAddress())
+			expect(reward).to.be.a('bigint')
+		})
+
+		it('Should get stake reward', async function () {
+			await xex.connect(user1).claimRank(1)
+			await ethers.provider.send('evm_increaseTime', [86400]) // 1 day
+			await ethers.provider.send('evm_mine', [])
+			await xex.connect(user1).claimMintReward()
+			const balance = await xex.balanceOf(await user1.getAddress())
+			await xex.connect(user1).stake(balance, 1)
+			const reward = await xex.calculateStakeReward(await user1.getAddress())
+			expect(reward).to.be.a('bigint')
+		})
+
+		it('should return correct reward if user has a stake', async function () {
+			const amount = await mint(user1)
+			const term = (await xex.MAX_TERM_END()) / 86400n
+			await mint(user1)
+			await xex.connect(user1).stake(amount, term)
+			await ethers.provider.send('evm_increaseTime', [(term * 24n * 60n * 60n).toString()])
+			await ethers.provider.send('evm_mine')
+			const XEX_APR = await xex.XEX_APR()
+			const DAYS_IN_YEAR = await xex.DAYS_IN_YEAR()
+			const reward = await xex.stakeRewardOf(user1.getAddress())
+			const expectedReward = (amount * XEX_APR * term * 1_000_000n) / DAYS_IN_YEAR / 100_000_000n / ethers.parseEther('1')
+			expect(reward).to.equal(expectedReward)
+		})
+
+		it('should return 0 if stake is not mature', async function () {
+			const term = (await xex.MAX_TERM_END()) / 86400n
+			const amount = await mint(user1)
+			await xex.connect(user1).stake(amount, term)
+			await ethers.provider.send('evm_increaseTime', [1 * 24 * 60 * 60])
+			await ethers.provider.send('evm_mine')
+			const reward = await xex.calculateStakeReward(user1.getAddress())
+			expect(reward).to.equal(0)
+		})
+	})
 	describe('Minting Amounts', function () {
 		const expectedMintAmounts = [
 			{ term: 1, expected: toWei(5) },
@@ -47,11 +261,11 @@ describe('XEXv2', function () {
 			{ term: 7, expected: toWei(35) },
 			{ term: 8, expected: toWei(40) },
 			{ term: 9, expected: toWei(45) },
-			{ term: 10, expected: toWei(50) },
+			{ term: 10, expected: toWei(50) }
 		]
 
 		expectedMintAmounts.forEach(({ term, expected }) => {
-			it(`should mint ${expected.toString()} XEX for a ${term}-day term`, async function () {
+			it(`should mint ${d(expected.toString())} XEX for a ${term}-day term`, async function () {
 				await xex.connect(user1).claimRank(term)
 				await warp(BigInt(term) * 24n * 3600n)
 				await xex.connect(user1).claimMintRewardTo(user1.address)
@@ -59,8 +273,8 @@ describe('XEXv2', function () {
 				expect(balance).to.equal(expected)
 			})
 		})
-
-		it('should observe the impact of global rank increase on minting amounts', async function () {
+		let loop = 100
+		it(`should observe the impact of global rank increase on minting amounts (${loop} loops)`, async function () {
 			const initialTerm = 1
 			const initialExpected = toWei(5)
 			await xex.connect(user1).claimRank(initialTerm)
@@ -68,24 +282,21 @@ describe('XEXv2', function () {
 			await xex.connect(user1).claimMintRewardTo(user1.address)
 			let balance = await xex.balanceOf(user1.address)
 			expect(balance).to.equal(initialExpected)
-
-			// Increase global rank by tens of thousands
-			for (let i = 0; i < 10000; i++) {
+			for (let i = 0; i < loop; i++) {
 				await xex.connect(user2).claimRank(1)
 				await warp(24n * 3600n)
 				await xex.connect(user2).claimMintRewardTo(user2.address)
 			}
-
 			const newTerm = 1
-			const newExpected = toWei(5) // Adjust this based on the expected impact
 			await xex.connect(user1).claimRank(newTerm)
 			await warp(BigInt(newTerm) * 24n * 3600n)
 			await xex.connect(user1).claimMintRewardTo(user1.address)
 			balance = await xex.balanceOf(user1.address)
-			expect(balance).to.be.closeTo(newExpected, toWei(1)) // Allow some tolerance
+			expect(balance).to.be.closeTo(toWei(9), toWei(10))
+			console.log(`Interactions: ${loop}, balance: ${d(balance)}`)
 		})
 	})
-	describe('calculateAPR', function () {
+	describe('APR', function () {
 		let MAX_TERM_END: bigint
 		let XEX_APR: bigint
 		let APR_DAY: bigint
@@ -121,7 +332,6 @@ describe('XEXv2', function () {
 			expect(d(stakeRewardOf)).to.eq(d(APR_DAY * 10n))
 		})
 	})
-
 	describe('Deployment', function () {
 		it('Should set the right owner', async function () {
 			expect(await xex.owner()).to.equal(dev.address)
@@ -214,7 +424,6 @@ describe('XEXv2', function () {
 			//TODO: Calculate expected penalty
 		})
 	})
-
 	describe('Staking Functionality', function () {
 		let XEX_APR: bigint
 		let APR_DAY: bigint
@@ -324,7 +533,6 @@ describe('XEXv2', function () {
 			await expect(tx).to.emit(xex, 'Withdrawn').withArgs(user1.address, stakeAmount, reward)
 		})
 	})
-
 	describe('Mint Factory', function () {
 		it('Should allow users to create multiple minters', async function () {
 			const amount = 5

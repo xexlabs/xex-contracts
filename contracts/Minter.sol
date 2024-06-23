@@ -29,8 +29,8 @@ contract Minter {
         emit Minter__ClaimRank(address(this), owner, _term);
     }
 
-    function claimMintReward(address to) external {
-        main.claimMintReward(to);
+    function claimMintReward(address to) external returns (uint rewardAmount) {
+        rewardAmount = main.claimMintRewardTo(to);
         emit Minter__ClaimMintReward(address(this), owner, to);
     }
 

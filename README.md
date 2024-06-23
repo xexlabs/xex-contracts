@@ -1,129 +1,130 @@
-```ts
-- ORIGINAL OUTPUT:
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=100/100 reward=139849/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=244/244 reward=292554/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=244/244 reward=173780/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=244/244 reward=55006/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=244/244 reward=486/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=244/244 reward=486/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=244/244 reward=486/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=244/244 reward=486/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=244/244 reward=486/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=244/244 reward=486/486
+# Xexaverse Smart Contracts Project
 
-- uint public constant MAX_TERM_START = 10 * SECONDS_IN_DAY; // from 100
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=194/244 reward=232605/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=194/244 reward=138169/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=194/244 reward=43734/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=194/244 reward=387/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=194/244 reward=387/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=194/244 reward=387/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=194/244 reward=387/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=194/244 reward=387/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=194/244 reward=387/486
+## ✅ 1. XEX: Updated emissions for predictable inflation
 
-- uint public constant MAX_TERM_END = 10 * SECONDS_IN_DAY; // 244
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2254/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=19/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=19/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=19/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=19/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
+-   20% APR enabled
+-   Batch Minting required
+-   No fee for claiming or staking XEX
 
-- uint public constant TERM_AMPLIFIER = 1; // from 15
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2254/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=19/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=19/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=19/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=19/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
+> _IMPORTANT: Test XEX minting thoroughly_
 
-- uint public constant TERM_AMPLIFIER_THRESHOLD = 1; // from 5_000
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=13984/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=11989/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=7122/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=2254/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=19/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=19/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=19/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=19/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=19/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=19/486
+## 2. Xexaverse Game Contracts: XEX rewards are gamified
 
-- uint public constant REWARD_AMPLIFIER_START = 1; // from 701
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=20/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=20/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=20/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=20/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=20/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=20/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=20/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=20/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=20/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=20/486
+**Overview**: This document outlines the contracts required for the XEX in-game rewards. These contracts should be SEPARATE from the XEX Minting Contracts for INTERNAL TESTING, but should be integrated into XEX Minting contracts so that users MUST PLAY THE GAME to mint XEX on testnet / mainnet.
 
-- uint public constant EAA_PM_START = 1; // 1_000
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
+**Contract Flow**: The user initiates a contract call before playing the game. This contract call creates a single XEX mint with a term date depending on the game’s difficulty and requires the user to pay for gas. Users can have multiple ongoing mints. The contract mints XEX associated with the wallet and waits for the game's result to allow the user to claim. The potential results:
 
-- uint public constant EAA_PM_STEP = 1; // from 10
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
+-   User Completes the Game Successfully
+-   User Loses the Game
+    -   Character Dies
+    -   The time limit is reached
 
-- uint public constant EAA_RANK_STEP = 1; // 10_000
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
+**Success**: If the user completes the game successfully, they can claim their initial XEX mint PLUS an additional bonus from the rewardsPool after their term date is reached. The additional bonus should be NO MORE than 2x the initial XEX mint value (MAX amount a user should earn is 100 XEX.
 
-- uint public constant MAX_PENALTY_PCT = 90; // from 90
-  1)0x7e5f4552091a69125d5dfcb7b8c2659029395bdf days=10/100 reward=10/139849
-  2)0x2b5ad5c4795c026514f8317c7a215e218dccd6cf days=10/244 reward=10/292554
-  3)0x6813eb9362372eef6200f3b1dbc3f819671cba69 days=10/244 reward=10/173780
-  4)0x1eff47bc3a10a45d4b230b5d10e37751fe6aa718 days=10/244 reward=10/55006
-  5)0xe1ab8145f7e55dc933d51a18c793f901a3a0b276 days=10/244 reward=10/486
-  6)0xe57bfe9f44b819898f47bf37e5af72a0783e1141 days=10/244 reward=10/486
-  7)0xd41c057fd1c78805aac12b0a94a405c0461a6fbb days=10/244 reward=10/486
-  8)0xf1f6619b38a98d6de0800f1defc0a6399eb6d30c days=10/244 reward=10/486
-  9)0xf7edc8fa1ecc32967f827c9043fcae6ba73afa5c days=10/244 reward=10/486
-  10)0x4cceba2d7d2b4fdce4304d3e09a1fea9fbeb1528 days=10/244 reward=10/486
+**Failure**: If the user fails to complete the game by dying OR by reaching the time limit, they can claim 20% of their initial XEX mint once their term date is reached. The remaining XEX goes to the rewardsPool contract. This percentage should be adjustable after deployment.
 
-// to review later:
-- uint public constant XEX_MIN_STAKE = 0;
-- uint public constant XEX_MIN_BURN = 0;
-- uint public constant XEX_APY_START = 20;
-- uint public constant XEX_APY_DAYS_STEP = 0;
-- uint public constant XEX_APY_END = 20;
+**Example #1**: The user begins a dungeon by paying gas for an XEX mint with a 1-day term date. They complete the dungeon in 5 minutes. The contract allows the user to claim their XEX mint AND the bonus XEX 24 hours later (Should be about 10 XEX with 2x bonus). If they claim later, they are subject to the decaying rewards on the XEX mint, but the bonus XEX does not decay.
 
-```
+**Example #2**: The user begins a dungeon by paying gas for an XEX mint with a 1-day term date. They fail to complete the dungeon and die after playing for 10 minutes. The contract allows the user to claim 20% of their XEX mint in a single transaction, 24 hours later (Should be about 1 XEX). The remaining 80% of the XEX is sent to the rewardsPool contract at the time of the claim.
+
+## 3. Xexadons: Simplified staking with scalable rewards
+
+**Overview**: This document outlines the Staking mechanisms for Xexadon NFTs. This document will outline the process for staking, the ‘Boost’ variable and how it is obtained, and the process for a new NFT given to a user when staking each Xexadon NFT.
+
+**Process of Staking Xexadons**
+
+A user can stake up to 25 Xexadons per wallet. The process for staking requires a user to deposit their Xexadon NFT into a staking contract. For each Xexadon deposited, the user receives a new NFT. Once deposited, there is a lockup, where the user must wait 7 Days until they can withdraw their Xexadon. A user can withdraw a single, multiple, or all Xexadons from staking in a single transaction. Unstaking any amount of Xexadons resets that wallet address’s ‘Boost’ to the initial value of 0.
+
+**Boost Variable**
+
+The ‘Boost’ variable is a state-based, callable variable, unique to each chain for user’s the wallet address. It will be used to determine a user’s Staking APR and Fee for XEX to ELX refinement. The default value of ‘Boost’ is ‘0’.
+
+When an Xexadon is staked, the variable known as ‘Boost’ begins to increase in value for each Day (24 Hours) that passes. The Day is calculated at 23:59 UTC, not when the user stakes.
+
+The Boost variable increases in value per Day depending on how many Xexadons the user has staked. Both of these values are adjustable after deployment:
+
+-   1 Xexadon: + 1 Point Per Day, Per Xexadon
+-   10 Xexadons: + 2 Points Per Day, Per Xexadon
+-   25 Xexadons: + 4 Points Per Day, Per Xexadon
+
+There is a MAXIMUM VALUE that the ‘Boost’ variable can reach, which is a value of 50,000. This maximum value is adjustable after deployment.
+
+**New NFT**
+
+For each Xexadon staked, the user will receive a new NFT. This NFT is meant to serve as a ‘Receipt’ that keeps a record of their staked Xexadon. It should not be able to be transferred. In order to unstake an Xexadon, this NFT must be burned.
+
+## 4. ELX Refinement: Lottery-style token conversion
+
+[Detailed ELX Refinement process and tiers]
+
+## 5. ELX Jackpot: Luck-based token distribution
+
+[Detailed ELX Jackpot mechanics and boosts]
+
+## 6. ELX Staking: Earn protocol fees
+
+[Detailed ELX Staking mechanics]
+
+_Questions to consider:_
+
+1. Do we lock users for a certain time due to boosts?
+2. Can we use the same gauge mechanism from Curve/Solidly?
+3. Should we use epochs to pay rewards (e.g., every 7 days)?
+
+## 7. MIGRATION: No longer multichain, migration to Fantom Sonic
+
+### XEX Migration
+
+-   Snapshot of total XEX supply on ETH, BSC, MATIC, AVAX, ARB, and FTM
+-   Airdrop to EVM address on Sonic
+-   12hrs for snapshot extraction
+-   12hrs for contract + tests
+
+### Xexadons Migration
+
+-   Snapshot of Xexadon holders on multiple chains
+-   Airdrop to EVM address on Sonic
+-   Remove images from other chains
+-   Ordinals holders can claim Sonic assets via signup
+-   Updated traits at deployment on Sonic
+-   8hrs for snapshot data preparation
+-   4hrs for image manipulation on AWS
+-   16hrs for ordinal contract preparation
+-   12hrs for trait updates (JSON + image data)
+
+## 8. AIRDROP: ELX token to community members
+
+-   10% Liquidity
+-   17.5% Team Allocation (2 Year Vesting)
+-   10% XEX Holders (Excluding Treasury)
+-   20% Xexadon Holders (Excluding Treasury)
+-   35% Jackpot Allocation (Distributed over 4 Years)
+-   5% to ELX Stakers (Distributed over 1 Year)
+-   2.5% to Bootstrap ELX rewardsPool
+
+## 9. OTHER
+
+### Whitelisted DEX for FTM/ELX
+
+-   Only through UI (Prevent MEV)
+-   Uni v3 fork, full range, to collect fees from volume
+-   Xexadon / FTM AMM
+-   Community-built, almost done
+
+### Transfer Functionality
+
+-   Transfer Xexadons / XEX / ELX from Desktop Wallet to Xexaverse App Wallet
+-   One-click transfer
+
+### FTM Daily Claim
+
+-   Only through UI, reduce Sybil
+-   Small amount claimable each day per wallet (5 Games)
+-   Funded From: Grant, Gas refund, Staked FTM, LP fees
+
+### Off-chain Tasks for FTM Claims
+
+-   Social media tasks: Twitter, Discord, TikTok, IG Posts
+-   In-Game tasks: Complete 10 Levels, Earn 1000 Crystals, Forest Biome, etc.
+
+### Fantom Validator for FTM Staking
