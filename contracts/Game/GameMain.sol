@@ -2,6 +2,7 @@
 pragma solidity =0.8.26;
 
 import {GameCore} from "./GameCore.sol";
+import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 contract GameMain is GameCore {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -30,6 +31,8 @@ contract GameMain is GameCore {
             revokeRole(MINTER_ROLE, account);
         }
     }
+
+    using EnumerableSet for EnumerableSet.UintSet;
 
     function addDungeon(
         string memory _name,
@@ -78,11 +81,11 @@ contract GameMain is GameCore {
         emit NewSigner(_newSigner);
     }
 
-    function setBaseURI(string memory _baseURI_) external onlyRole(ADMIN_ROLE) {
-        if (baseURI_ == _baseURI_) revert InvalidBaseURI();
-        if (bytes(_baseURI_).length == 0) revert InvalidBaseURI();
-        baseURI_ = _baseURI_;
-        emit NewBaseURI(_baseURI_);
+    function setBaseURI(string memory newBaseURI) external onlyRole(ADMIN_ROLE) {
+        if (keccak256(bytes(baseURI_)) == keccak256(bytes(newBaseURI))) revert InvalidBaseURI();
+        if (bytes(newBaseURI).length == 0) revert InvalidBaseURI();
+        baseURI_ = newBaseURI;
+        emit NewBaseURI(newBaseURI);
     }
 
     function setCheckProofMock(bool value) external onlyRole(ADMIN_ROLE) {
