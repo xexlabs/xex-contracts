@@ -2,7 +2,7 @@ Error.stackTraceLimit = Infinity
 import { time, loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers'
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
-import { GameMain, GameNFT, XEX } from '../typechain-types'
+import { GameMain, XEX } from '../typechain-types'
 import { Signer } from 'ethers'
 
 const toWei = ethers.parseEther
@@ -15,8 +15,8 @@ describe('Game', function () {
         const XEX = await ethers.getContractFactory('XEX')
         const GameMain = await ethers.getContractFactory('GameMain')
         const xex = await XEX.deploy() as XEX
-        const game = await GameMain.deploy(xex.target) as GameMain
-        await xex.addMinter(game.target)
+        const game = await GameMain.deploy(xex.address) as GameMain
+        await xex.addMinter(game.address)
         return { game, owner, gamer1, gamer2, xex }
     }
 
@@ -121,7 +121,7 @@ describe('Game', function () {
 
             await time.increaseTo(startIn)
             await game.connect(gamer1).start(1, { value: minMintFee })
-            const tokenId = await game.tokenOfOwnerByIndex(await game.target, 0)
+            const tokenId = await game.tokenOfOwnerByIndex(game.address, 0)
             
             // Mock the checkProof function
             await game.setCheckProofMock(true)
@@ -145,7 +145,7 @@ describe('Game', function () {
 
             await time.increaseTo(startIn)
             await game.connect(gamer1).start(1, { value: minMintFee })
-            const tokenId = await game.tokenOfOwnerByIndex(await game.target, 0)
+            const tokenId = await game.tokenOfOwnerByIndex(game.address, 0)
             
             // Mock the checkProof function
             await game.setCheckProofMock(true)
