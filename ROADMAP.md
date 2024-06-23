@@ -16,7 +16,7 @@ Xexaverse Smart Contracts Project
 
 **Overview**: This document outlines the contracts required for the XEX in-game rewards. These contracts should be SEPARATE from the XEX Minting Contracts for INTERNAL TESTING, but should be integrated into XEX Minting contracts so that users MUST PLAY THE GAME to mint XEX on testnet / mainnet.
 
-**Contract Flow**: The user initiates a contract call before playing the game. This contract call creates a single XEX mint with a term date depending on the game’s difficulty and requires the user to pay for gas. Users can have multiple ongoing mints. The contract mints XEX associated with the wallet and waits for the game's result to allow the user to claim. The potential results:
+**Contract Flow**: The user initiates a contract call before playing the game. This contract call creates a single XEX mint with a term date depending on the game's difficulty and requires the user to pay for gas. Users can have multiple ongoing mints. The contract mints XEX associated with the wallet and waits for the game's result to allow the user to claim. The potential results:
 
 -   User Completes the Game Successfully
 -   User Loses the Game
@@ -33,17 +33,17 @@ Xexaverse Smart Contracts Project
 
 ## 3. Xexadons: Simplified staking with scalable rewards
 
-**Overview**: This document outlines the Staking mechanisms for Xexadon NFTs. This document will outline the process for staking, the ‘Boost’ variable and how it is obtained, and the process for a new NFT given to a user when staking each Xexadon NFT.
+**Overview**: This document outlines the Staking mechanisms for Xexadon NFTs. This document will outline the process for staking, the 'Boost' variable and how it is obtained, and the process for a new NFT given to a user when staking each Xexadon NFT.
 
 **Process of Staking Xexadons**
 
-A user can stake up to 25 Xexadons per wallet. The process for staking requires a user to deposit their Xexadon NFT into a staking contract. For each Xexadon deposited, the user receives a new NFT. Once deposited, there is a lockup, where the user must wait 7 Days until they can withdraw their Xexadon. A user can withdraw a single, multiple, or all Xexadons from staking in a single transaction. Unstaking any amount of Xexadons resets that wallet address’s ‘Boost’ to the initial value of 0.
+A user can stake up to 25 Xexadons per wallet. The process for staking requires a user to deposit their Xexadon NFT into a staking contract. For each Xexadon deposited, the user receives a new NFT. Once deposited, there is a lockup, where the user must wait 7 Days until they can withdraw their Xexadon. A user can withdraw a single, multiple, or all Xexadons from staking in a single transaction. Unstaking any amount of Xexadons resets that wallet address's 'Boost' to the initial value of 0.
 
 **Boost Variable**
 
-The ‘Boost’ variable is a state-based, callable variable, unique to each chain for user’s the wallet address. It will be used to determine a user’s Staking APR and Fee for XEX to ELX refinement. The default value of ‘Boost’ is ‘0’.
+The 'Boost' variable is a state-based, callable variable, unique to each chain for user's the wallet address. It will be used to determine a user's Staking APR and Fee for XEX to ELX refinement. The default value of 'Boost' is '0'.
 
-When an Xexadon is staked, the variable known as ‘Boost’ begins to increase in value for each Day (24 Hours) that passes. The Day is calculated at 23:59 UTC, not when the user stakes.
+When an Xexadon is staked, the variable known as 'Boost' begins to increase in value for each Day (24 Hours) that passes. The Day is calculated at 23:59 UTC, not when the user stakes.
 
 The Boost variable increases in value per Day depending on how many Xexadons the user has staked. Both of these values are adjustable after deployment:
 
@@ -51,11 +51,11 @@ The Boost variable increases in value per Day depending on how many Xexadons the
 -   10 Xexadons: + 2 Points Per Day, Per Xexadon
 -   25 Xexadons: + 4 Points Per Day, Per Xexadon
 
-There is a MAXIMUM VALUE that the ‘Boost’ variable can reach, which is a value of 50,000. This maximum value is adjustable after deployment.
+There is a MAXIMUM VALUE that the 'Boost' variable can reach, which is a value of 50,000. This maximum value is adjustable after deployment.
 
 **New NFT**
 
-For each Xexadon staked, the user will receive a new NFT. This NFT is meant to serve as a ‘Receipt’ that keeps a record of their staked Xexadon. It should not be able to be transferred. In order to unstake an Xexadon, this NFT must be burned.
+For each Xexadon staked, the user will receive a new NFT. This NFT is meant to serve as a 'Receipt' that keeps a record of their staked Xexadon. It should not be able to be transferred. In order to unstake an Xexadon, this NFT must be burned.
 
 ## 4. ELX Refinement: Lottery-style token conversion
 
@@ -132,3 +132,17 @@ _Questions to consider:_
 -   In-Game tasks: Complete 10 Levels, Earn 1000 Crystals, Forest Biome, etc.
 
 ### Fantom Validator for FTM Staking
+
+## CHANGELOG
+
+### [Unreleased]
+
+#### Added
+- Integrated XEX minting by changing the reward token to an IXEX interface that includes a mint function.
+- Updated the IXEX interface to include the `mint` function.
+- Changed the `_xex` variable type from `IERC20` to `IXEX`.
+- Updated the `claim` function to use the `mint` function instead of a transfer.
+
+#### Changed
+- Implemented new game mechanics with dynamic term dates, bonus rewards, and rewards pool management.
+
