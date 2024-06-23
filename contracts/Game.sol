@@ -45,6 +45,7 @@ contract Game is Ownable {
         uint claimAt;
         uint availableRewards;
         uint claimedRewards;
+        uint termDate;
     }
 
     mapping(uint => Dungeon) private _dungeonInfo;
@@ -64,6 +65,10 @@ contract Game is Ownable {
 
     EnumerableSet.UintSet private _dungeons;
 
+    uint public constant MAX_BONUS_MULTIPLIER = 2;
+    uint public failurePercentage = 20;
+    uint public rewardsPool;
+
     // ERRORS:
     error InvalidMintAmount();
     error DungeonNotFound();
@@ -77,10 +82,12 @@ contract Game is Ownable {
     error InvalidTermPeriod();
     error DungeonNotStarted();
     error DungeonEnded();
+    error TermDateNotReached();
 
     // EVENTS:
     event NewSession(address user, uint tokenId, uint feeDeposited, uint termDate, uint rewardAmount, bool gameCompleted);
     event EndSession(Session session);
+    event Claim(address user, uint tokenId, uint claimAmount, uint bonusAmount);
 
     constructor(address _nft_, address _signer_, address _rewardToken_) Ownable(msg.sender) {
         _nft = XDON(_nft_);
@@ -98,15 +105,11 @@ contract Game is Ownable {
         bool _completed,
         uint _ts
     ) {
-        // check owner of token is msg.sender
         if (_nft.ownerOf(_tokenId) != msg.sender) revert InvalidOwner();
-        // check timestamp is within 1 minute of now
         if (_ts > block.timestamp + 1 minutes) revert InvalidTimestamp();
-        //        bytes memory messageHash = abi.encodePacked(_tokenId, _completed, _ts);
-        //        bytes32 signature = MessageHashUtils.toEthSignedMessageHash(messageHash);
-        //        address ok = ECDSA.recover(messageHash, signature) == _signer;
-        //        if (ok) revert InvalidSigner();
-        console.log("checkProof!");
+        bytes memory messageHash = abi.encodePacked(_tokenId, _completed, _ts);
+        bytes32 signature = MessageHashUtils.toEthSignedMessageHash(messageHash);
+        if (ECDSA.recover(signature, messageHash) != _signer) revert InvalidSigner();
         _;
     }
 
@@ -118,78 +121,93 @@ contract Game is Ownable {
     function start(uint _dungeonId) external payable {
         Dungeon memory dungeon = _dungeonInfo[_dungeonId];
 
-        // checks:
         if (!dungeon.active) revert DungeonNotActive();
-        // check dungeon start/end:
         if (block.timestamp < dungeon.startIn) revert DungeonNotStarted();
         if (block.timestamp > dungeon.endIn) revert DungeonEnded();
         if (msg.value < dungeon.minMintFee) revert InvalidMintAmount();
 
-        // sets:
-        // get termDate froms tart and end:
         uint timeLeft = dungeon.endIn - block.timestamp;
         uint randomTime = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % timeLeft;
-        uint termDate = block.timestamp + randomTime;
-        // we mint the nft and store it here:
+        uint termDate = block.timestamp + dungeon.minTermDate + randomTime;
         uint tokenId = _nft.mint(address(this));
-        Session memory session = _sessions[tokenId];
-        session.startedAt = block.timestamp;
+        
+        Session memory session = Session(
+            msg.sender,
+            tokenId,
+            msg.value,
+            0,
+            false,
+            _dungeonId,
+            block.timestamp,
+            0,
+            0,
+            0,
+            0,
+            0,
+            termDate
+        );
+        
         _sessionIds[_dungeonId].add(tokenId);
-        _sessions[tokenId] = Session(msg.sender, tokenId, msg.value, 0, false, _dungeonId, block.timestamp, 0, 0, 0, 0, 0);
+        _userSessionIds[msg.sender].add(tokenId);
+        _sessions[tokenId] = session;
+        
         emit NewSession(msg.sender, tokenId, msg.value, termDate, 0, false);
     }
 
-    // proof is a signed message from the game server
     function end(uint _tokenId, bool completed, uint ts) external checkProof(_tokenId, completed, ts) checkOwner(_tokenId) {
-        // sets:
-        Session memory session = _sessions[_tokenId];
+        Session storage session = _sessions[_tokenId];
         uint dungeonId = session.dungeonId;
-        Dungeon memory dungeon = _dungeonInfo[dungeonId];
+        Dungeon storage dungeon = _dungeonInfo[dungeonId];
+        
         session.endedAt = block.timestamp;
         session.gameCompleted = completed;
-        bool completedInTime = block.timestamp < session.startedAt + dungeon.maxTermDate;
-
+        
         _sessionIds[dungeonId].remove(_tokenId);
         _sessionFinished[dungeonId].add(_tokenId);
-        session.rewardAmount = (session.feeDeposited * dungeon.failurePercentage) / 100;
-        if (!completed || !completedInTime) {
-            uint rewardForThePool = (session.feeDeposited * dungeon.failurePercentage) / 100;
+        _userSessionIds[msg.sender].remove(_tokenId);
+        _userSessionFinished[msg.sender].add(_tokenId);
+        
+        if (!completed) {
+            uint rewardForThePool = (session.feeDeposited * failurePercentage) / 100;
             session.claimAmount = session.feeDeposited - rewardForThePool;
-            addReward(dungeonId, rewardForThePool);
+            rewardsPool += rewardForThePool;
         } else {
             session.claimAmount = session.feeDeposited;
+            uint bonusAmount = (session.feeDeposited * MAX_BONUS_MULTIPLIER) - session.feeDeposited;
+            if (bonusAmount > rewardsPool) {
+                bonusAmount = rewardsPool;
+            }
+            session.rewardAmount = bonusAmount;
+            rewardsPool -= bonusAmount;
         }
-        _sessions[_tokenId] = session;
+        
+        emit EndSession(session);
     }
 
     function claim(uint _tokenId) external checkOwner(_tokenId) {
-        Session memory session = _sessions[_tokenId];
-        uint dungeonId = session.dungeonId;
-        Dungeon memory dungeon = _dungeonInfo[dungeonId];
-        // checks:
-        if (_sessions[_tokenId].rewardAmount == 0) revert InvalidRewardAmount();
+        Session storage session = _sessions[_tokenId];
+        
         if (session.endedAt == 0) revert NotFinished();
         if (session.claimAt != 0) revert AlreadyClaimed();
-        // sets:
+        if (block.timestamp < session.termDate) revert TermDateNotReached();
+        
         session.claimAt = block.timestamp;
-        // compute the amount of xex to claim:
         uint claimAmount = session.claimAmount;
+        uint bonusAmount = session.rewardAmount;
+        
         if (!session.gameCompleted) {
-            //REVIEW
-            uint timeLeft = session.endedAt - session.startedAt;
+            uint timeLeft = session.termDate - session.startedAt;
             uint timePassed = session.claimAt - session.startedAt;
             uint timePercentage = (timePassed * 100) / timeLeft;
             uint decay = (claimAmount * timePercentage) / 100;
             claimAmount -= decay;
+            rewardsPool += decay;
         }
-        _rewardToken.transfer(msg.sender, session.rewardAmount);
-        dungeon.availableRewards -= session.rewardAmount;
-        dungeon.claimedRewards += session.rewardAmount;
-
-        _sessions[_tokenId] = session;
-        _dungeonInfo[dungeonId] = dungeon;
+        
+        _rewardToken.transfer(msg.sender, claimAmount + bonusAmount);
         _nft.transferFrom(address(this), msg.sender, _tokenId);
-        emit EndSession(session);
+        
+        emit Claim(msg.sender, _tokenId, claimAmount, bonusAmount);
     }
 
     function addDungeon(
@@ -199,14 +217,12 @@ contract Game is Ownable {
         uint _minMintFee,
         uint _minTermDate,
         uint _maxTermDate,
-        uint _failurePercentage,
         uint _rewardAmount
     ) external onlyOwner {
         uint dungeonId = _dungeons.length();
         _dungeons.add(dungeonId);
-        // start > end
         if (_startIn > _endIn) revert InvalidTermPeriod();
-        _dungeonInfo[dungeonId] = Dungeon(_name, _startIn, _endIn, _minTermDate, _maxTermDate, _minMintFee, _failurePercentage, true, _rewardAmount, 0);
+        _dungeonInfo[dungeonId] = Dungeon(_name, _startIn, _endIn, _minTermDate, _maxTermDate, _minMintFee, failurePercentage, true, _rewardAmount, 0);
         addReward(dungeonId, _rewardAmount);
     }
 
@@ -223,8 +239,8 @@ contract Game is Ownable {
         _dungeonInfo[_dungeonId].minMintFee = _minMintFee;
     }
 
-    function setRewardPercentage(uint _dungeonId, uint _failurePercentage) external onlyOwner {
-        _dungeonInfo[_dungeonId].failurePercentage = _failurePercentage;
+    function setFailurePercentage(uint _failurePercentage) external onlyOwner {
+        failurePercentage = _failurePercentage;
     }
 
     function setSigner(address _signer_) external onlyOwner {
@@ -232,7 +248,6 @@ contract Game is Ownable {
     }
 
     function claimEther() external onlyOwner {
-        //REVIEW: what to do with deposited ether?
         (bool success, ) = msg.sender.call{value: address(this).balance}("");
         require(success, "Transfer failed.");
     }
@@ -240,47 +255,34 @@ contract Game is Ownable {
     // VIEW's:
     function getOnlyActiveDungeons() external view returns (uint[] memory) {
         uint[] memory dungeons = new uint[](_dungeons.length());
+        uint count = 0;
         for (uint i = 0; i < _dungeons.length(); i++) {
             uint id = _dungeons.at(i);
             if (_dungeonInfo[id].active) {
-                dungeons[i] = id;
+                dungeons[count] = id;
+                count++;
             }
+        }
+        assembly {
+            mstore(dungeons, count)
         }
         return dungeons;
     }
 
     function getActiveSessions(uint _dungeonId) external view returns (uint[] memory) {
-        uint[] memory sessions = new uint[](_sessionIds[_dungeonId].length());
-        for (uint i = 0; i < _sessionIds[_dungeonId].length(); i++) {
-            sessions[i] = _sessionIds[_dungeonId].at(i);
-        }
-        return sessions;
+        return _sessionIds[_dungeonId].values();
     }
 
     function getActiveSessionsByUser(address _user) external view returns (uint[] memory) {
-        uint size = _userSessionIds[_user].length();
-        uint[] memory sessions = new uint[](size);
-        for (uint i = 0; i < size; i++) {
-            sessions[i] = _userSessionIds[_user].at(i);
-        }
-        return sessions;
+        return _userSessionIds[_user].values();
     }
 
     function getFinishedSessions(uint _dungeonId) external view returns (uint[] memory) {
-        uint[] memory sessions = new uint[](_sessionFinished[_dungeonId].length());
-        for (uint i = 0; i < _sessionFinished[_dungeonId].length(); i++) {
-            sessions[i] = _sessionFinished[_dungeonId].at(i);
-        }
-        return sessions;
+        return _sessionFinished[_dungeonId].values();
     }
 
     function getFinishedSessionsByUser(address _user) external view returns (uint[] memory) {
-        uint size = _userSessionFinished[_user].length();
-        uint[] memory sessions = new uint[](size);
-        for (uint i = 0; i < size; i++) {
-            sessions[i] = _userSessionFinished[_user].at(i);
-        }
-        return sessions;
+        return _userSessionFinished[_user].values();
     }
 
     function getDungeonInfo(uint _dungeonId) external view returns (Dungeon memory) {
