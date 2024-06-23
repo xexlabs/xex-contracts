@@ -190,7 +190,77 @@ contract Game is Ownable {
         emit EndSession(session);
     }
 
-    // ... [rest of the functions remain unchanged]
+    function addDungeon(
+        string memory _name,
+        uint _startIn,
+        uint _endIn,
+        uint _minTermDate,
+        uint _maxTermDate,
+        uint _minMintFee,
+        uint _difficulty,
+        uint _availableRewards
+    ) external onlyOwner {
+        uint dungeonId = _dungeons.length() + 1;
+        _dungeons.add(dungeonId);
+        _dungeonInfo[dungeonId] = Dungeon(_name, _startIn, _endIn, _minTermDate, _maxTermDate, _minMintFee, _difficulty, true, _availableRewards, 0);
+        rewardsPool += _availableRewards;
+    }
+
+    function updateDungeon(
+        uint _dungeonId,
+        string memory _name,
+        uint _startIn,
+        uint _endIn,
+        uint _minTermDate,
+        uint _maxTermDate,
+        uint _minMintFee,
+        uint _difficulty,
+        bool _active
+    ) external onlyOwner {
+        if (!_dungeons.contains(_dungeonId)) revert DungeonNotFound();
+        Dungeon storage dungeon = _dungeonInfo[_dungeonId];
+        dungeon.name = _name;
+        dungeon.startIn = _startIn;
+        dungeon.endIn = _endIn;
+        dungeon.minTermDate = _minTermDate;
+        dungeon.maxTermDate = _maxTermDate;
+        dungeon.minMintFee = _minMintFee;
+        dungeon.difficulty = _difficulty;
+        dungeon.active = _active;
+    }
+
+    function getDungeonInfo(uint _dungeonId) external view returns (Dungeon memory) {
+        if (!_dungeons.contains(_dungeonId)) revert DungeonNotFound();
+        return _dungeonInfo[_dungeonId];
+    }
+
+    function getSessionInfo(uint _tokenId) external view returns (Session memory) {
+        return _sessions[_tokenId];
+    }
+
+    function getUserSessions(address _user) external view returns (uint[] memory) {
+        return _userSessionIds[_user].values();
+    }
+
+    function getUserFinishedSessions(address _user) external view returns (uint[] memory) {
+        return _userSessionFinished[_user].values();
+    }
+
+    function getDungeonSessions(uint _dungeonId) external view returns (uint[] memory) {
+        return _sessionIds[_dungeonId].values();
+    }
+
+    function getDungeonFinishedSessions(uint _dungeonId) external view returns (uint[] memory) {
+        return _sessionFinished[_dungeonId].values();
+    }
+
+    function getAllDungeons() external view returns (uint[] memory) {
+        return _dungeons.values();
+    }
+
+    function setSigner(address _newSigner) external onlyOwner {
+        _signer = _newSigner;
+    }
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
         return IERC721Receiver.onERC721Received.selector;
