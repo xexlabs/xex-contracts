@@ -17,6 +17,7 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
     uint public LOCKUP_PERIOD = 7 days;
     mapping(address => StakedXexadon) internal stakeOf;
     mapping(address => EnumerableSet.UintSet) internal assetsOf;
+    mapping(address => uint) public lastBoostUpdate;
     uint internal _nextId;
     IXDON public asset;
     string private _baseUriPrefix;
@@ -59,6 +60,7 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
             _safeMint(msg.sender, id);
         }
         _nextId++;
+        lastBoostUpdate[msg.sender] = block.timestamp;
         emit Stake(id, msg.sender, assets, lockupEndTime, boost);
     }
     function unstakeAll(uint tokenId) external {
@@ -80,6 +82,7 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
             delete stakeOf[msg.sender];
             _burn(tokenId);
         }
+        lastBoostUpdate[msg.sender] = block.timestamp;
         emit Unstake(tokenId, msg.sender, assets, r.lockupEndTime, getBoostOf(msg.sender));
     }
 
@@ -87,13 +90,19 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
     function getBoostOf(address user) public view returns (uint boost) {
         uint boostPerDay;
         uint elapsedDays;
-        if (block.timestamp > stakeOf[user].lockupEndTime) {
-            elapsedDays = (block.timestamp - stakeOf[user].lockupEndTime) / 1 days;
+        uint lastUpdate = lastBoostUpdate[user];
+        uint currentDay = (block.timestamp / 1 days) * 1 days;
+        uint lastUpdateDay = (lastUpdate / 1 days) * 1 days;
+        
+        if (currentDay > lastUpdateDay) {
+            elapsedDays = (currentDay - lastUpdateDay) / 1 days;
         }
-        if (elapsedDays <= 1) boostPerDay = 1;
-        else if (elapsedDays <= 10) boostPerDay = 2;
-        else boostPerDay = 4;
+        
         uint numStaked = assetsOf[user].length();
+        if (numStaked <= 1) boostPerDay = 1;
+        else if (numStaked <= 10) boostPerDay = 2;
+        else boostPerDay = 4;
+        
         boost = boostPerDay * numStaked * elapsedDays;
         if (boost > MAX_BOOST) boost = MAX_BOOST;
     }
@@ -109,6 +118,11 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
     }
     function supportsInterface(bytes4 interfaceId) public view override(ERC721Enumerable, IERC165) returns (bool) {
         return interfaceId == type(IXexadonStaking).interfaceId || super.supportsInterface(interfaceId);
+    }
+
+    // Prevent transfer of staking receipt NFT
+    function _transfer(address from, address to, uint256 tokenId) internal override {
+        revert("Transfer of staking receipt NFT is not allowed");
     }
 
     // ADMIN:
@@ -127,5 +141,13 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
     function setBaseUriPrefix(string memory uriPrefix) external onlyOwner {
         _baseUriPrefix = uriPrefix;
         emit BaseUriPrefixChanged(uriPrefix);
+    }
+
+    // Function to update boost at 23:59 UTC
+    function updateBoost() external {
+        require(block.timestamp % 1 days >= 86340, "Can only update boost at 23:59 UTC");
+        uint boost = getBoostOf(msg.sender);
+        lastBoostUpdate[msg.sender] = block.timestamp;
+        emit BoostUpdated(msg.sender, boost);
     }
 }
