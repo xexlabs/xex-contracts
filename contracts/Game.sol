@@ -30,7 +30,7 @@ contract Game is Ownable {
         uint minTermDate;
         uint maxTermDate;
         uint minMintFee;
-        uint difficulty; // New: to determine term date
+        uint difficulty; // 1-100, used to determine term date
         bool active;
         uint availableRewards;
         uint claimedRewards;
@@ -119,7 +119,8 @@ contract Game is Ownable {
 
         uint timeLeft = dungeon.endIn - block.timestamp;
         uint randomTime = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % timeLeft;
-        uint termDate = block.timestamp + dungeon.minTermDate + ((randomTime * dungeon.difficulty) / 100);
+        uint termDateRange = dungeon.maxTermDate - dungeon.minTermDate;
+        uint termDate = block.timestamp + dungeon.minTermDate + ((randomTime * termDateRange * dungeon.difficulty) / (100 * timeLeft));
         uint tokenId = _nft.mint(address(this));
         Session memory session = Session(msg.sender, tokenId, msg.value, 0, false, _dungeonId, block.timestamp, 0, 0, 0, 0, 0, termDate);
         _sessionIds[_dungeonId].add(tokenId);
