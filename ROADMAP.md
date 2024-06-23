@@ -38,7 +38,8 @@ Xexaverse Smart Contracts Project
 -   Changed the `_xex` variable type from `IERC20` to `IXEX`.
 -   Updated the `claim` function to use the `mint` function instead of a transfer.
 -   Implemented new game mechanics with dynamic term dates, bonus rewards, and rewards pool management.
--   Each dugeon has it's own reward amounts now. Once depleted, users can't paly on the dugeon anymore.
+-   Each dungeon has its own reward amounts now. Once depleted, users can't play on the dungeon anymore.
+-   Added difficulty factor to calculate term date for new game sessions.
 
 ## 3. Xexadons: Simplified staking with scalable rewards
 
