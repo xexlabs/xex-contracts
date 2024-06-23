@@ -1,21 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./Math.sol";
-import "abdk-libraries-solidity/ABDKMath64x64.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import {Math} from "./utils/Math.sol";
+import {ABDKMath64x64} from "abdk-libraries-solidity/ABDKMath64x64.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {Constants} from "./Constants.sol";
 import {Minter} from "./Minter.sol";
 import {IXEX} from "./interfaces/IXEX.sol";
 
-contract XEX is ERC20, Ownable, Constants, IXEX {
+contract XEX is ERC20, AccessControl, Constants, IXEX {
     using Math for uint;
     using ABDKMath64x64 for int128;
     using ABDKMath64x64 for uint;
+
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+
     error UserNotFound();
     error NoStakedAmount();
-
+    error NotAdmin();
+    error NotMinter();
     uint public immutable genesisTs;
     uint public globalRank = GENESIS_RANK;
     uint public activeMinters;
@@ -34,9 +39,44 @@ contract XEX is ERC20, Ownable, Constants, IXEX {
     event Staked(address indexed user, uint amount, uint term, uint apy);
     event Withdrawn(address indexed user, uint amount, uint reward);
 
+    address public treasury;
     // CONSTRUCTOR
-    constructor() ERC20("XEX", "XEX") Ownable(msg.sender) {
+    constructor() ERC20("XEX", "XEX") {
         genesisTs = block.timestamp;
+        treasury = msg.sender;
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(ADMIN_ROLE, msg.sender);
+        _grantRole(MINTER_ROLE, msg.sender);
+    }
+
+    modifier onlyAdmin() {
+        if (!hasRole(ADMIN_ROLE, msg.sender)) revert NotAdmin();
+        _;
+    }
+
+    modifier onlyMinter() {
+        if (!hasRole(MINTER_ROLE, msg.sender)) revert NotMinter();
+        _;
+    }
+
+    function setTreasury(address account) public onlyAdmin {
+        treasury = account;
+    }
+
+    function addAdmin(address account) public onlyAdmin {
+        grantRole(ADMIN_ROLE, account);
+    }
+
+    function removeAdmin(address account) public onlyAdmin {
+        revokeRole(ADMIN_ROLE, account);
+    }
+
+    function addMinter(address account) public onlyAdmin {
+        grantRole(MINTER_ROLE, account);
+    }
+
+    function removeMinter(address account) public onlyAdmin {
+        revokeRole(MINTER_ROLE, account);
     }
 
     // PRIVATE METHODS
@@ -212,7 +252,7 @@ contract XEX is ERC20, Ownable, Constants, IXEX {
         // calculate reward and mint tokens
         rewardAmount = calculateMintReward(mintInfo.rank, mintInfo.term, mintInfo.maturityTs, mintInfo.amplifier, mintInfo.eaaRate) * 1 ether;
         _mint(to, rewardAmount);
-        _mint(owner(), rewardAmount / 100);
+        _mint(treasury, rewardAmount / 100);
 
         _cleanUpUserMint();
         emit MintClaimed(msg.sender, to, rewardAmount);
@@ -237,7 +277,7 @@ contract XEX is ERC20, Ownable, Constants, IXEX {
 
         // mint reward tokens part
         _mint(msg.sender, ownReward);
-        _mint(owner(), rewardAmount / 100);
+        _mint(treasury, rewardAmount / 100);
         _cleanUpUserMint();
         emit MintClaimed(msg.sender, msg.sender, rewardAmount);
 
@@ -279,7 +319,7 @@ contract XEX is ERC20, Ownable, Constants, IXEX {
 
         // mint staked XEX (+ reward)
         _mint(msg.sender, userStake.amount + xenReward);
-        _mint(owner(), xenReward / 100);
+        _mint(treasury, xenReward / 100);
 
         emit Withdrawn(msg.sender, userStake.amount, xenReward);
         delete userStakes[msg.sender];
@@ -393,5 +433,8 @@ contract XEX is ERC20, Ownable, Constants, IXEX {
         uint rate = (userStake.apy * userStake.term * 1_000_000) / DAYS_IN_YEAR;
         reward = (userStake.amount * rate) / 100_000_000;
         reward = reward / 1e18;
+    }
+    function mint(address to, uint256 amount) external onlyMinter {
+        _mint(to, amount);
     }
 }

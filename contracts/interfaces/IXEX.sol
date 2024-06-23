@@ -26,4 +26,5 @@ interface IXEX {
     function claimMintReward() external returns (uint rewardAmount);
     function getMaxTerm() external view returns (uint);
     function getMinTerm() external view returns (uint);
+    function mint(address to, uint256 amount) external;
 }

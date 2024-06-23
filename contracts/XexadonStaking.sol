@@ -93,16 +93,16 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         uint lastUpdate = lastBoostUpdate[user];
         uint currentDay = (block.timestamp / 1 days) * 1 days;
         uint lastUpdateDay = (lastUpdate / 1 days) * 1 days;
-        
+
         if (currentDay > lastUpdateDay) {
             elapsedDays = (currentDay - lastUpdateDay) / 1 days;
         }
-        
+
         uint numStaked = assetsOf[user].length();
         if (numStaked <= 1) boostPerDay = 1;
         else if (numStaked <= 10) boostPerDay = 2;
         else boostPerDay = 4;
-        
+
         boost = boostPerDay * numStaked * elapsedDays;
         if (boost > MAX_BOOST) boost = MAX_BOOST;
     }
@@ -121,8 +121,9 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
     }
 
     // Prevent transfer of staking receipt NFT
+    error TransferNotAllowed();
     function _transfer(address from, address to, uint256 tokenId) internal override {
-        revert("Transfer of staking receipt NFT is not allowed");
+        revert TransferNotAllowed();
     }
 
     // ADMIN:

@@ -165,19 +165,23 @@ contract Game is Ownable {
 
         session.claimAt = block.timestamp;
         uint claimAmount = session.claimAmount;
-
+        uint initialMint = session.feeDeposited;
         if (!session.gameCompleted) {
             uint timeLeft = session.termDate - session.startedAt;
             uint timePassed = session.claimAt - session.startedAt;
             uint timePercentage = (timePassed * 100) / timeLeft;
             uint decay = (claimAmount * timePercentage) / 100;
             claimAmount -= decay;
+            uint maxBonus = initialMint;
+            uint availableBonus = dungeon.availableRewards > maxBonus ? maxBonus : dungeon.availableRewards;
+            claimAmount += availableBonus;
         }
-
+        if (claimAmount > 2 * initialMint) {
+            claimAmount = 2 * initialMint;
+        }
         _xex.mint(msg.sender, claimAmount);
         dungeon.availableRewards -= claimAmount;
         dungeon.claimedRewards += claimAmount;
-        dungeon.availableRewards -= claimAmount;
 
         _nft.transferFrom(address(this), msg.sender, _tokenId);
         emit EndSession(session);

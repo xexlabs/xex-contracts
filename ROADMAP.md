@@ -40,6 +40,9 @@ Xexaverse Smart Contracts Project
 -   Implemented new game mechanics with dynamic term dates, bonus rewards, and rewards pool management.
 -   Each dungeon has its own reward amounts now. Once depleted, users can't play on the dungeon anymore.
 -   Added difficulty factor to calculate term date for new game sessions.
+-   Setted the failure claim percentage to exactly 20%.
+-   Added check to ensure that the claim amount does not exceed 2x the initial mint.
+-   Added max bonus as max deposit.
 
 ## 3. Xexadons: Simplified staking with scalable rewards
 
@@ -66,6 +69,14 @@ There is a MAXIMUM VALUE that the 'Boost' variable can reach, which is a value o
 **New NFT**
 
 For each Xexadon staked, the user will receive a new NFT. This NFT is meant to serve as a 'Receipt' that keeps a record of their staked Xexadon. It should not be able to be transferred. In order to unstake an Xexadon, this NFT must be burned.
+
+#### CHANGELOG
+
+-   1 Added a \_transfer function override to prevent the transfer of staking receipt NFTs.
+-   2 Implemented a new updateBoost function that can only be called at 23:59 UTC to update the boost value.
+-   3 Added a lastBoostUpdate mapping to keep track of when each user's boost was last updated.
+-   4 Modified the getBoostOf function to calculate boost based on the time since the last update, aligned with daily intervals.
+-   5 Updated the stake and unstake functions to set the lastBoostUpdate timestamp.
 
 ## 4. ELX Refinement: Lottery-style token conversion
 
