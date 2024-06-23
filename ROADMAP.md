@@ -31,6 +31,15 @@ Xexaverse Smart Contracts Project
 
 **Example #2**: The user begins a dungeon by paying gas for an XEX mint with a 1-day term date. They fail to complete the dungeon and die after playing for 10 minutes. The contract allows the user to claim 20% of their XEX mint in a single transaction, 24 hours later (Should be about 1 XEX). The remaining 80% of the XEX is sent to the rewardsPool contract at the time of the claim.
 
+#### CHANGELOG
+
+-   Integrated XEX minting by changing the reward token to an IXEX interface that includes a mint function.
+-   Updated the IXEX interface to include the `mint` function.
+-   Changed the `_xex` variable type from `IERC20` to `IXEX`.
+-   Updated the `claim` function to use the `mint` function instead of a transfer.
+-   Implemented new game mechanics with dynamic term dates, bonus rewards, and rewards pool management.
+-   Each dugeon has it's own reward amounts now. Once depleted, users can't paly on the dugeon anymore.
+
 ## 3. Xexadons: Simplified staking with scalable rewards
 
 **Overview**: This document outlines the Staking mechanisms for Xexadon NFTs. This document will outline the process for staking, the 'Boost' variable and how it is obtained, and the process for a new NFT given to a user when staking each Xexadon NFT.
@@ -132,17 +141,3 @@ _Questions to consider:_
 -   In-Game tasks: Complete 10 Levels, Earn 1000 Crystals, Forest Biome, etc.
 
 ### Fantom Validator for FTM Staking
-
-## CHANGELOG
-
-### [Unreleased]
-
-#### Added
-- Integrated XEX minting by changing the reward token to an IXEX interface that includes a mint function.
-- Updated the IXEX interface to include the `mint` function.
-- Changed the `_xex` variable type from `IERC20` to `IXEX`.
-- Updated the `claim` function to use the `mint` function instead of a transfer.
-
-#### Changed
-- Implemented new game mechanics with dynamic term dates, bonus rewards, and rewards pool management.
-
