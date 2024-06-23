@@ -1,1 +1,0 @@
-_xex.mint(msg.sender, claimAmount);
