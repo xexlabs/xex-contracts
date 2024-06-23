@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity =0.8.26;
-import {console} from "hardhat/console.sol";
+//import {console} from "hardhat/console.sol";
 import {GameNFT} from "./GameNFT.sol";
+import {IXEX} from "./interfaces/IXEX.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
@@ -9,10 +10,6 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {MessageHashUtils} from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-
-interface IXEX is IERC20 {
-    function mint(address to, uint256 amount) external;
-}
 
 contract Game is Ownable {
     using SafeERC20 for IXEX;
@@ -108,13 +105,8 @@ contract Game is Ownable {
     ) {
         if (_nft.ownerOf(_tokenId) != msg.sender) revert InvalidOwner();
         if (_ts > block.timestamp + 1 minutes) revert InvalidTimestamp();
-        console.log("checkProof!");
+        //TODO: checkProof
         _;
-    }
-
-    function addReward(uint _dungeonId, uint _amount) internal {
-        _dungeonInfo[_dungeonId].availableRewards += _amount;
-        rewardsPool += _amount;
     }
 
     function start(uint _dungeonId) external payable {
@@ -127,7 +119,7 @@ contract Game is Ownable {
 
         uint timeLeft = dungeon.endIn - block.timestamp;
         uint randomTime = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % timeLeft;
-        uint termDate = block.timestamp + dungeon.minTermDate + (randomTime * dungeon.difficulty / 100);
+        uint termDate = block.timestamp + dungeon.minTermDate + ((randomTime * dungeon.difficulty) / 100);
         uint tokenId = _nft.mint(address(this));
         Session memory session = Session(msg.sender, tokenId, msg.value, 0, false, _dungeonId, block.timestamp, 0, 0, 0, 0, 0, termDate);
         _sessionIds[_dungeonId].add(tokenId);
@@ -145,11 +137,11 @@ contract Game is Ownable {
         bool completedInTime = block.timestamp < session.startedAt + dungeon.maxTermDate;
         _sessionIds[dungeonId].remove(_tokenId);
         _sessionFinished[dungeonId].add(_tokenId);
-        
+
         if (!completed || !completedInTime) {
             session.claimAmount = (session.feeDeposited * FAILURE_CLAIM_PERCENTAGE) / 100;
             uint rewardForThePool = session.feeDeposited - session.claimAmount;
-            addReward(dungeonId, rewardForThePool);
+            dungeon.availableRewards += rewardForThePool;
         } else {
             uint bonus = (session.feeDeposited * (MAX_BONUS_MULTIPLIER - 1));
             session.claimAmount = session.feeDeposited + bonus;
@@ -164,15 +156,15 @@ contract Game is Ownable {
         Session storage session = _sessions[_tokenId];
         uint dungeonId = session.dungeonId;
         Dungeon storage dungeon = _dungeonInfo[dungeonId];
-        
+
         if (session.rewardAmount == 0) revert InvalidRewardAmount();
         if (session.endedAt == 0) revert NotFinished();
         if (session.claimAt != 0) revert AlreadyClaimed();
         if (block.timestamp < session.termDate) revert InvalidTimestamp();
-        
+
         session.claimAt = block.timestamp;
         uint claimAmount = session.claimAmount;
-        
+
         if (!session.gameCompleted) {
             uint timeLeft = session.termDate - session.startedAt;
             uint timePassed = session.claimAt - session.startedAt;
@@ -180,11 +172,11 @@ contract Game is Ownable {
             uint decay = (claimAmount * timePercentage) / 100;
             claimAmount -= decay;
         }
-        
+
         _xex.mint(msg.sender, claimAmount);
         dungeon.availableRewards -= claimAmount;
         dungeon.claimedRewards += claimAmount;
-        rewardsPool -= claimAmount;
+        dungeon.availableRewards -= claimAmount;
 
         _nft.transferFrom(address(this), msg.sender, _tokenId);
         emit EndSession(session);
