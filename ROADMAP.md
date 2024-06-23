@@ -1,4 +1,8 @@
-# Xexaverse Smart Contracts Project
+# ROADMAP
+
+Xexaverse Smart Contracts Project
+
+---
 
 ## ✅ 1. XEX: Updated emissions for predictable inflation
 
