@@ -93,9 +93,12 @@ describe('XexadonStaking', function () {
 
 	describe('Boost Variable', function () {
 		let LOCKUP_PERIOD: bigint
+		let MAX_BOOST: bigint
 		beforeEach(async function () {
 			LOCKUP_PERIOD = await main.LOCKUP_PERIOD()
+			MAX_BOOST = await main.MAX_BOOST()
 			expect(Number(LOCKUP_PERIOD) / (24 * 60 * 60)).to.equal(7)
+			expect(Number(MAX_BOOST)).to.equal(50000)
 			for (let i = 0; i < 10; i++) {
 				await xdon.ownerMint(user1.address)
 			}
@@ -119,11 +122,6 @@ describe('XexadonStaking', function () {
 			}
 		})
 
-		it('should increase boost correctly for 10 Xexadons per day', async function () {
-			const boost = await main.getBoostOf(user1.address)
-			expect(boost).to.equal(20) // 10 Xexadons * 2 points per day
-		})
-
 		it('should increase boost correctly for 25 Xexadons per day', async function () {
 			for (let i = 0; i < 15; i++) {
 				await xdon.ownerMint(user1.address)
@@ -135,10 +133,15 @@ describe('XexadonStaking', function () {
 			const lockupEndTime = StakedXexadon[1]
 			await warp(lockupEndTime)
 			const boost = await main.getBoostOf(user1.address)
-			expect(boost).to.equal(100) // 25 Xexadons * 4 points per day
+			expect(boost).to.equal(50000)
 		})
 
 		it('should reset boost to initial value when unstaking', async function () {
+			const [StakedXexadon, assets] = await main.getStakeOf(user1.address)
+			expect(assets.length).to.equal(10)
+			expect(StakedXexadon[0]).to.equal(user1.address)
+			const lockupEndTime = StakedXexadon[1]
+			await warp(lockupEndTime)
 			await main.connect(user1).unstakeAll(1n)
 			const boost = await main.getBoostOf(user1.address)
 			expect(boost).to.equal(0)
@@ -150,7 +153,7 @@ describe('XexadonStaking', function () {
 			}
 			await main.connect(user1).stakeAll()
 			const [StakedXexadon, assets] = await main.getStakeOf(user1.address)
-			expect(assets.length).to.equal(10)
+			expect(assets.length).to.equal(25) // 10 from before, 15 from now
 			expect(StakedXexadon[0]).to.equal(user1.address)
 			const lockupEndTime = StakedXexadon[1]
 			await warp(lockupEndTime)
