@@ -194,4 +194,60 @@ describe('Game', function () {
 			await claim(game, gamer1, tokenId)
 		})
 	})
+
+	describe('Security', function () {
+		describe('DUNGEON_ROLE', function () {
+			it('should only allow DUNGEON_ROLE to add a dungeon', async function () {
+				const { game, owner, gamer1 } = await loadFixture(deploy)
+				const startIn = BigInt(await time.latest()) + 3600n
+				const endIn = startIn + 86400n
+
+				// Owner should be able to add a dungeon
+				await expect(addDungeon(game, owner, 'Dungeon 1', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))).to.not.be.reverted
+
+				// Gamer1 should not be able to add a dungeon
+				await expect(addDungeon(game, gamer1, 'Dungeon 2', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))).to.be.reverted
+			})
+
+			it('should allow ADMIN_ROLE to grant DUNGEON_ROLE', async function () {
+				const { game, owner, gamer1 } = await loadFixture(deploy)
+				const DUNGEON_ROLE = await game.DUGEON_ROLE()
+
+				// Grant DUNGEON_ROLE to gamer1
+				await game.connect(owner).grantRole(DUNGEON_ROLE, await gamer1.getAddress())
+
+				// Now gamer1 should be able to add a dungeon
+				const startIn = BigInt(await time.latest()) + 3600n
+				const endIn = startIn + 86400n
+				await expect(addDungeon(game, gamer1, 'Dungeon 1', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))).to.not.be.reverted
+			})
+
+			it('should allow ADMIN_ROLE to revoke DUNGEON_ROLE', async function () {
+				const { game, owner, gamer1 } = await loadFixture(deploy)
+				const DUNGEON_ROLE = await game.DUGEON_ROLE()
+
+				// Grant DUNGEON_ROLE to gamer1
+				await game.connect(owner).grantRole(DUNGEON_ROLE, await gamer1.getAddress())
+
+				// Revoke DUNGEON_ROLE from gamer1
+				await game.connect(owner).revokeRole(DUNGEON_ROLE, await gamer1.getAddress())
+
+				// Now gamer1 should not be able to add a dungeon
+				const startIn = BigInt(await time.latest()) + 3600n
+				const endIn = startIn + 86400n
+				await expect(addDungeon(game, gamer1, 'Dungeon 1', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))).to.be.reverted
+			})
+
+			it('should not allow non-ADMIN_ROLE to grant or revoke DUNGEON_ROLE', async function () {
+				const { game, gamer1, gamer2 } = await loadFixture(deploy)
+				const DUNGEON_ROLE = await game.DUGEON_ROLE()
+
+				// gamer1 should not be able to grant DUNGEON_ROLE to gamer2
+				await expect(game.connect(gamer1).grantRole(DUNGEON_ROLE, await gamer2.getAddress())).to.be.reverted
+
+				// gamer1 should not be able to revoke DUNGEON_ROLE from gamer2
+				await expect(game.connect(gamer1).revokeRole(DUNGEON_ROLE, await gamer2.getAddress())).to.be.reverted
+			})
+		})
+	})
 })
