@@ -29,6 +29,7 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
     }
 
     function stakeAll() external {
+        updateBoost();
         uint balanceOf = asset.balanceOf(msg.sender);
         uint[] memory assets = new uint[](balanceOf);
         for (uint i = 0; i < balanceOf; i++) {
@@ -37,6 +38,7 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         stake(assets);
     }
     function stake(uint[] memory assets) public {
+        updateBoost();
         if (assetsOf[msg.sender].length() + assets.length > MAX_STAKE) {
             revert MaxStakeReached();
         }
@@ -65,10 +67,12 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         emit Stake(id, msg.sender, assets, lockupEndTime, boost);
     }
     function unstakeAll(uint tokenId) external {
+        updateBoost();
         uint[] memory assets = assetsOf[msg.sender].values();
         unstake(tokenId, assets);
     }
     function unstake(uint tokenId, uint[] memory assets) public {
+        updateBoost();
         StakedXexadon memory r = stakeOf[msg.sender];
         if (ownerOf(tokenId) != msg.sender) {
             revert PositionNotFound();
