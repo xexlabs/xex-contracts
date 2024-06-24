@@ -187,4 +187,112 @@ describe('XexadonStaking', function () {
 			await expect(main.connect(user1).setAllowTransferTo(1, true)).to.be.reverted
 		})
 	})
+	describe('Boost Calculation', function () {
+		it('should calculate boost correctly for different numbers of staked assets', async function () {
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			const boost = await main.getBoostOf(user1.address)
+			expect(boost).to.be.gt(0)
+		})
+
+		it('should reset boost correctly after unstaking', async function () {
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			await warp(LOCKUP_PERIOD)
+			await main.connect(user1).unstakeAll(1n)
+			const boost = await main.getBoostOf(user1.address)
+			expect(boost).to.equal(0)
+		})
+	})
+
+	describe('Lockup Period', function () {
+		it('should revert if unstaking before lockup period ends', async function () {
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			await expect(main.connect(user1).unstakeAll(1n)).to.be.revertedWith('LockupPeriodNotOver')
+		})
+
+		it('should allow unstaking after lockup period ends', async function () {
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			await warp(LOCKUP_PERIOD)
+			await main.connect(user1).unstakeAll(1n)
+			const balance = await xdon.balanceOf(user1.address)
+			expect(balance).to.equal(5)
+		})
+	})
+
+	describe('Admin Functions', function () {
+		it('should allow only owner to call admin functions', async function () {
+			await expect(main.connect(user1).setMaxBoost(10000)).to.be.revertedWith('Ownable: caller is not the owner')
+			await main.connect(dev).setMaxBoost(10000)
+			expect(await main.MAX_BOOST()).to.equal(10000)
+		})
+
+		it('should apply changes made by admin functions', async function () {
+			await main.connect(dev).setMaxBoost(10000)
+			expect(await main.MAX_BOOST()).to.equal(10000)
+			await main.connect(dev).setMaxStake(50)
+			expect(await main.MAX_STAKE()).to.equal(50)
+		})
+	})
+
+	describe('Transfer Restrictions', function () {
+		it('should restrict transfer of staking receipt NFTs', async function () {
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			await expect(main.connect(user1).transferFrom(user1.address, user2.address, 1)).to.be.revertedWith('TransferNotAllowed')
+		})
+
+		it('should allow transfer of staking receipt NFTs if allowed', async function () {
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			await main.connect(dev).setAllowTransferTo(1, true)
+			await main.connect(user1).transferFrom(user1.address, user2.address, 1)
+			const newOwner = await main.ownerOf(1)
+			expect(newOwner).to.equal(user2.address)
+		})
+	})
+
+	describe('Edge Cases', function () {
+		it('should handle staking and unstaking with maximum number of assets', async function () {
+			for (let i = 0; i < 25; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			const balance = await main.balanceOf(user1.address)
+			expect(balance).to.equal(1)
+			await warp(LOCKUP_PERIOD)
+			await main.connect(user1).unstakeAll(1n)
+			const balanceAfter = await xdon.balanceOf(user1.address)
+			expect(balanceAfter).to.equal(25)
+		})
+
+		it('should handle multiple staking and unstaking actions', async function () {
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			await warp(LOCKUP_PERIOD)
+			await main.connect(user1).unstakeAll(1n)
+			for (let i = 0; i < 5; i++) {
+				await xdon.ownerMint(user1.address)
+			}
+			await main.connect(user1).stakeAll()
+			const balance = await main.balanceOf(user1.address)
+			expect(balance).to.equal(1)
+		})
+	})
 })
