@@ -141,7 +141,8 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
 
     // Function to update boost at 23:59 UTC
     function updateBoost() external {
-        require(block.timestamp % 1 days >= 86340, "Can only update boost at 23:59 UTC");
+        if (block.timestamp % 1 days < 86340) return;
+
         uint boost = getBoostOf(msg.sender);
         lastBoostUpdate[msg.sender] = block.timestamp;
         emit BoostUpdated(msg.sender, boost);
