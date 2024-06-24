@@ -7,17 +7,12 @@ import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract GameNFT is ERC721, ERC721Enumerable, Ownable, AccessControl {
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+abstract contract GameNFT is ERC721, ERC721Enumerable, AccessControl {
     string public baseURI_;
-    constructor() Ownable(msg.sender) ERC721("NFT", "XEXGF") {
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    }
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    constructor() ERC721("NFT", "XEXGF") {}
     function contractURI() external pure returns (string memory) {
         return "https://xexgf.xexlabs.com/contract.json";
-    }
-    function setBaseURI(string memory _baseURI_) external onlyOwner {
-        baseURI_ = _baseURI_;
     }
     function supportsInterface(bytes4 interfaceId) public view virtual override(AccessControl, ERC721Enumerable, ERC721) returns (bool) {
         return interfaceId == type(AccessControl).interfaceId || super.supportsInterface(interfaceId);
@@ -28,12 +23,15 @@ contract GameNFT is ERC721, ERC721Enumerable, Ownable, AccessControl {
     function _increaseBalance(address account, uint128 value) internal override(ERC721Enumerable, ERC721) {
         super._increaseBalance(account, value);
     }
-    function mint(address to) external onlyRole(MINTER_ROLE) returns (uint256) {
+    function mint(address to) public onlyRole(MINTER_ROLE) returns (uint256) {
+        return _internal_mint(to);
+    }
+    function _internal_mint(address to) internal returns (uint256) {
         uint256 tokenId = totalSupply();
         _safeMint(to, tokenId);
         return tokenId;
     }
-    function burn(uint256 tokenId) external {
+    function burn(uint256 tokenId) public onlyRole(MINTER_ROLE) {
         _burn(tokenId);
     }
 }

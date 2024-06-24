@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {ERC721Holder} from "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IXDON} from "./interfaces/IXDON.sol";
@@ -10,7 +11,7 @@ import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet
 import {IERC721Metadata} from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 //import {console} from "hardhat/console.sol";
-contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enumerable {
+contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enumerable, ERC721Holder {
     using EnumerableSet for EnumerableSet.UintSet;
     uint public MAX_BOOST = 50000;
     uint public MAX_STAKE = 25;
@@ -120,12 +121,6 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         return interfaceId == type(IXexadonStaking).interfaceId || super.supportsInterface(interfaceId);
     }
 
-    // Prevent transfer of staking receipt NFT
-    error TransferNotAllowed();
-    function _transfer(address from, address to, uint256 tokenId) internal override {
-        revert TransferNotAllowed();
-    }
-
     // ADMIN:
     function setMaxBoost(uint _maxBoost) external onlyOwner {
         MAX_BOOST = _maxBoost;
@@ -150,5 +145,16 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         uint boost = getBoostOf(msg.sender);
         lastBoostUpdate[msg.sender] = block.timestamp;
         emit BoostUpdated(msg.sender, boost);
+    }
+
+    // Prevent transfer of staking receipt NFT
+    error TransferNotAllowed();
+    mapping(uint => bool) public allowTransferTo;
+    function onERC721Received(address operator, address from, uint256 tokenId, bytes memory data) public override returns (bytes4) {
+        if (!allowTransferTo[tokenId]) revert TransferNotAllowed();
+        return this.onERC721Received.selector;
+    }
+    function setAllowTransferTo(uint tokenId, bool allow) external onlyOwner {
+        allowTransferTo[tokenId] = allow;
     }
 }

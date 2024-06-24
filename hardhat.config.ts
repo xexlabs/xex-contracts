@@ -17,10 +17,10 @@ if (!ANKR) throw new Error('Please set your ANKR API key in a .env file')
 const config: HardhatUserConfig = {
 	networks: {
 		hardhat: {
-			forking: {
-				url: `https://rpc.sonic.fantom.network/`,
-				blockNumber: 55165384
-			}
+			// forking: {
+			// 	url: `https://rpc.sonic.fantom.network/`,
+			// 	blockNumber: 55165384
+			// }
 		},
 		sonic: {
 			url: 'https://rpc.sonic.fantom.network/',

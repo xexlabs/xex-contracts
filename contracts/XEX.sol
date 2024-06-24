@@ -13,10 +13,6 @@ contract XEX is ERC20, AccessControl, Constants, IXEX {
     using Math for uint;
     using ABDKMath64x64 for int128;
     using ABDKMath64x64 for uint;
-
-    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-
     error UserNotFound();
     error NoStakedAmount();
     error NotAdmin();
@@ -40,6 +36,8 @@ contract XEX is ERC20, AccessControl, Constants, IXEX {
     event Withdrawn(address indexed user, uint amount, uint reward);
 
     address public treasury;
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     // CONSTRUCTOR
     constructor() ERC20("XEX", "XEX") {
         genesisTs = block.timestamp;

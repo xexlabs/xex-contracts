@@ -15,6 +15,7 @@ contract GameMain is GameCore {
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
         _grantRole(DUGEON_ROLE, msg.sender);
+        _grantRole(MINTER_ROLE, address(this)); // [1] allow the contract to mint
     }
 
     function setAdmin(address account, bool isAdmin) external onlyRole(ADMIN_ROLE) {

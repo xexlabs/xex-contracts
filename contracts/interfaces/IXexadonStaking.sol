@@ -12,12 +12,15 @@ interface IXexadonStaking {
     error TokenNotFoundInStakedTokens();
     error AssetNotApproved(uint tokenId, address approved);
     error MaxStakeReached();
+
     event MaxBoostChanged(uint newMaxBoost);
     event MaxStakeChanged(uint newMaxStake);
     event LockupPeriodChanged(uint newLockupPeriod);
     event BaseUriPrefixChanged(string newBaseUriPrefix);
     event Stake(uint tokenId, address user, uint[] assets, uint lockupEndTime, uint boost);
     event Unstake(uint tokenId, address user, uint[] assets, uint lockupEndTime, uint boost);
+    event BoostUpdated(address user, uint newBoost);
+
     function MAX_BOOST() external view returns (uint);
     function stake(uint[] memory assets) external;
     function unstake(uint tokenId, uint[] memory assets) external;
