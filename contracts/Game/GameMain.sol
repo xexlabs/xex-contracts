@@ -5,9 +5,10 @@ import {GameCore} from "./GameCore.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 contract GameMain is GameCore {
+    using EnumerableSet for EnumerableSet.UintSet;
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant DUGEON_ROLE = keccak256("DUGEON_ROLE");
-    bool private _checkProofMock = false;
+    bool private enableProofChecking = false;
 
     constructor(address _xex_) GameCore(_xex_) {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -46,8 +47,9 @@ contract GameMain is GameCore {
     ) external onlyRole(DUGEON_ROLE) {
         uint dungeonId = _dungeons.length() + 1;
         _dungeons.add(dungeonId);
-        _dungeonInfo[dungeonId] = Dungeon(_name, _startIn, _endIn, _minTermDate, _maxTermDate, _minMintFee, _difficulty, true, _availableRewards, 0);
+        _dungeonInfo[dungeonId] = Dungeon(msg.sender, _name, _startIn, _endIn, _minTermDate, _maxTermDate, _minMintFee, _difficulty, true, _availableRewards, 0);
         rewardsPool += _availableRewards;
+        _dungeonsByUser[msg.sender].add(dungeonId);
         emit DungeonAdded(dungeonId, _name, _startIn, _endIn, _minTermDate, _maxTermDate, _minMintFee, _difficulty, _availableRewards);
     }
 
@@ -61,9 +63,10 @@ contract GameMain is GameCore {
         uint _minMintFee,
         uint _difficulty,
         bool _active
-    ) external onlyRole(DUGEON_ROLE) {
+    ) external {
         if (!_dungeons.contains(_dungeonId)) revert DungeonNotFound();
         Dungeon storage dungeon = _dungeonInfo[_dungeonId];
+        if (dungeon.owner != msg.sender && !hasRole(ADMIN_ROLE, msg.sender)) revert NotOwner();
         dungeon.name = _name;
         dungeon.startIn = _startIn;
         dungeon.endIn = _endIn;
@@ -86,15 +89,5 @@ contract GameMain is GameCore {
         if (bytes(newBaseURI).length == 0) revert InvalidBaseURI();
         baseURI_ = newBaseURI;
         emit NewBaseURI(newBaseURI);
-    }
-
-    function setCheckProofMock(bool value) external onlyRole(ADMIN_ROLE) {
-        _checkProofMock = value;
-    }
-
-    function _checkProof(uint _tokenId, bool _completed, uint _ts) internal view returns (bool) {
-        if (_checkProofMock) return true;
-        // Implement your actual proof checking logic here
-        return false;
     }
 }
