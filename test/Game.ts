@@ -288,5 +288,18 @@ describe('Game', function () {
 				await expect(game.connect(gamer2).setSigner(newSigner)).to.be.revertedWithCustomError(game, 'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE()))
 			})
 		})
+
+		describe('setBaseURI', function () {
+			it('should only allow ADMIN_ROLE to set the base URI', async function () {
+				const { game, owner, gamer1, gamer2 } = await loadFixture(deploy)
+				const newBaseURI = 'https://newbaseuri.com/'
+
+				// Owner (ADMIN_ROLE) should be able to set the base URI
+				await expect(game.connect(owner).setBaseURI(newBaseURI)).to.not.be.reverted
+
+				// Non-admin should not be able to set the base URI
+				await expect(game.connect(gamer2).setBaseURI(newBaseURI)).to.be.revertedWithCustomError(game, 'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE()))
+			})
+		})
 	})
 })
