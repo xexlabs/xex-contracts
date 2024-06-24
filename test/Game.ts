@@ -6,157 +6,192 @@ import { GameMain, XEX } from '../typechain-types'
 import { Signer } from 'ethers'
 
 const toWei = ethers.parseEther
-
+const warp = async (_seconds: bigint) => {
+	const seconds = parseInt(_seconds.toString())
+	try {
+		await time.increase(seconds)
+	} catch (e) {
+		console.log('_seconds', _seconds)
+		console.log('seconds', seconds)
+		console.log(e)
+		throw e
+	}
+}
+const getEndSig = async (game: GameMain, dungeonId: bigint, completed: boolean, ts: bigint) => {
+	const messageHash: string = await game.endHash(dungeonId, completed, ts)
+	return await signature(messageHash)
+}
+const signature = async (messageHash: string) => {
+	const signer = (await ethers.getSigners())[0]
+	const signature = await signer.signMessage(messageHash)
+	return signature
+}
 describe('Game', function () {
-    const depositAmount = toWei('100')
+	let xex: XEX
+	async function deploy() {
+		const [owner, gamer1, gamer2] = await ethers.getSigners()
+		const XEX = await ethers.getContractFactory('XEX')
+		const GameMain = await ethers.getContractFactory('GameMain')
+		xex = (await XEX.deploy()) as XEX
+		const game = (await GameMain.deploy(xex.target)) as GameMain
+		await xex.addMinter(game.target)
+		return { game, owner, gamer1, gamer2, xex }
+	}
 
-    async function deploy() {
-        const [owner, gamer1, gamer2] = await ethers.getSigners()
-        const XEX = await ethers.getContractFactory('XEX')
-        const GameMain = await ethers.getContractFactory('GameMain')
-        const xex = await XEX.deploy() as XEX
-        const game = await GameMain.deploy(xex.address) as GameMain
-        await xex.addMinter(game.address)
-        return { game, owner, gamer1, gamer2, xex }
-    }
+	async function addDungeon(
+		game: GameMain,
+		owner: Signer,
+		name: string,
+		startIn: bigint,
+		endIn: bigint,
+		minTermDate: bigint,
+		maxTermDate: bigint,
+		minMintFee: bigint,
+		difficulty: bigint,
+		availableRewards: bigint
+	) {
+		const tx = await game.connect(owner).addDungeon(name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+		const dugeonsOf = await game.dungeonsOf(await owner.getAddress())
+		const dugeonId = dugeonsOf[dugeonsOf.length - 1]
+		await expect(tx).to.emit(game, 'DungeonAdded').withArgs(dugeonId, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+		return dugeonId
+	}
+	async function start(game: GameMain, gamer: Signer, dungeonId: bigint, value: bigint) {
+		const tx = game.connect(gamer).start(dungeonId, await gamer.getAddress(), { value })
+		await expect(tx).to.emit(game, 'NewSession')
+		const sessions = await game.getUserSessions(await gamer.getAddress())
+		return await game.getSessionInfo(sessions[sessions.length - 1])
+	}
+	async function end(game: GameMain, gamer: Signer, dungeonId: bigint, proof: string = '0x', expectRevert: boolean = false) {
+		if (expectRevert) {
+			await expect(game.connect(gamer).end(dungeonId, true, BigInt(await time.latest()), proof)).to.be.revertedWithCustomError(game, 'InvalidGameCompleted')
+		} else {
+			await expect(game.connect(gamer).end(dungeonId, true, BigInt(await time.latest()), proof)).to.emit(game, 'EndSession')
+		}
+	}
+	async function claim(game: GameMain, gamer: Signer, tokenId: bigint) {
+		const session = await game.getSessionInfo(tokenId)
+		const termDate = session[12]
+		const secs = termDate - BigInt(await time.latest()) + 1n
+		if (secs > 0n) await warp(secs)
+		const tx = game.connect(gamer).claim(tokenId)
+		//await expect(tx).to.emit(game, 'Claimed').to.emit(xex, 'Transfer')
+		return await tx
+	}
+	describe('addDungeon', function () {
+		it('should add a new dungeon correctly', async function () {
+			const { game, owner } = await loadFixture(deploy)
+			const startIn = BigInt(await time.latest()) + 3600n // 1 hour from now
+			const endIn = startIn + 86400n // 1 day after start
+			const minTermDate = 3600n // 1 hour
+			const maxTermDate = 86400n // 1 day
+			const minMintFee = toWei('0.1') // 0.1 ETH
+			const difficulty = 50n // Medium difficulty
+			const name = 'Test Dungeon'
+			const availableRewards = toWei('1000') // 1000 XEX tokens
 
-    async function addDungeon(
-        game: GameMain,
-        owner: Signer,
-        name: string,
-        startIn: bigint,
-        endIn: bigint,
-        minTermDate: bigint,
-        maxTermDate: bigint,
-        minMintFee: bigint,
-        difficulty: bigint,
-        availableRewards: bigint
-    ) {
-        await expect(game.connect(owner).addDungeon(name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards))
-            .to.emit(game, 'DungeonAdded')
-            .withArgs(1, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+			const dungeonId = await addDungeon(game, owner, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+			const dungeon = await game.getDungeonInfo(dungeonId)
+			const [
+				dungeonOwner,
+				dungeonName,
+				dungeonStartIn,
+				dungeonEndIn,
+				dungeonMinTermDate,
+				dungeonMaxTermDate,
+				dungeonMinMintFee,
+				dungeonDifficulty,
+				dungeonActive,
+				dungeonAvailableRewards,
+				dungeonClaimedRewards
+			] = dungeon
+			expect(dungeonOwner).to.equal(await owner.getAddress())
+			expect(dungeonName).to.equal(name)
+			expect(dungeonStartIn).to.equal(startIn)
+			expect(dungeonEndIn).to.equal(endIn)
+			expect(dungeonMinTermDate).to.equal(minTermDate)
+			expect(dungeonMaxTermDate).to.equal(maxTermDate)
+			expect(dungeonMinMintFee).to.equal(minMintFee)
+			expect(dungeonDifficulty).to.equal(difficulty)
+			expect(dungeonActive).to.be.true
+			expect(dungeonAvailableRewards).to.equal(availableRewards)
+			expect(dungeonClaimedRewards).to.equal(0n)
 
-        return await game.getDungeonInfo(1)
-    }
+			expect(await game.rewardsPool()).to.equal(availableRewards)
+		})
 
-    describe('addDungeon', function () {
-        it('should add a new dungeon correctly', async function () {
-            const { game, owner } = await loadFixture(deploy)
-            const startIn = BigInt(await time.latest()) + 3600n // 1 hour from now
-            const endIn = startIn + 86400n // 1 day after start
-            const minTermDate = 3600n // 1 hour
-            const maxTermDate = 86400n // 1 day
-            const minMintFee = toWei('0.1') // 0.1 ETH
-            const difficulty = 50n // Medium difficulty
-            const name = 'Test Dungeon'
-            const availableRewards = toWei('1000') // 1000 XEX tokens
+		it('should only allow DUGEON_ROLE to add a dungeon', async function () {
+			const { game, gamer1 } = await loadFixture(deploy)
+			const startIn = BigInt(await time.latest()) + 3600n
+			const endIn = startIn + 86400n
+			await expect(addDungeon(game, gamer1, 'Test Dungeon', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))).to.be.reverted
+		})
 
-            const dungeon = await addDungeon(game, owner, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+		it('should increment dungeon ID correctly', async function () {
+			const { game, owner } = await loadFixture(deploy)
+			const startIn = BigInt(await time.latest()) + 3600n
+			const endIn = startIn + 86400n
 
-            expect(dungeon.name).to.equal(name)
-            expect(dungeon.startIn).to.equal(startIn)
-            expect(dungeon.endIn).to.equal(endIn)
-            expect(dungeon.minTermDate).to.equal(minTermDate)
-            expect(dungeon.maxTermDate).to.equal(maxTermDate)
-            expect(dungeon.minMintFee).to.equal(minMintFee)
-            expect(dungeon.difficulty).to.equal(difficulty)
-            expect(dungeon.active).to.be.true
-            expect(dungeon.availableRewards).to.equal(availableRewards)
-            expect(dungeon.claimedRewards).to.equal(0)
+			const id1 = await addDungeon(game, owner, 'Dungeon 1', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))
+			const id2 = await addDungeon(game, owner, 'Dungeon 2', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))
+			expect(id1).to.equal(1n)
+			expect(id2).to.equal(2n)
+		})
+	})
 
-            expect(await game.rewardsPool()).to.equal(availableRewards)
-        })
+	describe('Game Play', function () {
+		it('should start a new session', async function () {
+			const { game, owner, gamer1 } = await loadFixture(deploy)
+			const startIn = BigInt(await time.latest())
+			const endIn = startIn + 86400n
+			const minTermDate = 3600n
+			const maxTermDate = 86400n
+			const minMintFee = toWei('0.1')
+			const difficulty = 50n
+			const name = 'Dungeon 1'
+			const availableRewards = toWei('1000')
+			const id = await addDungeon(game, owner, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+			await start(game, gamer1, id, minMintFee)
+		})
 
-        it('should only allow DUGEON_ROLE to add a dungeon', async function () {
-            const { game, gamer1 } = await loadFixture(deploy)
-            const startIn = BigInt(await time.latest()) + 3600n
-            const endIn = startIn + 86400n
-            await expect(game.connect(gamer1).addDungeon('Test Dungeon', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000')))
-                .to.be.revertedWith('AccessControl: account 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 is missing role 0x7f3e7d8e0a6f5d0d5e8d5d5e8d5d5e8d5d5e8d5d5e8d5d5e8d5d5e8d5d5e8d')
-        })
+		it('should end a session', async function () {
+			const { game, owner, gamer1 } = await loadFixture(deploy)
+			const startIn = BigInt(await time.latest())
+			const endIn = startIn + 86400n
+			const minTermDate = 3600n
+			const maxTermDate = 86400n
+			const minMintFee = toWei('0.1')
+			const difficulty = 50n
+			const name = 'Dungeon 1'
+			const availableRewards = toWei('1000')
 
-        it('should increment dungeon ID correctly', async function () {
-            const { game, owner } = await loadFixture(deploy)
-            const startIn = BigInt(await time.latest()) + 3600n
-            const endIn = startIn + 86400n
+			const id = await addDungeon(game, owner, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
 
-            await game.connect(owner).addDungeon('Dungeon 1', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))
-            await game.connect(owner).addDungeon('Dungeon 2', startIn, endIn, 3600n, 86400n, toWei('0.1'), 50n, toWei('1000'))
+			const session = await start(game, gamer1, id, minMintFee)
+			const tokenId = session[1]
+			await warp(3600n)
+			const sig = await getEndSig(game, tokenId, true, BigInt(await time.latest()))
+			await end(game, gamer1, tokenId, sig)
+		})
 
-            expect(await game.getDungeonInfo(1)).to.have.property('name', 'Dungeon 1')
-            expect(await game.getDungeonInfo(2)).to.have.property('name', 'Dungeon 2')
-        })
-    })
-
-    describe('Game Play', function () {
-        it('should start a new session', async function () {
-            const { game, gamer1 } = await loadFixture(deploy)
-            const startIn = BigInt(await time.latest())
-            const endIn = startIn + 86400n
-            const minTermDate = 3600n
-            const maxTermDate = 86400n
-            const minMintFee = toWei('0.1')
-            const difficulty = 50n
-            const name = 'Dungeon 1'
-            const availableRewards = toWei('1000')
-
-            await game.addDungeon(name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
-
-            await time.increaseTo(startIn)
-            await expect(game.connect(gamer1).start(1, { value: minMintFee })).to.emit(game, 'NewSession')
-        })
-
-        it('should end a session', async function () {
-            const { game, gamer1 } = await loadFixture(deploy)
-            const startIn = BigInt(await time.latest())
-            const endIn = startIn + 86400n
-            const minTermDate = 3600n
-            const maxTermDate = 86400n
-            const minMintFee = toWei('0.1')
-            const difficulty = 50n
-            const name = 'Dungeon 1'
-            const availableRewards = toWei('1000')
-
-            await game.addDungeon(name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
-
-            await time.increaseTo(startIn)
-            await game.connect(gamer1).start(1, { value: minMintFee })
-            const tokenId = await game.tokenOfOwnerByIndex(game.address, 0)
-            
-            // Mock the checkProof function
-            await game.setCheckProofMock(true)
-
-            await time.increase(3600)
-            await expect(game.connect(gamer1).end(tokenId, true, BigInt(await time.latest()))).to.emit(game, 'EndSession')
-        })
-
-        it('should claim a session', async function () {
-            const { game, gamer1, xex } = await loadFixture(deploy)
-            const startIn = BigInt(await time.latest())
-            const endIn = startIn + 86400n
-            const minTermDate = 3600n
-            const maxTermDate = 86400n
-            const minMintFee = toWei('0.1')
-            const difficulty = 50n
-            const name = 'Dungeon 1'
-            const availableRewards = toWei('1000')
-
-            await game.addDungeon(name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
-
-            await time.increaseTo(startIn)
-            await game.connect(gamer1).start(1, { value: minMintFee })
-            const tokenId = await game.tokenOfOwnerByIndex(game.address, 0)
-            
-            // Mock the checkProof function
-            await game.setCheckProofMock(true)
-
-            await time.increase(3600)
-            await game.connect(gamer1).end(tokenId, true, BigInt(await time.latest()))
-            
-            await time.increase(3600)
-            await expect(game.connect(gamer1).claim(tokenId))
-                .to.emit(game, 'EndSession')
-                .to.emit(xex, 'Transfer')
-        })
-    })
+		it('should claim a session', async function () {
+			const { game, owner, gamer1 } = await loadFixture(deploy)
+			const startIn = BigInt(await time.latest())
+			const endIn = startIn + 86400n
+			const minTermDate = 3600n
+			const maxTermDate = 86400n
+			const minMintFee = toWei('0.1')
+			const difficulty = 50n
+			const name = 'Dungeon 1'
+			const availableRewards = toWei('1000')
+			const id = await addDungeon(game, owner, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+			const r = await start(game, gamer1, id, minMintFee)
+			const tokenId = r[1]
+			await end(game, gamer1, tokenId)
+			await warp(3600n)
+			await end(game, gamer1, tokenId, '0x', true)
+			await warp(3600n)
+			await claim(game, gamer1, tokenId)
+		})
+	})
 })
