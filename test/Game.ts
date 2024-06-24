@@ -275,5 +275,18 @@ describe('Game', function () {
 				await expect(game.connect(gamer2).updateDungeon(dungeonId, 'Updated Dungeon by Non-Owner', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.be.revertedWithCustomError(game, 'NotOwner')
 			})
 		})
+
+		describe('setSigner', function () {
+			it('should only allow ADMIN_ROLE to set the signer', async function () {
+				const { game, owner, gamer1, gamer2 } = await loadFixture(deploy)
+				const newSigner = await gamer1.getAddress()
+
+				// Owner (ADMIN_ROLE) should be able to set the signer
+				await expect(game.connect(owner).setSigner(newSigner)).to.not.be.reverted
+
+				// Non-admin should not be able to set the signer
+				await expect(game.connect(gamer2).setSigner(newSigner)).to.be.revertedWithCustomError(game, 'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE()))
+			})
+		})
 	})
 })
