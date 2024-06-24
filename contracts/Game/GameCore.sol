@@ -84,7 +84,7 @@ abstract contract GameCore is IGame, GameNFT {
         _;
     }
 
-    function start(uint _dungeonId) external payable {
+    function start(uint _dungeonId) external payable whenNotPaused requireSignature {
         Dungeon memory dungeon = _dungeonInfo[_dungeonId];
 
         if (!dungeon.active) revert DungeonNotActive();
@@ -104,7 +104,7 @@ abstract contract GameCore is IGame, GameNFT {
         emit NewSession(msg.sender, tokenId, msg.value, termDate, 0, false);
     }
 
-    function end(uint _tokenId, bool completed, uint ts, bytes memory _signature) external endCheck(_tokenId, completed, ts, _signature) {
+    function end(uint _tokenId, bool completed, uint ts, bytes memory _signature) external endCheck(_tokenId, completed, ts, _signature) whenNotPaused requireSignature {
         Session storage session = _sessions[_tokenId];
         uint dungeonId = session.dungeonId;
         Dungeon storage dungeon = _dungeonInfo[dungeonId];
@@ -128,7 +128,7 @@ abstract contract GameCore is IGame, GameNFT {
         session.rewardAmount = session.claimAmount;
     }
 
-    function claim(uint _tokenId) external checkOwner(_tokenId) {
+    function claim(uint _tokenId) external checkOwner(_tokenId) whenNotPaused requireSignature {
         Session storage session = _sessions[_tokenId];
         uint dungeonId = session.dungeonId;
         Dungeon storage dungeon = _dungeonInfo[dungeonId];
