@@ -26,6 +26,8 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         _nextId = 1;
         asset = IXDON(_asset);
         asset.balanceOf(address(this));
+        allowTransfer[address(this)] = true;
+        allowTransfer[address(0)] = true;
     }
 
     function stakeAll() external {
@@ -94,16 +96,13 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         uint lastUpdate = lastBoostUpdate[user];
         uint currentDay = (block.timestamp / 1 days) * 1 days;
         uint lastUpdateDay = (lastUpdate / 1 days) * 1 days;
-
         if (currentDay > lastUpdateDay) {
             elapsedDays = (currentDay - lastUpdateDay) / 1 days;
         }
-
         uint numStaked = assetsOf[user].length();
         if (numStaked <= 1) boostPerDay = 1;
         else if (numStaked <= 10) boostPerDay = 2;
         else boostPerDay = 4;
-
         boost = boostPerDay * numStaked * elapsedDays;
         if (boost > MAX_BOOST) boost = MAX_BOOST;
     }
@@ -144,9 +143,7 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         uint lastUpdate = lastBoostUpdate[msg.sender];
         uint currentTime = block.timestamp;
         uint elapsedTime = currentTime - lastUpdate;
-
         if (elapsedTime < 1 days) return;
-
         uint boost = getBoostOf(msg.sender);
         lastBoostUpdate[msg.sender] = currentTime;
         emit BoostUpdated(msg.sender, boost);
@@ -154,12 +151,17 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
 
     // Prevent transfer of staking receipt NFT
     error TransferNotAllowed();
-    mapping(uint => bool) public allowTransferTo;
-    function onERC721Received(address, address, uint256 tokenId, bytes memory) public view override returns (bytes4) {
-        if (!allowTransferTo[tokenId]) revert TransferNotAllowed();
-        return this.onERC721Received.selector;
+    mapping(address => bool) public allowTransfer;
+    function _update(address to, uint256 tokenId, address auth) internal override returns (address) {
+        if (!allowTransfer[to] && !allowTransfer[auth]) {
+            revert TransferNotAllowed();
+        }
+        return super._update(to, tokenId, auth);
     }
-    function setAllowTransferTo(uint tokenId, bool allow) external onlyOwner {
-        allowTransferTo[tokenId] = allow;
+    function setAllowTransfer(address user, bool allow) external onlyOwner {
+        allowTransfer[user] = allow;
+    }
+    function onERC721Received(address, address, uint256, bytes memory) public pure override returns (bytes4) {
+        return this.onERC721Received.selector;
     }
 }
