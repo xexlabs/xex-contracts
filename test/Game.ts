@@ -289,8 +289,7 @@ describe('Game', function () {
 				await expect(game.connect(owner).setSigner(newSigner)).to.not.be.reverted
 
 				// Non-admin should not be able to set the signer
-				await expect(game.connect(gamer2).setSigner(newSigner)).to.be.revertedWithCustomError(
-					game,
+				await expect(game.connect(gamer2).setSigner(newSigner)).to.be.revertedWith(
 					'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE())
 				)
 			})
@@ -305,8 +304,7 @@ describe('Game', function () {
 				await expect(game.connect(owner).setBaseURI(newBaseURI)).to.not.be.reverted
 
 				// Non-admin should not be able to set the base URI
-				await expect(game.connect(gamer2).setBaseURI(newBaseURI)).to.be.revertedWithCustomError(
-					game,
+				await expect(game.connect(gamer2).setBaseURI(newBaseURI)).to.be.revertedWith(
 					'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE())
 				)
 			})
@@ -321,8 +319,7 @@ describe('Game', function () {
 				await expect(game.connect(owner).setAdmin(newAdmin, true)).to.not.be.reverted
 
 				// Non-admin should not be able to set the admin
-				await expect(game.connect(gamer2).setAdmin(newAdmin, true)).to.be.revertedWithCustomError(
-					game,
+				await expect(game.connect(gamer2).setAdmin(newAdmin, true)).to.be.revertedWith(
 					'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE())
 				)
 
@@ -340,8 +337,7 @@ describe('Game', function () {
 				await expect(game.connect(owner).setMinter(newMinter, true)).to.not.be.reverted
 
 				// Non-admin should not be able to set the minter
-				await expect(game.connect(gamer2).setMinter(newMinter, true)).to.be.revertedWithCustomError(
-					game,
+				await expect(game.connect(gamer2).setMinter(newMinter, true)).to.be.revertedWith(
 					'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE())
 				)
 
