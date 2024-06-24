@@ -249,5 +249,31 @@ describe('Game', function () {
 				await expect(game.connect(gamer1).revokeRole(DUNGEON_ROLE, await gamer2.getAddress())).to.be.reverted
 			})
 		})
+
+		describe('updateDungeon', function () {
+			it('should only allow the dungeon owner or ADMIN_ROLE to update a dungeon', async function () {
+				const { game, owner, gamer1, gamer2 } = await loadFixture(deploy)
+				const startIn = BigInt(await time.latest()) + 3600n
+				const endIn = startIn + 86400n
+				const minTermDate = 3600n
+				const maxTermDate = 86400n
+				const minMintFee = toWei('0.1')
+				const difficulty = 50n
+				const name = 'Dungeon 1'
+				const availableRewards = toWei('1000')
+
+				const dungeonId = await addDungeon(game, owner, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
+
+				// Owner should be able to update the dungeon
+				await expect(game.connect(owner).updateDungeon(dungeonId, 'Updated Dungeon', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.not.be.reverted
+
+				// Admin should be able to update the dungeon
+				await game.connect(owner).grantRole(await game.ADMIN_ROLE(), await gamer1.getAddress())
+				await expect(game.connect(gamer1).updateDungeon(dungeonId, 'Updated Dungeon by Admin', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.not.be.reverted
+
+				// Non-owner and non-admin should not be able to update the dungeon
+				await expect(game.connect(gamer2).updateDungeon(dungeonId, 'Updated Dungeon by Non-Owner', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.be.revertedWithCustomError(game, 'NotOwner')
+			})
+		})
 	})
 })
