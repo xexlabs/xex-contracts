@@ -265,14 +265,18 @@ describe('Game', function () {
 				const dungeonId = await addDungeon(game, owner, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
 
 				// Owner should be able to update the dungeon
-				await expect(game.connect(owner).updateDungeon(dungeonId, 'Updated Dungeon', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.not.be.reverted
+				await expect(game.connect(owner).updateDungeon(dungeonId, 'Updated Dungeon', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.not.be
+					.reverted
 
 				// Admin should be able to update the dungeon
 				await game.connect(owner).grantRole(await game.ADMIN_ROLE(), await gamer1.getAddress())
-				await expect(game.connect(gamer1).updateDungeon(dungeonId, 'Updated Dungeon by Admin', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.not.be.reverted
+				await expect(game.connect(gamer1).updateDungeon(dungeonId, 'Updated Dungeon by Admin', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to
+					.not.be.reverted
 
 				// Non-owner and non-admin should not be able to update the dungeon
-				await expect(game.connect(gamer2).updateDungeon(dungeonId, 'Updated Dungeon by Non-Owner', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)).to.be.revertedWithCustomError(game, 'NotOwner')
+				await expect(
+					game.connect(gamer2).updateDungeon(dungeonId, 'Updated Dungeon by Non-Owner', startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, true)
+				).to.be.revertedWithCustomError(game, 'NotOwner')
 			})
 		})
 
@@ -285,7 +289,10 @@ describe('Game', function () {
 				await expect(game.connect(owner).setSigner(newSigner)).to.not.be.reverted
 
 				// Non-admin should not be able to set the signer
-				await expect(game.connect(gamer2).setSigner(newSigner)).to.be.revertedWithCustomError(game, 'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE()))
+				await expect(game.connect(gamer2).setSigner(newSigner)).to.be.revertedWithCustomError(
+					game,
+					'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE())
+				)
 			})
 		})
 
@@ -298,9 +305,11 @@ describe('Game', function () {
 				await expect(game.connect(owner).setBaseURI(newBaseURI)).to.not.be.reverted
 
 				// Non-admin should not be able to set the base URI
-				await expect(game.connect(gamer2).setBaseURI(newBaseURI)).to.be.revertedWithCustomError(game, 'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE()))
+				await expect(game.connect(gamer2).setBaseURI(newBaseURI)).to.be.revertedWithCustomError(
+					game,
+					'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE())
+				)
 			})
-		})
 		})
 
 		describe('setMinter', function () {
@@ -312,7 +321,10 @@ describe('Game', function () {
 				await expect(game.connect(owner).setMinter(newMinter, true)).to.not.be.reverted
 
 				// Non-admin should not be able to set the minter
-				await expect(game.connect(gamer2).setMinter(newMinter, true)).to.be.revertedWithCustomError(game, 'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE()))
+				await expect(game.connect(gamer2).setMinter(newMinter, true)).to.be.revertedWithCustomError(
+					game,
+					'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE())
+				)
 
 				// Owner (ADMIN_ROLE) should be able to revoke the minter
 				await expect(game.connect(owner).setMinter(newMinter, false)).to.not.be.reverted
