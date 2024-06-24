@@ -330,21 +330,5 @@ describe('Game', function () {
 				await expect(game.connect(owner).setMinter(newMinter, false)).to.not.be.reverted
 			})
 		})
-
-		describe('setMinter', function () {
-			it('should only allow ADMIN_ROLE to set the minter', async function () {
-				const { game, owner, gamer1, gamer2 } = await loadFixture(deploy)
-				const newMinter = await gamer1.getAddress()
-
-				// Owner (ADMIN_ROLE) should be able to set the minter
-				await expect(game.connect(owner).setMinter(newMinter, true)).to.not.be.reverted
-
-				// Non-admin should not be able to set the minter
-				await expect(game.connect(gamer2).setMinter(newMinter, true)).to.be.revertedWithCustomError(game, 'AccessControl: account ' + gamer2.address.toLowerCase() + ' is missing role ' + (await game.ADMIN_ROLE()))
-
-				// Owner (ADMIN_ROLE) should be able to revoke the minter
-				await expect(game.connect(owner).setMinter(newMinter, false)).to.not.be.reverted
-			})
-		})
 	})
 })
