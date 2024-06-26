@@ -135,6 +135,38 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
     ```
 -   This function provides detailed information about each minter, useful for displaying in a table or list view.
 
+#### `minterInfoOfByOffset(address user, uint offset, uint limit) -> MintInfo[]`
+
+-   Returns an array of MintInfo structs for a user's minters, starting from a specific offset and up to a specified limit.
+-   Use this for pagination when displaying minter information, especially for users with many minters.
+-   Parameters:
+    - `user`: The address of the user whose minter information is being queried.
+    - `offset`: The starting index in the user's minter array.
+    - `limit`: The maximum number of minter infos to return.
+-   Example usage: `minterInfoOfByOffset(userAddress, 10, 5)` would return information for minters 11-15 (if they exist).
+-   Example return value:
+    ```
+    [
+      {
+        user: "0x1234...5678",
+        term: 10,
+        maturityTs: 1672531200,
+        rank: 11,
+        amplifier: 5,
+        eaaRate: 1
+      },
+      {
+        user: "0x1234...5678",
+        term: 10,
+        maturityTs: 1672617600,
+        rank: 12,
+        amplifier: 5,
+        eaaRate: 1
+      }
+    ]
+    ```
+-   This function is particularly useful for implementing efficient loading of minter data in the UI, especially for users with a large number of minters.
+
 #### `minter_getMintReward(address user) -> uint[]`
 
 -   Returns an array of mint rewards for a user's minters.
@@ -237,5 +269,7 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 14. **Transaction History**: Keep a log of user transactions, including rank claims, mints, stakes, and withdrawals. This can help users track their activities and earnings over time.
 
 15. **Tooltips and Help Text**: Add tooltips and help text throughout the UI to explain complex concepts like rank, amplifiers, and EAA rates. Use the information from functions like `getCurrentAMP()` and `getCurrentEAAR()` to provide up-to-date explanations.
+
+16. **Pagination for Minters**: When displaying minter information, especially for users with many minters, implement pagination using the `minterInfoOfByOffset()` function. This will improve performance and user experience when dealing with large numbers of minters.
 
 By following these guidelines and utilizing the provided functions, you can create a comprehensive and user-friendly interface for interacting with the XEX contract. Remember to always fetch the latest data from the contract to ensure your UI reflects the current state of the blockchain.
