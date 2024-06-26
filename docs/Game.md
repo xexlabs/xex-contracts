@@ -55,16 +55,16 @@ Emitted when a new dungeon is added to the game.
 **Example**:
 
 ```javascript
-gameContract.on("DungeonAdded", (dungeonId, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards) => {
-    console.log(`New dungeon added: ${name} (ID: ${dungeonId})`);
-    console.log(`Start time: ${new Date(startIn * 1000)}`);
-    console.log(`End time: ${new Date(endIn * 1000)}`);
-    console.log(`Min term: ${minTermDate} seconds`);
-    console.log(`Max term: ${maxTermDate} seconds`);
-    console.log(`Min mint fee: ${ethers.utils.formatEther(minMintFee)} ETH`);
-    console.log(`Difficulty: ${difficulty}`);
-    console.log(`Available rewards: ${ethers.utils.formatEther(availableRewards)} XEX`);
-});
+gameContract.on('DungeonAdded', (dungeonId, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards) => {
+	console.log(`New dungeon added: ${name} (ID: ${dungeonId})`)
+	console.log(`Start time: ${new Date(startIn * 1000)}`)
+	console.log(`End time: ${new Date(endIn * 1000)}`)
+	console.log(`Min term: ${minTermDate} seconds`)
+	console.log(`Max term: ${maxTermDate} seconds`)
+	console.log(`Min mint fee: ${ethers.utils.formatEther(minMintFee)} ETH`)
+	console.log(`Difficulty: ${difficulty}`)
+	console.log(`Available rewards: ${ethers.utils.formatEther(availableRewards)} XEX`)
+})
 ```
 
 ## 1. start
