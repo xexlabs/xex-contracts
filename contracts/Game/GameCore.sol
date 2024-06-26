@@ -102,6 +102,9 @@ abstract contract GameCore is IGame, GameNFT {
     }
 
     function end(uint _tokenId, bool completed, uint ts, bytes memory _signature) external endCheck(_tokenId, completed, ts, _signature) whenNotPaused {
+        _end(_tokenId, completed);
+    }
+    function _end(uint _tokenId, bool completed) internal {
         Session memory session = _sessions[_tokenId];
         uint dungeonId = session.dungeonId;
         Dungeon memory dungeon = _dungeonInfo[dungeonId];
@@ -132,13 +135,17 @@ abstract contract GameCore is IGame, GameNFT {
 
     function claim(uint _tokenId) external whenNotPaused {
         Session memory session = _sessions[_tokenId];
-        uint dungeonId = session.dungeonId;
-        Dungeon memory dungeon = _dungeonInfo[dungeonId];
         if (session.user != msg.sender && session.operator != msg.sender) revert InvalidOwner();
         if (session.rewardAmount == 0) revert InvalidRewardAmount();
         if (session.endedAt == 0) revert NotFinished();
         if (session.claimAt != 0) revert AlreadyClaimed();
         if (block.timestamp <= session.termDate) revert InvalidTimestamp();
+        _claim(_tokenId);
+    }
+    function _claim(uint _tokenId) internal {
+        Session memory session = _sessions[_tokenId];
+        uint dungeonId = session.dungeonId;
+        Dungeon memory dungeon = _dungeonInfo[dungeonId];
         session.claimAt = block.timestamp; // security control, revert if already claimed
         uint claimAmount = session.claimAmount;
         uint initialMint = session.feeDeposited;
@@ -155,12 +162,21 @@ abstract contract GameCore is IGame, GameNFT {
             claimAmount = 2 * initialMint;
         }
         _xex.mint(session.user, claimAmount);
+        // Check if the dungeon has sufficient balance to pay out the claim
+        if (dungeon.availableRewards < claimAmount) {
+            revert InsufficientDungeonBalance(dungeon.availableRewards, claimAmount);
+        }
         dungeon.availableRewards -= claimAmount;
         dungeon.claimedRewards += claimAmount;
         session.claimAmount = claimAmount;
         _sessions[_tokenId] = session;
         _tokensByUser[session.user].remove(_tokenId);
         _userSessionFinished[session.user].add(_tokenId);
+        // Check if the contract has sufficient balance to pay out the claim
+        uint256 contractBalance = IERC20(address(_xex)).balanceOf(address(this));
+        if (contractBalance < claimAmount) {
+            revert InsufficientContractBalance(contractBalance, claimAmount);
+        }
         _transfer(address(this), session.user, _tokenId);
         emit Claim(_tokenId, claimAmount);
     }

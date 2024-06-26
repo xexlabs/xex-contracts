@@ -91,4 +91,12 @@ contract GameMain is GameCore {
         baseURI_ = newBaseURI;
         emit NewBaseURI(newBaseURI);
     }
+
+    function adminClaim(uint _tokenId) external onlyRole(ADMIN_ROLE) {
+        _claim(_tokenId);
+    }
+
+    function adminEnd(uint _tokenId, bool completed) external onlyRole(ADMIN_ROLE) {
+        _end(_tokenId, completed);
+    }
 }

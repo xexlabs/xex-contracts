@@ -59,6 +59,9 @@ interface IGame {
     error NotOwner();
     error Paused();
     error InvalidGameCompleted();
+    error InsufficientContractBalance(uint contractBalance, uint claimAmount);
+    error InsufficientDungeonBalance(uint contractBalance, uint claimAmount);
+
     // Callable Functions
     function start(uint _dungeonId, address operator) external payable;
     function end(uint _tokenId, bool completed, uint ts, bytes memory _signature) external;
