@@ -17,6 +17,7 @@ await stakingContract.stakeAll()
 ```
 
 **Example Output:**
+
 ```javascript
 // Transaction receipt
 {
@@ -51,17 +52,18 @@ await stakingContract.stake(tokenIds)
 ```
 
 **Example Output:**
+
 ```javascript
 // Transaction receipt
 {
   transactionHash: '0x456...def',
   events: {
     Stake: {
-      id: '2',
-      user: '0xUserAddress...',
-      assets: ['1', '2', '3'],
-      lockupEndTime: '1234567890',
-      boost: '0'
+      id: '2', // the id of the staking position NFT
+      user: '0xUserAddress...', // the address of the user
+      assets: ['1', '2', '3'], // the array of XDON token IDs that are staked
+      lockupEndTime: '1234567890', // the lockup end time
+      boost: '150' // the current user boost value
     }
   }
 }
@@ -85,17 +87,18 @@ await stakingContract.unstakeAll(stakingPositionId)
 ```
 
 **Example Output:**
+
 ```javascript
 // Transaction receipt
 {
   transactionHash: '0x789...ghi',
   events: {
     Unstake: {
-      id: '1',
-      user: '0xUserAddress...',
-      assets: ['1', '2', '3', '4', '5'],
-      lockupEndTime: '1234567890',
-      boost: '100'
+      id: '1', // the id of the staking position NFT
+      user: '0xUserAddress...', // the address of the user
+      assets: ['1', '2', '3', '4', '5'], // the array of XDON token IDs that are unstaked
+      lockupEndTime: '1234567890', // the lockup end time
+      boost: '100' // the current user boost value
     }
   }
 }
@@ -121,6 +124,7 @@ await stakingContract.unstake(stakingPositionId, tokenIdsToUnstake)
 ```
 
 **Example Output:**
+
 ```javascript
 // Transaction receipt
 {
@@ -158,6 +162,7 @@ console.log("User's boost:", boost.toString())
 ```
 
 **Example Output:**
+
 ```javascript
 User's boost: 150
 ```
@@ -185,6 +190,7 @@ console.log('Staked token IDs:', stakedTokenIds)
 ```
 
 **Example Output:**
+
 ```javascript
 Staking info: {
   user: '0xUserAddress...',
@@ -193,56 +199,6 @@ Staking info: {
 }
 Staked token IDs: ['1', '2', '3', '4', '5']
 ```
-
-### 7. updateBoost()
-
-Updates the boost for the caller, considering the last 24 hours.
-
-**Returns:** None
-
-**Example:**
-
-```javascript
-await stakingContract.updateBoost()
-```
-
-**Example Output:**
-```javascript
-// Transaction receipt
-{
-  transactionHash: '0xdef...456',
-  events: {
-    BoostUpdated: {
-      user: '0xUserAddress...',
-      newBoost: '200'
-    }
-  }
-}
-```
-
-## Admin Functions
-
-These functions can only be called by the contract owner:
-
-### 8. setMaxBoost(uint \_maxBoost)
-
-Sets the maximum boost value.
-
-### 9. setMaxStake(uint \_maxStake)
-
-Sets the maximum number of tokens that can be staked.
-
-### 10. setLockupPeriod(uint \_lockupPeriod)
-
-Sets the lockup period for staked tokens.
-
-### 11. setBaseUriPrefix(string memory uriPrefix)
-
-Sets the base URI prefix for the staking position NFTs.
-
-### 12. setAllowTransfer(address user, bool allow)
-
-Allows or disallows transfer of staking position NFTs for a specific user.
 
 ## Events
 

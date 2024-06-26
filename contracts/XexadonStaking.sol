@@ -138,17 +138,6 @@ contract XexadonStaking is IXexadonStaking, Ownable, IERC721Metadata, ERC721Enum
         emit BaseUriPrefixChanged(uriPrefix);
     }
 
-    // Function to update boost considering the last 24 hours
-    function updateBoost() external {
-        uint lastUpdate = lastBoostUpdate[msg.sender];
-        uint currentTime = block.timestamp;
-        uint elapsedTime = currentTime - lastUpdate;
-        if (elapsedTime < 1 days) return;
-        uint boost = getBoostOf(msg.sender);
-        lastBoostUpdate[msg.sender] = currentTime;
-        emit BoostUpdated(msg.sender, boost);
-    }
-
     // Prevent transfer of staking receipt NFT
     error TransferNotAllowed();
     mapping(address => bool) public allowTransfer;
