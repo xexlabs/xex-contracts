@@ -165,3 +165,34 @@ This document describes the main functions of the Game contract, their inputs, o
 - `_user` (address): The address of the user to get owned dungeons for.
 
 **Output**: Returns an array of `uint` values representing the IDs of dungeons owned by the user.
+
+## 13. addDungeon
+
+**Description**: Adds a new dungeon to the game.
+
+**Input**:
+- `_name` (string): The name of the dungeon.
+- `_startIn` (uint): The start time of the dungeon.
+- `_endIn` (uint): The end time of the dungeon.
+- `_minTermDate` (uint): The minimum term date for the dungeon.
+- `_maxTermDate` (uint): The maximum term date for the dungeon.
+- `_minMintFee` (uint): The minimum mint fee required to start a session in the dungeon.
+- `_difficulty` (uint): The difficulty level of the dungeon.
+- `_availableRewards` (uint): The total rewards available in the dungeon.
+
+**Output**: Emits a `DungeonAdded` event with the following parameters:
+- `dungeonId` (uint): The ID of the newly added dungeon.
+- `name` (string): The name of the dungeon.
+- `startIn` (uint): The start time of the dungeon.
+- `endIn` (uint): The end time of the dungeon.
+- `minTermDate` (uint): The minimum term date for the dungeon.
+- `maxTermDate` (uint): The maximum term date for the dungeon.
+- `minMintFee` (uint): The minimum mint fee required to start a session in the dungeon.
+- `difficulty` (uint): The difficulty level of the dungeon.
+- `availableRewards` (uint): The total rewards available in the dungeon.
+
+**Functionality**:
+- Only callable by an account with the `DUGEON_ROLE`.
+- Adds a new dungeon to the game with the specified parameters.
+- Updates the rewards pool with the available rewards for the dungeon.
+- Emits a `DungeonAdded` event with the dungeon details.
