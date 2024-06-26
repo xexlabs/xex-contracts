@@ -22,54 +22,97 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 #### `getMaxTerm() -> uint`
 - Returns the maximum allowed term for minting or staking.
 - Use this to set the upper limit for term input fields in the UI.
+- Example return value: `1095` (representing 1095 days or 3 years)
 
 #### `getMinTerm() -> uint`
 - Returns the minimum allowed term for minting or staking.
 - Use this to set the lower limit for term input fields in the UI.
+- Example return value: `1` (representing 1 day)
 
 #### `getCurrentAMP() -> uint`
 - Returns the current Reward Amplifier.
 - Can be displayed in the UI to show the current minting reward multiplier.
+- Example return value: `2000` (representing a 2x amplifier)
 
 #### `getCurrentEAAR() -> uint`
 - Returns the current Early Adopter Amplifier Rate.
 - Can be used to display the current early adopter bonus.
+- Example return value: `500` (representing a 50% bonus)
 
 #### `getCurrentMaxTerm() -> uint`
 - Returns the current maximum term, which may change based on the global rank.
 - Use this to dynamically update the maximum allowed term in the UI.
+- Example return value: `1460` (representing 1460 days or 4 years)
 
 #### `getUserMint(address user) -> MintInfo`
 - Returns the MintInfo struct for a given user.
 - Use this to display a user's current minting status.
+- Example return value: 
+  ```
+  {
+    user: "0x1234...5678",
+    term: 100,
+    maturityTs: 1672531200,
+    rank: 1000,
+    amplifier: 2000,
+    eaaRate: 500
+  }
+  ```
 
 #### `getUserStake(address user) -> (uint term, uint maturityTs, uint amount, uint apy)`
 - Returns the stake information for a given user.
 - Use this to display a user's current stake details.
+- Example return value: `[365, 1672531200, 1000000000000000000000, 1000]` (representing a 365-day stake of 1000 XEX with 10% APY, maturing on 2023-01-01)
 
 #### `calculateAPY() -> uint`
 - Returns the current Annual Percentage Yield (APY) for staking.
 - Display this in the UI to show the current staking rewards rate.
+- Example return value: `1000` (representing 10% APY)
 
 #### `rewardsOf(address user) -> (uint mintReward, uint stakeReward)`
 - Returns the current minting and staking rewards for a user.
 - Use this to display a user's potential rewards.
+- Example return value: `[500000000000000000000, 100000000000000000000]` (representing 500 XEX minting reward and 100 XEX staking reward)
 
 #### `isMature(address user) -> (bool mature, uint ts)`
 - Checks if a user's stake is mature and returns the time difference.
 - Use this to show if a user can withdraw their stake and how much time is left.
+- Example return value: `[true, 86400]` (representing a mature stake that matured 1 day ago)
 
 #### `mintersOf(address user) -> address[]`
 - Returns an array of minter contract addresses for a user.
 - Use this to display a list of a user's minter contracts.
+- Example return value: `["0xabcd...1234", "0xefgh...5678"]`
 
 #### `minterInfoOf(address user) -> MintInfo[]`
 - Returns an array of MintInfo structs for a user's minters.
 - Use this to display detailed information about a user's minter contracts.
+- Example return value:
+  ```
+  [
+    {
+      user: "0x1234...5678",
+      term: 100,
+      maturityTs: 1672531200,
+      rank: 1000,
+      amplifier: 2000,
+      eaaRate: 500
+    },
+    {
+      user: "0x1234...5678",
+      term: 200,
+      maturityTs: 1688169600,
+      rank: 1001,
+      amplifier: 1950,
+      eaaRate: 490
+    }
+  ]
+  ```
 
 #### `minter_getMintReward(address user) -> uint[]`
 - Returns an array of mint rewards for a user's minters.
 - Use this to show potential rewards for each of a user's minter contracts.
+- Example return value: `[500000000000000000000, 750000000000000000000]` (representing 500 XEX and 750 XEX rewards for two minters)
 
 ### State-Changing Functions
 
