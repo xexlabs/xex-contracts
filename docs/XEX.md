@@ -200,6 +200,12 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 -   Implement a form with limit and address inputs to claim minter rewards.
 -   This function iterates through the user's minters and claims rewards for those that are mature, up to the specified limit.
 
+#### `minter_claimRankByOffset(uint offset, uint limit)`
+
+-   Claims ranks for multiple minter contracts starting from a specific offset.
+-   Add a button that takes offset and limit inputs and calls this function.
+-   This function iterates through the user's minters starting from the offset and claims ranks for those that haven't claimed yet, up to the specified limit.
+
 ## Implementation Guidelines
 
 1. **Connection**: Use a Web3 library like ethers.js or web3.js to connect to the Ethereum network and interact with the contract.
