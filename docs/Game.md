@@ -81,7 +81,41 @@ gameContract.on('DungeonAdded', (dungeonId, name, startIn, endIn, minTermDate, m
 **Example**:
 
 ```javascript
-await gameContract.start(dungeonId, operator, { value: ethers.utils.parseEther('0.1') })
+const dungeonId = 1; // The ID of the dungeon you want to start
+const operator = '0x1234567890123456789012345678901234567890'; // The address allowed to operate on behalf of the user
+const mintFee = ethers.utils.parseEther('0.1'); // The minimum mint fee for the dungeon
+
+await gameContract.start(dungeonId, operator, { value: mintFee });
+```
+
+**NewSession Event**:
+
+The `NewSession` event is emitted when a new game session is started. It provides information about the newly created session.
+
+Event signature:
+```solidity
+event NewSession(address user, uint tokenId, uint feeDeposited, uint termDate, uint rewardAmount, bool gameCompleted);
+```
+
+Parameters:
+- `user` (address): The address of the user who started the session.
+- `tokenId` (uint): The unique identifier of the newly created game session.
+- `feeDeposited` (uint): The amount of ETH deposited as the mint fee.
+- `termDate` (uint): The timestamp when the session can be claimed.
+- `rewardAmount` (uint): The initial reward amount (usually 0 at the start).
+- `gameCompleted` (bool): Whether the game is completed (false at the start).
+
+Example of listening for the event:
+
+```javascript
+gameContract.on("NewSession", (user, tokenId, feeDeposited, termDate, rewardAmount, gameCompleted) => {
+    console.log(`New session started by ${user}`);
+    console.log(`Token ID: ${tokenId}`);
+    console.log(`Fee deposited: ${ethers.utils.formatEther(feeDeposited)} ETH`);
+    console.log(`Term date: ${new Date(termDate * 1000)}`);
+    console.log(`Initial reward amount: ${ethers.utils.formatEther(rewardAmount)} XEX`);
+    console.log(`Game completed: ${gameCompleted}`);
+});
 ```
 
 ## 2. end
