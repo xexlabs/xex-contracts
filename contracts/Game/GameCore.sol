@@ -101,6 +101,17 @@ abstract contract GameCore is IGame, GameNFT {
         emit NewSession(msg.sender, tokenId, msg.value, termDate, 0, false);
     }
 
+    /**
+     * @dev Ends a game session, determining the outcome and potential rewards.
+     * @param _tokenId The ID of the game session to end.
+     * @param completed Whether the game was successfully completed.
+     * @param ts The timestamp of the end action.
+     * @param _signature A signature to verify the end action (if required).
+     * @notice This function can only be called by the session owner or operator.
+     * @notice The session must not have been completed already.
+     * @notice The timestamp must be within 1 minute of the current block timestamp.
+     * @notice If signature verification is required, it will be checked.
+     */
     function end(uint _tokenId, bool completed, uint ts, bytes memory _signature) external endCheck(_tokenId, completed, ts, _signature) whenNotPaused {
         _end(_tokenId, completed);
     }
