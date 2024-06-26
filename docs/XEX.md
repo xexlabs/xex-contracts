@@ -22,7 +22,7 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 #### `getMaxTerm() -> uint`
 - Returns the maximum allowed term for minting or staking.
 - Use this to set the upper limit for term input fields in the UI.
-- Example return value: `1095` (representing 1095 days or 3 years)
+- Example return value: `10` (representing 10 days)
 - This value may change based on the global rank, so it should be queried regularly.
 
 #### `getMinTerm() -> uint`
@@ -34,20 +34,20 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 #### `getCurrentAMP() -> uint`
 - Returns the current Reward Amplifier.
 - Can be displayed in the UI to show the current minting reward multiplier.
-- Example return value: `2000` (representing a 2x amplifier)
-- This value decreases over time, starting from a higher value and eventually reaching a minimum.
+- Example return value: `5` (representing a 5x amplifier)
+- This value is constant in the current implementation, starting and ending at 5.
 
 #### `getCurrentEAAR() -> uint`
 - Returns the current Early Adopter Amplifier Rate.
 - Can be used to display the current early adopter bonus.
-- Example return value: `500` (representing a 50% bonus)
+- Example return value: `1` (representing a 0.1% bonus)
 - This value decreases as the global rank increases, providing higher rewards for early adopters.
 
 #### `getCurrentMaxTerm() -> uint`
 - Returns the current maximum term, which may change based on the global rank.
 - Use this to dynamically update the maximum allowed term in the UI.
-- Example return value: `1460` (representing 1460 days or 4 years)
-- This value increases as the global rank increases, allowing for longer staking periods over time.
+- Example return value: `10` (representing 10 days)
+- This value is constant in the current implementation.
 
 #### `getUserMint(address user) -> MintInfo`
 - Returns the MintInfo struct for a given user.
@@ -56,11 +56,11 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
   ```
   {
     user: "0x1234...5678",
-    term: 100,
+    term: 10,
     maturityTs: 1672531200,
-    rank: 1000,
-    amplifier: 2000,
-    eaaRate: 500
+    rank: 1,
+    amplifier: 5,
+    eaaRate: 1
   }
   ```
 - This information is crucial for calculating potential rewards and determining when a mint is mature.
@@ -68,14 +68,14 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 #### `getUserStake(address user) -> (uint term, uint maturityTs, uint amount, uint apy)`
 - Returns the stake information for a given user.
 - Use this to display a user's current stake details.
-- Example return value: `[365, 1672531200, 1000000000000000000000, 1000]` (representing a 365-day stake of 1000 XEX with 10% APY, maturing on 2023-01-01)
+- Example return value: `[10, 1672531200, 1000000000000000000000, 2000]` (representing a 10-day stake of 1000 XEX with 20% APY, maturing on 2023-01-01)
 - This information is essential for showing users their current stakes and when they can withdraw.
 
 #### `calculateAPY() -> uint`
 - Returns the current Annual Percentage Yield (APY) for staking.
 - Display this in the UI to show the current staking rewards rate.
 - Example return value: `2000` (representing 20% APY)
-- The APY is fixed at 20% in the current implementation, but this function allows for potential future changes.
+- The APY is fixed at 20% in the current implementation.
 
 #### `rewardsOf(address user) -> (uint mintReward, uint stakeReward)`
 - Returns the current minting and staking rewards for a user.
@@ -103,19 +103,19 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
   [
     {
       user: "0x1234...5678",
-      term: 100,
+      term: 10,
       maturityTs: 1672531200,
-      rank: 1000,
-      amplifier: 2000,
-      eaaRate: 500
+      rank: 1,
+      amplifier: 5,
+      eaaRate: 1
     },
     {
       user: "0x1234...5678",
-      term: 200,
-      maturityTs: 1688169600,
-      rank: 1001,
-      amplifier: 1950,
-      eaaRate: 490
+      term: 10,
+      maturityTs: 1672617600,
+      rank: 2,
+      amplifier: 5,
+      eaaRate: 1
     }
   ]
   ```
@@ -132,7 +132,7 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 #### `claimRank(uint term)`
 - Allows a user to claim a rank for minting.
 - Implement a form in the UI that takes a term input and calls this function.
-- The term must be between the minimum and maximum allowed terms.
+- The term must be between the minimum (1 day) and maximum (10 days) allowed terms.
 - This function increases the global rank and creates a new MintInfo for the user.
 
 #### `claimMintReward()`
@@ -153,7 +153,7 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 #### `stake(uint amount, uint term)`
 - Allows a user to stake XEX tokens.
 - Implement a staking form with amount and term inputs.
-- The amount must be greater than the minimum stake amount, and the term must be within the allowed range.
+- The amount must be greater than the minimum stake amount (0 XEX), and the term must be within the allowed range (1-10 days).
 - This function burns the staked tokens and creates a new StakeInfo for the user.
 
 #### `withdraw()`
