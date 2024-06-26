@@ -22,6 +22,15 @@ This document describes the main functions of the Game contract, their inputs, o
 **Example**:
 
 ```javascript
+const startIn = BigInt(await time.latest()) + 3600n // 1 hour from now
+const endIn = startIn + 86400n // 1 day after start
+const minTermDate = 3600n // 1 hour
+const maxTermDate = 86400n // 1 day
+const minMintFee = ethers.parseEther('0.1') // 0.1 ETH
+const difficulty = 50n // Medium difficulty
+const name = 'Test Dungeon'
+const availableRewards = ethers.parseEther('1000') // 1000 XEX tokens
+
 await gameContract.addDungeon(name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
 ```
 
