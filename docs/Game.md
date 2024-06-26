@@ -134,6 +134,52 @@ gameContract.on("NewSession", (user, tokenId, feeDeposited, termDate, rewardAmou
 **Example**:
 
 ```javascript
+const tokenId = 1; // The ID of the game session to end
+const completed = true; // Whether the game was completed successfully
+const timestamp = Math.floor(Date.now() / 1000); // Current timestamp in seconds
+const signature = '0x...'; // The signature for verification (if required)
+
+await gameContract.end(tokenId, completed, timestamp, signature);
+```
+
+**EndSession Event**:
+
+The `EndSession` event is emitted when a game session is ended. It provides information about the completed session and the claim amount.
+
+Event signature:
+```solidity
+event EndSession(uint tokenId, uint claimAmount);
+```
+
+Parameters:
+- `tokenId` (uint): The unique identifier of the ended game session.
+- `claimAmount` (uint): The amount of XEX that can be claimed for this session.
+
+Example of listening for the event:
+
+```javascript
+gameContract.on("EndSession", (tokenId, claimAmount) => {
+    console.log(`Session ended for Token ID: ${tokenId}`);
+    console.log(`Claim amount: ${ethers.utils.formatEther(claimAmount)} XEX`);
+});
+```
+
+## 2. end
+
+**Description**: Ends a game session, determining the outcome and potential rewards.
+
+**Input**:
+
+-   `_tokenId` (uint): The ID of the game session to end.
+-   `completed` (bool): Whether the game was successfully completed.
+-   `ts` (uint): The timestamp of the end action.
+-   `_signature` (bytes): A signature to verify the end action (if required).
+
+**Output**: Emits an `EndSession` event.
+
+**Example**:
+
+```javascript
 await gameContract.end(tokenId, completed, timestamp, signature)
 ```
 
