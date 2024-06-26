@@ -196,7 +196,31 @@ await gameContract.end(tokenId, completed, timestamp, signature)
 **Example**:
 
 ```javascript
-await gameContract.claim(tokenId)
+const tokenId = 1; // The ID of the game session to claim rewards from
+
+await gameContract.claim(tokenId);
+```
+
+**Claim Event**:
+
+The `Claim` event is emitted when a user successfully claims their rewards from a completed game session.
+
+Event signature:
+```solidity
+event Claim(uint tokenId, uint claimAmount);
+```
+
+Parameters:
+- `tokenId` (uint): The unique identifier of the game session that was claimed.
+- `claimAmount` (uint): The amount of XEX tokens claimed as a reward.
+
+Example of listening for the event:
+
+```javascript
+gameContract.on("Claim", (tokenId, claimAmount) => {
+    console.log(`Rewards claimed for Token ID: ${tokenId}`);
+    console.log(`Claim amount: ${ethers.utils.formatEther(claimAmount)} XEX`);
+});
 ```
 
 ## 4. getDungeonInfo
