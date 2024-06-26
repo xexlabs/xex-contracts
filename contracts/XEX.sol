@@ -381,6 +381,26 @@ contract XEX is ERC20, AccessControl, Constants, IXEX {
             Minter minter = Minter(minters[user][i]);
             minterInfo[i] = minter.getUserMintInfo();
         }
+        uint t = minters[user].length;
+        if (offset >= t) {
+            return new MintInfo[](0);
+        }
+        uint end = Math.min(offset + limit, t);
+        MintInfo[] memory minterInfo = new MintInfo[](end - offset);
+        for (uint i = offset; i < end; ++i) {
+            Minter minter = Minter(minters[user][i]);
+            minterInfo[i - offset] = minter.getUserMintInfo();
+        }
+        return minterInfo;
+    }
+
+    function minterInfoOfByOffset(address user, uint offset, uint limit) public view returns (MintInfo[] memory) {
+        uint t = minters[user].length;
+        MintInfo[] memory minterInfo = new MintInfo[](t);
+        for (uint i = 0; i < t; ++i) {
+            Minter minter = Minter(minters[user][i]);
+            minterInfo[i] = minter.getUserMintInfo();
+        }
         return minterInfo;
     }
 
