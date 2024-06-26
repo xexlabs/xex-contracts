@@ -34,6 +34,39 @@ const availableRewards = ethers.parseEther('1000') // 1000 XEX tokens
 await gameContract.addDungeon(name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards)
 ```
 
+## Events
+
+### DungeonAdded
+
+Emitted when a new dungeon is added to the game.
+
+**Arguments**:
+
+1. `dungeonId` (uint256): The unique identifier of the newly added dungeon.
+2. `name` (string): The name of the dungeon.
+3. `startIn` (uint256): The timestamp when the dungeon becomes active.
+4. `endIn` (uint256): The timestamp when the dungeon becomes inactive.
+5. `minTermDate` (uint256): The minimum term date for completing the dungeon.
+6. `maxTermDate` (uint256): The maximum term date for completing the dungeon.
+7. `minMintFee` (uint256): The minimum fee required to start a session in this dungeon.
+8. `difficulty` (uint256): The difficulty level of the dungeon (1-100).
+9. `availableRewards` (uint256): The total amount of rewards available in this dungeon.
+
+**Example**:
+
+```javascript
+gameContract.on("DungeonAdded", (dungeonId, name, startIn, endIn, minTermDate, maxTermDate, minMintFee, difficulty, availableRewards) => {
+    console.log(`New dungeon added: ${name} (ID: ${dungeonId})`);
+    console.log(`Start time: ${new Date(startIn * 1000)}`);
+    console.log(`End time: ${new Date(endIn * 1000)}`);
+    console.log(`Min term: ${minTermDate} seconds`);
+    console.log(`Max term: ${maxTermDate} seconds`);
+    console.log(`Min mint fee: ${ethers.utils.formatEther(minMintFee)} ETH`);
+    console.log(`Difficulty: ${difficulty}`);
+    console.log(`Available rewards: ${ethers.utils.formatEther(availableRewards)} XEX`);
+});
+```
+
 ## 1. start
 
 **Description**: Initiates a new game session for a specific dungeon.
