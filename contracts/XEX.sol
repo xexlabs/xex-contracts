@@ -375,12 +375,10 @@ contract XEX is ERC20, AccessControl, Constants, IXEX {
     }
 
     function minterInfoOf(address user) public view returns (MintInfo[] memory) {
-        uint t = minters[user].length;
-        MintInfo[] memory minterInfo = new MintInfo[](t);
-        for (uint i = 0; i < t; ++i) {
-            Minter minter = Minter(minters[user][i]);
-            minterInfo[i] = minter.getUserMintInfo();
-        }
+        return minterInfoOfByOffset(user, 0, minters[user].length);
+    }
+
+    function minterInfoOfByOffset(address user, uint offset, uint limit) public view returns (MintInfo[] memory) {
         uint t = minters[user].length;
         if (offset >= t) {
             return new MintInfo[](0);
@@ -390,16 +388,6 @@ contract XEX is ERC20, AccessControl, Constants, IXEX {
         for (uint i = offset; i < end; ++i) {
             Minter minter = Minter(minters[user][i]);
             minterInfo[i - offset] = minter.getUserMintInfo();
-        }
-        return minterInfo;
-    }
-
-    function minterInfoOfByOffset(address user, uint offset, uint limit) public view returns (MintInfo[] memory) {
-        uint t = minters[user].length;
-        MintInfo[] memory minterInfo = new MintInfo[](t);
-        for (uint i = 0; i < t; ++i) {
-            Minter minter = Minter(minters[user][i]);
-            minterInfo[i] = minter.getUserMintInfo();
         }
         return minterInfo;
     }
