@@ -68,13 +68,13 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 #### `getUserStake(address user) -> (uint term, uint maturityTs, uint amount, uint apy)`
 - Returns the stake information for a given user.
 - Use this to display a user's current stake details.
-- Example return value: `[10, 1672531200, 1000000000000000000000, 2000]` (representing a 10-day stake of 1000 XEX with 20% APY, maturing on 2023-01-01)
+- Example return value: `[10, 1672531200, 1000000000000000000000, 20000000000000000000]` (representing a 10-day stake of 1000 XEX with 20% APY, maturing on 2023-01-01)
 - This information is essential for showing users their current stakes and when they can withdraw.
 
 #### `calculateAPY() -> uint`
 - Returns the current Annual Percentage Yield (APY) for staking.
 - Display this in the UI to show the current staking rewards rate.
-- Example return value: `2000` (representing 20% APY)
+- Example return value: `20000000000000000000` (representing 20% APY)
 - The APY is fixed at 20% in the current implementation.
 
 #### `rewardsOf(address user) -> (uint mintReward, uint stakeReward)`
@@ -200,7 +200,7 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 
 11. **Minter Management**: Create a dedicated section for managing multiple minters. Use the `mintersOf()` and `minterInfoOf()` functions to display a list of minters and their details. Implement batch operations using `minter_claimRank()` and `minter_claimMintReward()`.
 
-12. **APY Calculator**: Implement an APY calculator that uses the `calculateAPY()` function to show users their potential earnings based on different staking amounts and terms.
+12. **APY Calculator**: Implement an APY calculator that uses the `calculateAPY()` function to show users their potential earnings based on different staking amounts and terms. Remember to convert the APY from the 1e18 format to a percentage for display.
 
 13. **Countdown Timers**: Use the `isMature()` function to create countdown timers for mints and stakes, showing users when they can claim their rewards or withdraw their stakes.
 
