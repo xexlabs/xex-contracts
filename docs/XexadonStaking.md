@@ -16,6 +16,23 @@ Stakes all XDON tokens owned by the caller.
 await stakingContract.stakeAll()
 ```
 
+**Example Output:**
+```javascript
+// Transaction receipt
+{
+  transactionHash: '0x123...abc',
+  events: {
+    Stake: {
+      id: '1',
+      user: '0xUserAddress...',
+      assets: ['1', '2', '3'],
+      lockupEndTime: '1234567890',
+      boost: '0'
+    }
+  }
+}
+```
+
 ### 2. stake(uint[] memory assets)
 
 Stakes specific XDON tokens.
@@ -33,6 +50,23 @@ const tokenIds = [1, 2, 3]
 await stakingContract.stake(tokenIds)
 ```
 
+**Example Output:**
+```javascript
+// Transaction receipt
+{
+  transactionHash: '0x456...def',
+  events: {
+    Stake: {
+      id: '2',
+      user: '0xUserAddress...',
+      assets: ['1', '2', '3'],
+      lockupEndTime: '1234567890',
+      boost: '0'
+    }
+  }
+}
+```
+
 ### 3. unstakeAll(uint tokenId)
 
 Unstakes all XDON tokens associated with a specific staking position.
@@ -48,6 +82,23 @@ Unstakes all XDON tokens associated with a specific staking position.
 ```javascript
 const stakingPositionId = 1
 await stakingContract.unstakeAll(stakingPositionId)
+```
+
+**Example Output:**
+```javascript
+// Transaction receipt
+{
+  transactionHash: '0x789...ghi',
+  events: {
+    Unstake: {
+      id: '1',
+      user: '0xUserAddress...',
+      assets: ['1', '2', '3', '4', '5'],
+      lockupEndTime: '1234567890',
+      boost: '100'
+    }
+  }
+}
 ```
 
 ### 4. unstake(uint tokenId, uint[] memory assets)
@@ -69,6 +120,23 @@ const tokenIdsToUnstake = [1, 2]
 await stakingContract.unstake(stakingPositionId, tokenIdsToUnstake)
 ```
 
+**Example Output:**
+```javascript
+// Transaction receipt
+{
+  transactionHash: '0xabc...123',
+  events: {
+    Unstake: {
+      id: '1',
+      user: '0xUserAddress...',
+      assets: ['1', '2'],
+      lockupEndTime: '1234567890',
+      boost: '80'
+    }
+  }
+}
+```
+
 ### 5. getBoostOf(address user)
 
 Calculates the current boost for a user.
@@ -87,6 +155,11 @@ Calculates the current boost for a user.
 const userAddress = '0x...'
 const boost = await stakingContract.getBoostOf(userAddress)
 console.log("User's boost:", boost.toString())
+```
+
+**Example Output:**
+```javascript
+User's boost: 150
 ```
 
 ### 6. getStakeOf(address user)
@@ -111,6 +184,16 @@ console.log('Staking info:', stakeInfo)
 console.log('Staked token IDs:', stakedTokenIds)
 ```
 
+**Example Output:**
+```javascript
+Staking info: {
+  user: '0xUserAddress...',
+  lockupEndTime: '1234567890',
+  boost: '150'
+}
+Staked token IDs: ['1', '2', '3', '4', '5']
+```
+
 ### 7. updateBoost()
 
 Updates the boost for the caller, considering the last 24 hours.
@@ -121,6 +204,20 @@ Updates the boost for the caller, considering the last 24 hours.
 
 ```javascript
 await stakingContract.updateBoost()
+```
+
+**Example Output:**
+```javascript
+// Transaction receipt
+{
+  transactionHash: '0xdef...456',
+  events: {
+    BoostUpdated: {
+      user: '0xUserAddress...',
+      newBoost: '200'
+    }
+  }
+}
 ```
 
 ## Admin Functions
