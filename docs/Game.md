@@ -81,11 +81,11 @@ gameContract.on('DungeonAdded', (dungeonId, name, startIn, endIn, minTermDate, m
 **Example**:
 
 ```javascript
-const dungeonId = 1; // The ID of the dungeon you want to start
-const operator = '0x1234567890123456789012345678901234567890'; // The address allowed to operate on behalf of the user
-const mintFee = ethers.utils.parseEther('0.1'); // The minimum mint fee for the dungeon
+const dungeonId = 1 // The ID of the dungeon you want to start
+const operator = '0x1234567890123456789012345678901234567890' // The address allowed to operate on behalf of the user
+const mintFee = ethers.utils.parseEther('0.1') // The minimum mint fee for the dungeon
 
-await gameContract.start(dungeonId, operator, { value: mintFee });
+await gameContract.start(dungeonId, operator, { value: mintFee })
 ```
 
 **NewSession Event**:
@@ -93,29 +93,31 @@ await gameContract.start(dungeonId, operator, { value: mintFee });
 The `NewSession` event is emitted when a new game session is started. It provides information about the newly created session.
 
 Event signature:
+
 ```solidity
 event NewSession(address user, uint tokenId, uint feeDeposited, uint termDate, uint rewardAmount, bool gameCompleted);
 ```
 
 Parameters:
-- `user` (address): The address of the user who started the session.
-- `tokenId` (uint): The unique identifier of the newly created game session.
-- `feeDeposited` (uint): The amount of ETH deposited as the mint fee.
-- `termDate` (uint): The timestamp when the session can be claimed.
-- `rewardAmount` (uint): The initial reward amount (usually 0 at the start).
-- `gameCompleted` (bool): Whether the game is completed (false at the start).
+
+-   `user` (address): The address of the user who started the session.
+-   `tokenId` (uint): The unique identifier of the newly created game session.
+-   `feeDeposited` (uint): The amount of ETH deposited as the mint fee.
+-   `termDate` (uint): The timestamp when the session can be claimed.
+-   `rewardAmount` (uint): The initial reward amount (usually 0 at the start).
+-   `gameCompleted` (bool): Whether the game is completed (false at the start).
 
 Example of listening for the event:
 
 ```javascript
-gameContract.on("NewSession", (user, tokenId, feeDeposited, termDate, rewardAmount, gameCompleted) => {
-    console.log(`New session started by ${user}`);
-    console.log(`Token ID: ${tokenId}`);
-    console.log(`Fee deposited: ${ethers.utils.formatEther(feeDeposited)} ETH`);
-    console.log(`Term date: ${new Date(termDate * 1000)}`);
-    console.log(`Initial reward amount: ${ethers.utils.formatEther(rewardAmount)} XEX`);
-    console.log(`Game completed: ${gameCompleted}`);
-});
+gameContract.on('NewSession', (user, tokenId, feeDeposited, termDate, rewardAmount, gameCompleted) => {
+	console.log(`New session started by ${user}`)
+	console.log(`Token ID: ${tokenId}`)
+	console.log(`Fee deposited: ${ethers.utils.formatEther(feeDeposited)} ETH`)
+	console.log(`Term date: ${new Date(termDate * 1000)}`)
+	console.log(`Initial reward amount: ${ethers.utils.formatEther(rewardAmount)} XEX`)
+	console.log(`Game completed: ${gameCompleted}`)
+})
 ```
 
 ## 2. end
@@ -134,12 +136,12 @@ gameContract.on("NewSession", (user, tokenId, feeDeposited, termDate, rewardAmou
 **Example**:
 
 ```javascript
-const tokenId = 1; // The ID of the game session to end
-const completed = true; // Whether the game was completed successfully
-const timestamp = Math.floor(Date.now() / 1000); // Current timestamp in seconds
-const signature = '0x...'; // The signature for verification (if required)
+const tokenId = 1 // The ID of the game session to end
+const completed = true // Whether the game was completed successfully
+const timestamp = Math.floor(Date.now() / 1000) // Current timestamp in seconds
+const signature = '0x...' // The signature for verification (if required)
 
-await gameContract.end(tokenId, completed, timestamp, signature);
+await gameContract.end(tokenId, completed, timestamp, signature)
 ```
 
 **EndSession Event**:
@@ -147,40 +149,23 @@ await gameContract.end(tokenId, completed, timestamp, signature);
 The `EndSession` event is emitted when a game session is ended. It provides information about the completed session and the claim amount.
 
 Event signature:
+
 ```solidity
 event EndSession(uint tokenId, uint claimAmount);
 ```
 
 Parameters:
-- `tokenId` (uint): The unique identifier of the ended game session.
-- `claimAmount` (uint): The amount of XEX that can be claimed for this session.
+
+-   `tokenId` (uint): The unique identifier of the ended game session.
+-   `claimAmount` (uint): The amount of XEX that can be claimed for this session.
 
 Example of listening for the event:
 
 ```javascript
-gameContract.on("EndSession", (tokenId, claimAmount) => {
-    console.log(`Session ended for Token ID: ${tokenId}`);
-    console.log(`Claim amount: ${ethers.utils.formatEther(claimAmount)} XEX`);
-});
-```
-
-## 2. end
-
-**Description**: Ends a game session, determining the outcome and potential rewards.
-
-**Input**:
-
--   `_tokenId` (uint): The ID of the game session to end.
--   `completed` (bool): Whether the game was successfully completed.
--   `ts` (uint): The timestamp of the end action.
--   `_signature` (bytes): A signature to verify the end action (if required).
-
-**Output**: Emits an `EndSession` event.
-
-**Example**:
-
-```javascript
-await gameContract.end(tokenId, completed, timestamp, signature)
+gameContract.on('EndSession', (tokenId, claimAmount) => {
+	console.log(`Session ended for Token ID: ${tokenId}`)
+	console.log(`Claim amount: ${ethers.utils.formatEther(claimAmount)} XEX`)
+})
 ```
 
 ## 3. claim
@@ -196,9 +181,9 @@ await gameContract.end(tokenId, completed, timestamp, signature)
 **Example**:
 
 ```javascript
-const tokenId = 1; // The ID of the game session to claim rewards from
+const tokenId = 1 // The ID of the game session to claim rewards from
 
-await gameContract.claim(tokenId);
+await gameContract.claim(tokenId)
 ```
 
 **Claim Event**:
@@ -206,21 +191,23 @@ await gameContract.claim(tokenId);
 The `Claim` event is emitted when a user successfully claims their rewards from a completed game session.
 
 Event signature:
+
 ```solidity
 event Claim(uint tokenId, uint claimAmount);
 ```
 
 Parameters:
-- `tokenId` (uint): The unique identifier of the game session that was claimed.
-- `claimAmount` (uint): The amount of XEX tokens claimed as a reward.
+
+-   `tokenId` (uint): The unique identifier of the game session that was claimed.
+-   `claimAmount` (uint): The amount of XEX tokens claimed as a reward.
 
 Example of listening for the event:
 
 ```javascript
-gameContract.on("Claim", (tokenId, claimAmount) => {
-    console.log(`Rewards claimed for Token ID: ${tokenId}`);
-    console.log(`Claim amount: ${ethers.utils.formatEther(claimAmount)} XEX`);
-});
+gameContract.on('Claim', (tokenId, claimAmount) => {
+	console.log(`Rewards claimed for Token ID: ${tokenId}`)
+	console.log(`Claim amount: ${ethers.utils.formatEther(claimAmount)} XEX`)
+})
 ```
 
 ## 4. getDungeonInfo

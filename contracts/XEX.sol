@@ -406,19 +406,7 @@ contract XEX is ERC20, AccessControl, Constants, IXEX {
         emit MintersClaimed(claimed);
     }
 
-    function minter_claimRankByOffset(uint offset, uint limit) external {
-        uint t = minters[msg.sender].length;
-        uint claimed = 0;
-        for (uint i = offset; i < t; ++i) {
-            if (claimed == limit) break;
-            Minter minter = Minter(minters[msg.sender][i]);
-            MintInfo memory info = minter.getUserMintInfo();
-            if (info.maturityTs > 0) continue;
-            minter.claimRank(minter.term());
-            ++claimed;
-        }
-        emit MintersClaimed(claimed);
-    }
+    function minter_claimMintReward(uint limit, address to) external {
         uint t = minters[msg.sender].length;
         uint j;
         for (uint i = t; i > 0; --i) {

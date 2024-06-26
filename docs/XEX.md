@@ -140,9 +140,9 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 -   Returns an array of MintInfo structs for a user's minters, starting from a specific offset and up to a specified limit.
 -   Use this for pagination when displaying minter information, especially for users with many minters.
 -   Parameters:
-    - `user`: The address of the user whose minter information is being queried.
-    - `offset`: The starting index in the user's minter array.
-    - `limit`: The maximum number of minter infos to return.
+    -   `user`: The address of the user whose minter information is being queried.
+    -   `offset`: The starting index in the user's minter array.
+    -   `limit`: The maximum number of minter infos to return.
 -   Example usage: `minterInfoOfByOffset(userAddress, 10, 5)` would return information for minters 11-15 (if they exist).
 -   Example return value:
     ```
@@ -237,39 +237,3 @@ XEX is an ERC20 token with additional functionality for minting, staking, and re
 -   Claims ranks for multiple minter contracts starting from a specific offset.
 -   Add a button that takes offset and limit inputs and calls this function.
 -   This function iterates through the user's minters starting from the offset and claims ranks for those that haven't claimed yet, up to the specified limit.
-
-## Implementation Guidelines
-
-1. **Connection**: Use a Web3 library like ethers.js or web3.js to connect to the Ethereum network and interact with the contract.
-
-2. **State Management**: Use React state or a state management library to keep track of user balances, stakes, and mints. Update this state regularly by calling the view functions.
-
-3. **Forms**: Implement forms for rank claiming, staking, and minter creation. Use the view functions to set appropriate limits and display current rates. For example, use `getMaxTerm()` and `getMinTerm()` to set the range for term inputs.
-
-4. **Displays**: Create displays for user balances, current stakes, potential rewards, and minter information. Use functions like `getUserMint()`, `getUserStake()`, and `rewardsOf()` to populate these displays.
-
-5. **Notifications**: Implement a notification system to alert users of transaction success or failure. Use the events emitted by the contract (e.g., `RankClaimed`, `MintClaimed`, `Staked`, `Withdrawn`) to trigger these notifications.
-
-6. **Error Handling**: Handle errors gracefully, displaying user-friendly error messages when transactions fail. Pay attention to the require statements in the contract to anticipate potential errors.
-
-7. **Gas Estimation**: Implement gas estimation for transactions to give users an idea of the transaction cost. This is especially important for functions that may consume more gas, like `minter_create()` or `minter_claimMintReward()`.
-
-8. **Responsive Design**: Ensure the UI is responsive and works well on both desktop and mobile devices. Consider using a responsive design framework like Material-UI or Tailwind CSS.
-
-9. **Wallet Connection**: Implement wallet connection functionality (e.g., MetaMask) to allow users to interact with the contract. Ensure that the connected address is used consistently across all contract interactions.
-
-10. **Real-time Updates**: Use event listeners to update the UI in real-time when contract state changes. For example, listen for the `RankClaimed` event to update the global rank display.
-
-11. **Minter Management**: Create a dedicated section for managing multiple minters. Use the `mintersOf()` and `minterInfoOf()` functions to display a list of minters and their details. Implement batch operations using `minter_claimRank()` and `minter_claimMintReward()`.
-
-12. **APY Calculator**: Implement an APY calculator that uses the `calculateAPY()` function to show users their potential earnings based on different staking amounts and terms. Remember to convert the APY from the 1e18 format to a percentage for display.
-
-13. **Countdown Timers**: Use the `isMature()` function to create countdown timers for mints and stakes, showing users when they can claim their rewards or withdraw their stakes.
-
-14. **Transaction History**: Keep a log of user transactions, including rank claims, mints, stakes, and withdrawals. This can help users track their activities and earnings over time.
-
-15. **Tooltips and Help Text**: Add tooltips and help text throughout the UI to explain complex concepts like rank, amplifiers, and EAA rates. Use the information from functions like `getCurrentAMP()` and `getCurrentEAAR()` to provide up-to-date explanations.
-
-16. **Pagination for Minters**: When displaying minter information, especially for users with many minters, implement pagination using the `minterInfoOfByOffset()` function. This will improve performance and user experience when dealing with large numbers of minters.
-
-By following these guidelines and utilizing the provided functions, you can create a comprehensive and user-friendly interface for interacting with the XEX contract. Remember to always fetch the latest data from the contract to ensure your UI reflects the current state of the blockchain.
