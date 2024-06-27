@@ -212,6 +212,19 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         }
         emit RefineryBoostUpdated(tiers, boosts);
     }
+    /**
+     * @notice Sets the refinery tier values for different deposit amounts
+     * @dev This function can only be called by an admin
+     * @param deposits An array of deposit amounts (in wei) for which to set tiers
+     * @param tiers An array of tier values corresponding to each deposit amount
+     * @custom:input-format Both input arrays should have the same length.
+     * Deposits should be in ascending order and represent wei amounts.
+     * Tiers are the corresponding tier values for each deposit amount.
+     * Example: 
+     * deposits = [1 ether, 10 ether, 100 ether, 1000 ether]
+     * tiers = [1, 2, 3, 4]
+     * This sets tier 1 for 1 XEX deposit, tier 2 for 10 XEX deposit, tier 3 for 100 XEX deposit, and tier 4 for 1000 XEX deposit.
+     */
     function setRefineryTier(uint256[] memory deposits, uint256[] memory tiers) external onlyAdmin {
         if (deposits.length != tiers.length) revert ArrayLengthMismatch();
         for (uint256 i = 0; i < deposits.length; i++) {
