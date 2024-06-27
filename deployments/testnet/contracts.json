@@ -1,0 +1,33 @@
+{
+    "XDON": {
+        "address": "0xF17f8ab91239A0fe6b8D9DAE4CEB2D19D98083f6",
+        "args": [],
+        "options": {},
+        "timestamp": 1719516054,
+        "verified": true
+    },
+    "XEX": {
+        "address": "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274",
+        "args": [],
+        "options": {},
+        "timestamp": 1719516120
+    },
+    "XexadonStaking": {
+        "address": "0x568F4Ab0A580567B61c397D307b602f87D8a64F2",
+        "args": [
+            "0xF17f8ab91239A0fe6b8D9DAE4CEB2D19D98083f6"
+        ],
+        "options": {},
+        "timestamp": 1719516187,
+        "verified": true
+    },
+    "GameMain": {
+        "address": "0xb4415B20975686e5Ad30fa5a664fFd2BC8211427",
+        "args": [
+            "0x23Ee1fAF9901D91cbB2FEAb6Fc32C4AE07022274"
+        ],
+        "options": {},
+        "timestamp": 1719516254,
+        "verified": true
+    }
+}

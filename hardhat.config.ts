@@ -22,7 +22,7 @@ const config: HardhatUserConfig = {
 			// 	blockNumber: 55165384
 			// }
 		},
-		sonic: {
+		testnet: {
 			url: 'https://rpc.sonic.fantom.network/',
 			accounts: [PRIVATE_KEY]
 		}
@@ -43,8 +43,18 @@ const config: HardhatUserConfig = {
 	etherscan: {
 		apiKey: {
 			ftm: FTMSCAN,
-			ftmTestnet: FTMSCAN
-		}
+			testnet: `lore-public`
+		},
+		customChains: [
+			{
+				network: 'testnet',
+				chainId: 64165,
+				urls: {
+					apiURL: 'https://api.lorescan.com/64165',
+					browserURL: 'https://sonicscan.io/'
+				}
+			}
+		]
 	}
 }
 
