@@ -83,7 +83,19 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         users[msg.sender] = user;
         emit RefineryUpgraded(msg.sender, user.refineryTier);
     }
-    function getRefineryTier(address user) external view returns (uint) {}
+    function getRefineryTier(uint256 deposit) internal pure returns (uint256) {
+        if (deposit >= 750 ether) {
+            return 4; // Diamond Tier
+        } else if (deposit >= 125 ether) {
+            return 3; // Gold Tier
+        } else if (deposit >= 40 ether) {
+            return 2; // Silver Tier
+        } else if (deposit >= 1 ether) {
+            return 1; // Bronze Tier
+        } else {
+            return 0; // No Tier
+        }
+    }
     function getRefineryBoost(address user) external view returns (uint) {}
 
     function enterLottery(uint ftmAmount, uint repeats, uint riskTier) external payable {
