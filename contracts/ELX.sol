@@ -176,6 +176,13 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         return ftmAmount * 100; // Placeholder logic
     }
 
+    /**
+     * @notice Sets the maximum refinery tier
+     * @dev This function can only be called by an admin
+     * @param amountDecimal The new maximum refinery tier in decimal format (1-10000)
+     * @custom:input-format The input should be a decimal number between 1 and 10000, representing the desired max tier in whole XEX tokens.
+     * For example, to set the max tier to 5000 XEX, input 5000. The function will convert this to 5000 * 10^18 wei internally.
+     */
     function setMaxRefineryTier(uint amountDecimal) external onlyAdmin {
         if (amountDecimal > 10000 || amountDecimal < 1) revert InvalidMaxRefineryTier();
         MAX_REFINERY_TIER = amountDecimal * 10 ** 18;
