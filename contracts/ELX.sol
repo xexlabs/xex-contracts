@@ -45,6 +45,21 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         _setupRole(ADMIN_ROLE, msg.sender);
     }
 
+    /**
+     * @notice Upgrades the user's refinery tier by depositing XEX tokens.
+     * @dev This function allows users to upgrade their refinery tier by depositing a specified amount of XEX tokens.
+     * The function checks for sufficient XEX balance and allowance before transferring the tokens.
+     * The user's refinery tier is incremented by the deposited amount.
+     * Emits a {RefineryUpgraded} event.
+     * @param amount The amount of XEX tokens to deposit for upgrading the refinery tier.
+     * Requirements:
+     * - `amount` must be greater than 0 and the total refinery tier after the upgrade must not exceed MAX_REFINERY_TIER.
+     * - The caller must have a sufficient XEX balance and allowance.
+     * Expected behavior:
+     * - The user's refinery tier is increased by the deposited amount.
+     * - The deposited XEX tokens are transferred to the contract.
+     * - A {RefineryUpgraded} event is emitted with the user's address and the new refinery tier.
+     */
     function upgradeRefinery(uint256 amount) external {
         uint totalUserAmount = users[msg.sender].refineryTier;
         if (amount == 0 || totalUserAmount + amount > MAX_REFINERY_TIER) {
