@@ -22,6 +22,7 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
 
     mapping(address => User) public users;
     mapping(bytes32 => address) private requestIdToUser;
+    mapping(uint256 => uint256) public refineryBoostMap;
 
     bytes32 internal keyHash;
     uint internal fee;
@@ -195,5 +196,6 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         }
         MAX_REFINERY_TIER = amountDecimal * 10 ** 18;
         emit SetMaxRefineryTier(amountDecimal);
+        emit RefineryBoostUpdated(tiers, boosts);
     }
 }
