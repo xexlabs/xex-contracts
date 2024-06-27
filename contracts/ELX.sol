@@ -94,16 +94,6 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         return highestTier;
     }
 
-    function setRefineryTier(uint256[] memory deposits, uint256[] memory tiers) external onlyAdmin {
-        if (deposits.length != tiers.length) revert ArrayLengthMismatch();
-
-        for (uint256 i = 0; i < deposits.length; i++) {
-            if (deposits[i] > MAX_REFINERY_TIER) revert DepositExceedsMaxTier();
-            refineryTierMap[deposits[i] / 1 ether] = tiers[i];
-        }
-
-        emit RefineryTierUpdated(deposits, tiers);
-    }
     function getRefineryBoost(uint256 deposit) public view returns (uint256) {
         uint256 highestTier = 0;
         uint256 boost = 0;
@@ -116,17 +106,6 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         }
 
         return boost;
-    }
-
-    function setRefineryBoost(uint256[] memory tiers, uint256[] memory boosts) external onlyAdmin {
-        if (tiers.length != boosts.length) revert ArrayLengthMismatch();
-
-        for (uint256 i = 0; i < tiers.length; i++) {
-            if (tiers[i] > MAX_REFINERY_TIER / 1 ether) revert TierExceedsMaxTier();
-            refineryBoostMap[tiers[i]] = boosts[i];
-        }
-
-        emit RefineryBoostUpdated(tiers, boosts);
     }
 
     function enterLottery(uint ftmAmount, uint repeats, uint riskTier) external payable {
@@ -202,6 +181,23 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         MAX_REFINERY_TIER = amountDecimal * 10 ** 18;
         emit SetMaxRefineryTier(amountDecimal);
         emit RefineryBoostUpdated(tiers, boosts);
+        emit RefineryTierUpdated(deposits, tiers);
+    }
+
+    function setRefineryBoost(uint256[] memory tiers, uint256[] memory boosts) external onlyAdmin {
+        if (tiers.length != boosts.length) revert ArrayLengthMismatch();
+        for (uint256 i = 0; i < tiers.length; i++) {
+            if (tiers[i] > MAX_REFINERY_TIER / 1 ether) revert TierExceedsMaxTier();
+            refineryBoostMap[tiers[i]] = boosts[i];
+        }
+        emit RefineryBoostUpdated(tiers, boosts);
+    }
+    function setRefineryTier(uint256[] memory deposits, uint256[] memory tiers) external onlyAdmin {
+        if (deposits.length != tiers.length) revert ArrayLengthMismatch();
+        for (uint256 i = 0; i < deposits.length; i++) {
+            if (deposits[i] > MAX_REFINERY_TIER) revert DepositExceedsMaxTier();
+            refineryTierMap[deposits[i] / 1 ether] = tiers[i];
+        }
         emit RefineryTierUpdated(deposits, tiers);
     }
 }
