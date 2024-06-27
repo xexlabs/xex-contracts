@@ -23,6 +23,7 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
         uint256 lotteryMultiplier;
         uint256 referralPercent;
         uint256 lotteryTickets;
+        xex = IXEX(xexToken);
     }
 
     mapping(address => User) public users;
@@ -30,6 +31,8 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
 
     bytes32 internal keyHash;
     uint256 internal fee;
+
+    IXEX public xex;
 
     event RefineryUpgraded(address indexed user, uint256 tier);
     event LotteryEntered(address indexed user, uint256 tickets);
@@ -41,6 +44,7 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
         address vrfCoordinator,
         address linkToken,
         bytes32 _keyHash,
+        address xexToken,
         uint256 _fee
     ) ERC20(name, symbol) VRFConsumerBase(vrfCoordinator, linkToken) {
         keyHash = _keyHash;
@@ -53,6 +57,10 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
     function upgradeRefinery(uint256 amount) external {
         require(amount > 0 && amount <= MAX_REFINERY_TIER, "Invalid amount");
         User storage user = users[msg.sender];
+        require(xex.balanceOf(msg.sender) >= amount, "Insufficient XEX balance");
+        require(xex.allowance(msg.sender, address(this)) >= amount, "Insufficient XEX allowance");
+
+        xex.transferFrom(msg.sender, address(this), amount);
         user.refineryTier += amount;
         require(user.refineryTier <= MAX_REFINERY_TIER, "Exceeds max tier");
         emit RefineryUpgraded(msg.sender, user.refineryTier);
