@@ -6,12 +6,12 @@ pragma solidity ^0.8.0;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {VRFConsumerBase} from "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import {ILEX} from "./interfaces/ILEX.sol";
 import {IXEX} from "./interfaces/IXEX.sol";
 
-contract ELX is ERC20, Ownable, VRFConsumerBase, ILEX {
+contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
     using SafeERC20 for IXEX;
     uint256 public constant MAX_REFINERY_TIER = 10000;
     uint256 public constant MAX_XEX_REFINERY = 10000;
@@ -29,6 +29,8 @@ contract ELX is ERC20, Ownable, VRFConsumerBase, ILEX {
     using SafeERC20 for IXEX;
     IXEX public xex;
 
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+
     constructor(
         string memory name,
         string memory symbol,
@@ -40,6 +42,7 @@ contract ELX is ERC20, Ownable, VRFConsumerBase, ILEX {
     ) ERC20(name, symbol) VRFConsumerBase(vrfCoordinator, linkToken) {
         keyHash = _keyHash;
         fee = _fee;
+        _setupRole(ADMIN_ROLE, msg.sender);
     }
 
     function upgradeRefinery(uint256 amount) external {
