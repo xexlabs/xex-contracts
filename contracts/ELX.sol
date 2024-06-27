@@ -4,12 +4,12 @@ pragma solidity ^0.8.0;
 /// @notice This contract handles the ELX Refinement process, including the lottery-style token conversion and the various tiers of upgrades.
 /// @dev Uses Chainlink VRF for randomness and OpenZeppelin libraries for ERC20 and Ownable functionalities.
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
-
-import "./interfaces/ILEX.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {VRFConsumerBase} from "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
+import {ILEX} from "./interfaces/ILEX.sol";
+import {IXEX} from "./interfaces/IXEX.sol";
 
 contract ELX is ERC20, Ownable, VRFConsumerBase, ILEX {
     using SafeERC20 for IXEX;
@@ -20,7 +20,6 @@ contract ELX is ERC20, Ownable, VRFConsumerBase, ILEX {
     uint256 public constant MAX_REFERRAL_PERCENT = 51;
     uint256 public constant MAX_LOTTERY_TICKETS = 1 ether;
 
-
     mapping(address => User) public users;
     mapping(bytes32 => address) private requestIdToUser;
 
@@ -29,7 +28,6 @@ contract ELX is ERC20, Ownable, VRFConsumerBase, ILEX {
 
     using SafeERC20 for IXEX;
     IXEX public xex;
-
 
     constructor(
         string memory name,
