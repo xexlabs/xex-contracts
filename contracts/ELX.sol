@@ -153,27 +153,22 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
     function fulfillRandomness(bytes32 requestId, uint randomness) internal override {
         address userAddress = requestIdToUser[requestId];
         User storage user = users[userAddress];
-
         uint outcome = determineOutcome(randomness, user.lotteryMultiplier);
         uint reward = calculateReward(outcome, user.lotteryTickets);
-
         _mint(userAddress, reward);
         emit LotteryWon(userAddress, reward);
     }
 
     function determineOutcome(uint randomness, uint multiplier) internal pure returns (uint) {
-        // Implement outcome determination logic based on randomness and multiplier
-        return randomness % 100; // Placeholder logic
+        //TODO: to implement
     }
 
     function calculateReward(uint outcome, uint tickets) internal pure returns (uint) {
-        // Implement reward calculation logic based on outcome and tickets
-        return outcome * tickets; // Placeholder logic
+        //TODO: to implement
     }
 
     function buyELX(uint ftmAmount) internal returns (uint) {
-        // Implement logic to buy ELX off the market
-        return ftmAmount * 100; // Placeholder logic
+        //TODO: to implement
     }
 
     /**
@@ -199,7 +194,7 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
      * @custom:input-format Both input arrays should have the same length.
      * Tiers should be in ascending order and represent XEX amounts (1 = 1 XEX).
      * Boosts are the corresponding boost values for each tier.
-     * Example: 
+     * Example:
      * tiers = [1, 10, 100, 1000]
      * boosts = [100, 200, 300, 400]
      * This sets a boost of 100 for 1 XEX, 200 for 10 XEX, 300 for 100 XEX, and 400 for 1000 XEX.
@@ -220,7 +215,7 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
      * @custom:input-format Both input arrays should have the same length.
      * Deposits should be in ascending order and represent wei amounts.
      * Tiers are the corresponding tier values for each deposit amount.
-     * Example: 
+     * Example:
      * deposits = [1 ether, 10 ether, 100 ether, 1000 ether]
      * tiers = [1, 2, 3, 4]
      * This sets tier 1 for 1 XEX deposit, tier 2 for 10 XEX deposit, tier 3 for 100 XEX deposit, and tier 4 for 1000 XEX deposit.

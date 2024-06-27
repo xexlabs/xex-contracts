@@ -4,7 +4,9 @@ pragma solidity ^0.8.0;
 interface ILEX {
     struct User {
         uint userDepositTime;
+        uint deposit;
         uint refineryTier;
+        uint refineryBoost;
         uint xexRefinery;
         uint xexadonBoost;
         uint lotteryMultiplier;
@@ -28,6 +30,8 @@ interface ILEX {
     event RefineryUpgraded(address indexed user, uint tier);
     event LotteryEntered(address indexed user, uint tickets);
     event LotteryWon(address indexed user, uint amount);
+    event RefineryTierUpdated(uint256[] deposits, uint256[] tiers);
+    event RefineryBoostUpdated(uint256[] deposits, uint256[] boosts);
 
     function upgradeRefinery(uint amount) external;
     function enterLottery(uint ftmAmount, uint repeats, uint riskTier) external payable;
