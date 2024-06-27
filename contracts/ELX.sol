@@ -34,6 +34,16 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
 
     IXEX public xex;
 
+    error InsufficientXEXBalance();
+    error InsufficientXEXAllowance();
+    error InvalidAmount();
+    error InvalidFTMAmount();
+    error InvalidRepeats();
+    error InvalidRiskTier();
+    error IncorrectFTMAmount();
+    error ExceedsMaxTier();
+    error ExceedsMaxTickets();
+
     event RefineryUpgraded(address indexed user, uint256 tier);
     event LotteryEntered(address indexed user, uint256 tickets);
     event LotteryWon(address indexed user, uint256 amount);
@@ -55,14 +65,22 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
     /// @dev Increases the user's refinery tier by the specified amount. Ensures the tier does not exceed the maximum allowed.
     /// @param amount The amount of XEX to deposit for upgrading the refinery.
     function upgradeRefinery(uint256 amount) external {
-        require(amount > 0 && amount <= MAX_REFINERY_TIER, "Invalid amount");
+        if (amount <= 0 || amount > MAX_REFINERY_TIER) {
+            revert InvalidAmount();
+        }
         User storage user = users[msg.sender];
-        require(xex.balanceOf(msg.sender) >= amount, "Insufficient XEX balance");
-        require(xex.allowance(msg.sender, address(this)) >= amount, "Insufficient XEX allowance");
+        if (xex.balanceOf(msg.sender) < amount) {
+            revert InsufficientXEXBalance();
+        }
+        if (xex.allowance(msg.sender, address(this)) < amount) {
+            revert InsufficientXEXAllowance();
+        }
 
         xex.transferFrom(msg.sender, address(this), amount);
         user.refineryTier += amount;
-        require(user.refineryTier <= MAX_REFINERY_TIER, "Exceeds max tier");
+        if (user.refineryTier > MAX_REFINERY_TIER) {
+            revert ExceedsMaxTier();
+        }
         emit RefineryUpgraded(msg.sender, user.refineryTier);
     }
 
@@ -72,12 +90,20 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
     /// @param repeats The number of times to repeat the bet.
     /// @param riskTier The risk category chosen by the user (1: Bronze, 2: Silver, 3: Gold, 4: Diamond).
     function enterLottery(uint256 ftmAmount, uint256 repeats, uint256 riskTier) external payable {
-        require(ftmAmount >= 0.01 ether && ftmAmount <= 100 ether, "Invalid FTM amount");
-        require(repeats > 0 && repeats <= 10, "Invalid repeats");
-        require(riskTier >= 1 && riskTier <= 4, "Invalid risk tier");
+        if (ftmAmount < 0.01 ether || ftmAmount > 100 ether) {
+            revert InvalidFTMAmount();
+        }
+        if (repeats <= 0 || repeats > 10) {
+            revert InvalidRepeats();
+        }
+        if (riskTier < 1 || riskTier > 4) {
+            revert InvalidRiskTier();
+        }
 
         uint256 totalFTM = ftmAmount * repeats;
-        require(msg.value == totalFTM, "Incorrect FTM amount");
+        if (msg.value != totalFTM) {
+            revert IncorrectFTMAmount();
+        }
 
         uint256 feeAmount = (totalFTM * 2) / 100;
         uint256 remainingFTM = totalFTM - feeAmount;
@@ -98,7 +124,9 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
 
         User storage user = users[msg.sender];
         user.lotteryTickets += (ftmAmount * repeats * 100);
-        require(user.lotteryTickets <= MAX_LOTTERY_TICKETS, "Exceeds max tickets");
+        if (user.lotteryTickets > MAX_LOTTERY_TICKETS) {
+            revert ExceedsMaxTickets();
+        }
 
         emit LotteryEntered(msg.sender, user.lotteryTickets);
     }
