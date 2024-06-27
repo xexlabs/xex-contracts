@@ -65,7 +65,8 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
     /// @dev Increases the user's refinery tier by the specified amount. Ensures the tier does not exceed the maximum allowed.
     /// @param amount The amount of XEX to deposit for upgrading the refinery.
     function upgradeRefinery(uint256 amount) external {
-        if (amount <= 0 || amount > MAX_REFINERY_TIER) {
+        uint totalUserAmount = users[msg.sender].refineryTier;
+        if (amount == 0 || totalUserAmount + amount > MAX_REFINERY_TIER) {
             revert InvalidAmount();
         }
         User storage user = users[msg.sender];
@@ -78,9 +79,6 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
 
         xex.transferFrom(msg.sender, address(this), amount);
         user.refineryTier += amount;
-        if (user.refineryTier > MAX_REFINERY_TIER) {
-            revert ExceedsMaxTier();
-        }
         emit RefineryUpgraded(msg.sender, user.refineryTier);
     }
 
