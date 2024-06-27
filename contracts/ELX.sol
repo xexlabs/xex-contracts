@@ -10,6 +10,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 
 contract ELX is ERC20, Ownable, VRFConsumerBase {
+    using SafeERC20 for IXEX;
     uint256 public constant MAX_REFINERY_TIER = 10000;
     uint256 public constant MAX_XEX_REFINERY = 10000;
     uint256 public constant MAX_XEXADON_BOOST = 50000;
