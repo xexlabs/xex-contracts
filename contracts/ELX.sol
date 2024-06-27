@@ -12,6 +12,9 @@ import {ILEX} from "./interfaces/ILEX.sol";
 import {IXEX} from "./interfaces/IXEX.sol";
 
 contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
+    error ArrayLengthMismatch();
+    error DepositExceedsMaxTier();
+    error TierExceedsMaxTier();
     using SafeERC20 for IXEX;
     uint public MAX_REFINERY_TIER = 10000 ether;
     uint public constant MAX_XEX_REFINERY = 10000 ether;
@@ -67,15 +70,9 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
     function upgradeRefinery(uint amount) external {
         User memory user = users[msg.sender];
         uint totalUserAmount = user.refineryTier;
-        if (amount == 0 || totalUserAmount + amount > MAX_REFINERY_TIER) {
-            revert InvalidAmount();
-        }
-        if (xex.balanceOf(msg.sender) < amount) {
-            revert InsufficientXEXBalance();
-        }
-        if (xex.allowance(msg.sender, address(this)) < amount) {
-            revert InsufficientXEXAllowance();
-        }
+        if (amount == 0 || totalUserAmount + amount > MAX_REFINERY_TIER) revert InvalidAmount();
+        if (xex.balanceOf(msg.sender) < amount) revert InsufficientXEXBalance();
+        if (xex.allowance(msg.sender, address(this)) < amount) revert InsufficientXEXAllowance();
         xex.safeTransferFrom(msg.sender, address(this), amount);
         user.deposit += amount;
         user.refineryTier += getRefineryTier(user.deposit);
@@ -98,10 +95,10 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
     }
 
     function setRefineryTier(uint256[] memory deposits, uint256[] memory tiers) external onlyAdmin {
-        require(deposits.length == tiers.length, "Arrays must have the same length");
+        if (deposits.length != tiers.length) revert ArrayLengthMismatch();
 
         for (uint256 i = 0; i < deposits.length; i++) {
-            require(deposits[i] <= MAX_REFINERY_TIER, "Deposit exceeds MAX_REFINERY_TIER");
+            if (deposits[i] > MAX_REFINERY_TIER) revert DepositExceedsMaxTier();
             refineryTierMap[deposits[i] / 1 ether] = tiers[i];
         }
 
@@ -122,10 +119,10 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
     }
 
     function setRefineryBoost(uint256[] memory tiers, uint256[] memory boosts) external onlyAdmin {
-        require(tiers.length == boosts.length, "Arrays must have the same length");
+        if (tiers.length != boosts.length) revert ArrayLengthMismatch();
 
         for (uint256 i = 0; i < tiers.length; i++) {
-            require(tiers[i] <= MAX_REFINERY_TIER / 1 ether, "Tier exceeds MAX_REFINERY_TIER");
+            if (tiers[i] > MAX_REFINERY_TIER / 1 ether) revert TierExceedsMaxTier();
             refineryBoostMap[tiers[i]] = boosts[i];
         }
 
@@ -201,9 +198,7 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
     }
 
     function setMaxRefineryTier(uint amountDecimal) external onlyAdmin {
-        if (amountDecimal > 10000 || amountDecimal < 1) {
-            revert InvalidMaxRefineryTier();
-        }
+        if (amountDecimal > 10000 || amountDecimal < 1) revert InvalidMaxRefineryTier();
         MAX_REFINERY_TIER = amountDecimal * 10 ** 18;
         emit SetMaxRefineryTier(amountDecimal);
         emit RefineryBoostUpdated(tiers, boosts);
