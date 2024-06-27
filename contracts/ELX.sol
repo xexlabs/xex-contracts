@@ -45,17 +45,6 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         _setupRole(ADMIN_ROLE, msg.sender);
     }
 
-    /**
-     * @notice Computes the boost of a user.
-     * @param user The address of the user.
-     * @return The boost value of the user.
-     */
-    function boost(address user) external view returns (uint) {
-        User memory userData = users[user];
-        uint boostValue = userData.xexadonBoost + userData.xexRefinery;
-        return boostValue;
-    }
-
     modifier onlyAdmin() {
         if (!hasRole(ADMIN_ROLE, msg.sender)) revert NotAdmin();
         _;
@@ -87,11 +76,15 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
             revert InsufficientXEXAllowance();
         }
         xex.safeTransferFrom(msg.sender, address(this), amount);
-        user.refineryTier += amount;
+        user.deposit += amount;
+        user.refineryTier += getRefineryTier(user.deposit);
+        user.refineryBoost += getRefineryBoost(user.deposit);
         user.userDepositTime = block.timestamp;
         users[msg.sender] = user;
         emit RefineryUpgraded(msg.sender, user.refineryTier);
     }
+    function getRefineryTier(address user) external view returns (uint) {}
+    function getRefineryBoost(address user) external view returns (uint) {}
 
     function enterLottery(uint ftmAmount, uint repeats, uint riskTier) external payable {
         if (ftmAmount < 0.01 ether || ftmAmount > 100 ether) {
