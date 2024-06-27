@@ -172,18 +172,44 @@ Every 7 days, an on-chain contract selects one winner to receive
 
 ---
 
-#6) ELX Staking: Earn protocol fees
+# 6) ELX Staking: Earn protocol fees
 
-Stake ELX to earn fees generated. Rewards are accrued and claimable per block.
-FTM accrues in a contract that distributes total amount held over a rolling 365 day basis.
-Users choose how long they lock their ELX up-front.
-Choose between 1 - 365 Days and the amount of ELX.
-The longer you stake, the higher % of the available yields you earn.
-Once staked, cannot remove until your time is up.
-Users can add additional ELX, or extend their staked time, but cannot reduce it.
-Somewhat similar to Curve / Solidly staking, not sure if we can use those as a framework or not. Up to you.
+Stake ELX to earn fees generated. Rewards are accrued and 
+claimable per block.
 
-ELX stakers earn their % of staking rewards based on the total amount of ELX staked, their time entered, the amount of ELX they have staked, with a multiplier from their Xexadon Boost. At 50,000 points (max boost), there is a + 50% staking multiplier (multiplier adjustable after deploy). Between 0 - 50,000 points, the multiplier is increased linearly between 0% - 50%.
+- FTM accrues in a contract that distributes total amount held 
+  over a rolling 365 day basis.
+- Users choose how long they lock their ELX up-front.
+- Choose between 1 - 365 Days and the amount of ELX.
+- The longer you stake, the higher % of the available yields you 
+  earn.
+- Once staked, cannot remove until your time is up.
+- Users can add additional ELX, or extend their staked time, but 
+  cannot reduce it.
+- Somewhat similar to Curve / Solidly staking, not sure if we can 
+  use those as a framework or not. Up to you.
 
-    Also, consider 2 weeks of work here, some questions: as we are dealing with boost, do we lock the user for a certain time? If so, can we use the same gauge mechanism from Curve/Solidly for example?
-    Also, do we use epochs to pay reward? For example: pay rewards every 7 days?
+### Staking Rewards
+
+ELX stakers earn their % of staking rewards based on:
+
+- The total amount of ELX staked
+- Their time entered
+- The amount of ELX they have staked
+- A multiplier from their Xexadon Boost
+
+| Points (Xexadon Boost) | Staking Multiplier Increase |
+|------------------------|-----------------------------|
+| 0 - 50,000             | 0% to 50%                   |
+
+- At 50,000 points (max boost), there is a +50% staking multiplier 
+  (multiplier adjustable after deploy).
+- Between 0 - 50,000 points, the multiplier is increased linearly 
+  between 0% - 50%.
+
+> Also, consider 2 weeks of work here, some questions: as we are 
+> dealing with boost, do we lock the user for a certain time? If 
+> so, can we use the same gauge mechanism from Curve/Solidly for 
+> example?
+> Also, do we use epochs to pay reward? For example: pay rewards 
+> every 7 days?
