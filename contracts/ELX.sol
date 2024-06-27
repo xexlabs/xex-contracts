@@ -191,6 +191,19 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         emit RefineryTierUpdated(deposits, tiers);
     }
 
+    /**
+     * @notice Sets the refinery boost values for different tiers
+     * @dev This function can only be called by an admin
+     * @param tiers An array of tier values (in XEX) for which to set boosts
+     * @param boosts An array of boost values corresponding to each tier
+     * @custom:input-format Both input arrays should have the same length.
+     * Tiers should be in ascending order and represent XEX amounts (1 = 1 XEX).
+     * Boosts are the corresponding boost values for each tier.
+     * Example: 
+     * tiers = [1, 10, 100, 1000]
+     * boosts = [100, 200, 300, 400]
+     * This sets a boost of 100 for 1 XEX, 200 for 10 XEX, 300 for 100 XEX, and 400 for 1000 XEX.
+     */
     function setRefineryBoost(uint256[] memory tiers, uint256[] memory boosts) external onlyAdmin {
         if (tiers.length != boosts.length) revert ArrayLengthMismatch();
         for (uint256 i = 0; i < tiers.length; i++) {
