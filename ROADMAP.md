@@ -114,23 +114,61 @@
 
 ---
 
-#5) ELX Jackpot: Luck-based token distribution
+# 5) ELX Jackpot: Luck-based token distribution
 
-Every 7 days, an on-chain contract selects one winner to receive 0.00162% of the total ELX supply: 35% allocation to jackpot / (52 Weeks x 4 years).
-Lottery resets each week, where all users start at zero tickets.
-Winners gain 1 ticket for the lottery for each 0.01 FTM they use in ELX refining (Example #1 above would mean the user gets 100,000 tickets from 1,000 FTM).
+Every 7 days, an on-chain contract selects one winner to receive 
+0.00162% of the total ELX supply: 35% allocation to jackpot / 
+(52 Weeks x 4 years).
 
-Starting Lottery ticket multiplier for each wallet is 1x. If the user GETS REFERRED by another user’s referral code, they start at a 1.1x boost. Upgrading the Refinery or Xexadon Boost increases this multiplier. Max multiplier is 5.1x (Start at 1x, + 0.1 if Referred, + 2x Max Xexadon Boost, + 2x Max Refinery Upgrade).
-At 50,000 points (max Xexadon Boost), there is a + 2x lottery multiplier (adjustable after deploy). Between 0 to 50,000 points, the multiplier is increased linearly between + 0x to 2x.
-At 10,000 XEX (max Refinery Boost), there is a + 2x lottery multiplier (adjustable after deploy). See above list of upgrades for when this boost is incremented, from + 0x to 2x.
+- Lottery resets each week, where all users start at zero tickets.
+- Winners gain 1 ticket for the lottery for each 0.01 FTM they use 
+  in ELX refining (Example #1 above would mean the user gets 
+  100,000 tickets from 1,000 FTM).
 
-Starting Referral percent for each wallet is 1% (meaning you earn 1% of the lottery tickets that your referrals earn. This percent is NOT subtracted from the amount earned from the referred user). Upgrading the Refinery or Xexadon Boost increases this percent. Max boost is 51% (Start at 1%, + 25% Max Xexadon Boost, + 25% Max Refinery Upgrade).
-At 50,000 points (max xexadon boost), users earn an extra 25% of their referral’s lottery tickets in addition to their own). Between 0 to 50,000 points, the multiplier is increased linearly between 0% to 25%.
-At 10,000 XEX (max Refinery Boost), users earn an extra 25% of their referral’s lottery tickets in addition to their own). See above list of upgrades for when this boost is incremented, from + 0% to 25%.
+### Lottery Ticket Multiplier
 
-Each wallet can only hold a Max of 1% of the total lottery tickets per week (adjustable after deploy), including their own tickets and their referrals. This MAX is enforced at the TIME OF THE DRAWING.
+- Starting Lottery ticket multiplier for each wallet is 1x.
+- If the user GETS REFERRED by another user’s referral code, they 
+  start at a 1.1x boost.
+- Upgrading the Refinery or Xexadon Boost increases this 
+  multiplier.
+- Max multiplier is 5.1x (Start at 1x, + 0.1 if Referred, + 2x Max 
+  Xexadon Boost, + 2x Max Refinery Upgrade).
 
-    It safe to consider also 2 weeks too for this contract.
+| Points (Xexadon Boost) | Multiplier Increase |
+|------------------------|---------------------|
+| 0 - 50,000             | +0x to 2x           |
+
+| XEX (Refinery Boost)   | Multiplier Increase |
+|------------------------|---------------------|
+| 0 - 10,000             | +0x to 2x           |
+
+### Referral Percent
+
+- Starting Referral percent for each wallet is 1% (meaning you 
+  earn 1% of the lottery tickets that your referrals earn. This 
+  percent is NOT subtracted from the amount earned from the 
+  referred user).
+- Upgrading the Refinery or Xexadon Boost increases this percent.
+- Max boost is 51% (Start at 1%, + 25% Max Xexadon Boost, + 25% 
+  Max Refinery Upgrade).
+
+| Points (Xexadon Boost) | Referral Percent Increase |
+|------------------------|---------------------------|
+| 0 - 50,000             | 0% to 25%                 |
+
+| XEX (Refinery Boost)   | Referral Percent Increase |
+|------------------------|---------------------------|
+| 0 - 10,000             | 0% to 25%                 |
+
+### Lottery Ticket Cap
+
+- Each wallet can only hold a Max of 1% of the total lottery 
+  tickets per week (adjustable after deploy), including their own 
+  tickets and their referrals.
+- This MAX is enforced at the TIME OF THE DRAWING.
+
+> It is safe to consider also 2 weeks too for this contract.
 
 ---
 
