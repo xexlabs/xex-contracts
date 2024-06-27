@@ -35,4 +35,5 @@ interface ILEX {
     function determineOutcome(uint randomness, uint multiplier) external pure returns (uint);
     function calculateReward(uint outcome, uint tickets) external pure returns (uint);
     function buyELX(uint ftmAmount) external returns (uint);
+    function boost(address user) external view returns (uint);
 }

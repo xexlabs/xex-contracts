@@ -45,6 +45,17 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         _setupRole(ADMIN_ROLE, msg.sender);
     }
 
+    /**
+     * @notice Computes the boost of a user.
+     * @param user The address of the user.
+     * @return The boost value of the user.
+     */
+    function boost(address user) external view returns (uint) {
+        User memory userData = users[user];
+        uint boostValue = userData.xexadonBoost + userData.xexRefinery;
+        return boostValue;
+    }
+
     modifier onlyAdmin() {
         if (!hasRole(ADMIN_ROLE, msg.sender)) revert NotAdmin();
         _;
