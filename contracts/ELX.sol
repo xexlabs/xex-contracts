@@ -96,54 +96,29 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
             return 0; // No Tier
         }
     }
-    function getRefineryBoost(uint256 deposit) internal pure returns (uint256) {
-        if (deposit >= 10000 ether) {
-            return 200; // 2.00x boost
-        } else if (deposit >= 7500 ether) {
-            return 150; // 1.50x boost
-        } else if (deposit >= 5000 ether) {
-            return 140; // 1.40x boost
-        } else if (deposit >= 3000 ether) {
-            return 130; // 1.30x boost
-        } else if (deposit >= 2500 ether) {
-            return 125; // 1.25x boost
-        } else if (deposit >= 2000 ether) {
-            return 120; // 1.20x boost
-        } else if (deposit >= 1500 ether) {
-            return 115; // 1.15x boost
-        } else if (deposit >= 1250 ether) {
-            return 110; // 1.10x boost
-        } else if (deposit >= 1000 ether) {
-            return 105; // 1.05x boost
-        } else if (deposit >= 750 ether) {
-            return 100; // 1.00x boost (Diamond Tier)
-        } else if (deposit >= 500 ether) {
-            return 70; // 0.70x boost
-        } else if (deposit >= 375 ether) {
-            return 60; // 0.60x boost
-        } else if (deposit >= 250 ether) {
-            return 50; // 0.50x boost
-        } else if (deposit >= 125 ether) {
-            return 40; // 0.40x boost (Gold Tier)
-        } else if (deposit >= 100 ether) {
-            return 30; // 0.30x boost
-        } else if (deposit >= 80 ether) {
-            return 25; // 0.25x boost
-        } else if (deposit >= 60 ether) {
-            return 20; // 0.20x boost
-        } else if (deposit >= 40 ether) {
-            return 15; // 0.15x boost (Silver Tier)
-        } else if (deposit >= 20 ether) {
-            return 10; // 0.10x boost
-        } else if (deposit >= 15 ether) {
-            return 5; // 0.05x boost
-        } else if (deposit >= 10 ether) {
-            return 2; // 0.02x boost
-        } else if (deposit >= 1 ether) {
-            return 0; // 0.00x boost (Bronze Tier)
-        } else {
-            return 0; // No boost
+    function getRefineryBoost(uint256 deposit) internal view returns (uint256) {
+        uint256 highestTier = 0;
+        uint256 boost = 0;
+        
+        for (uint256 i = 1; i <= MAX_REFINERY_TIER / 1 ether; i++) {
+            if (deposit >= i * 1 ether && refineryBoostMap[i] > 0) {
+                highestTier = i;
+                boost = refineryBoostMap[i];
+            }
         }
+        
+        return boost;
+    }
+
+    function setRefineryBoost(uint256[] memory tiers, uint256[] memory boosts) external onlyAdmin {
+        require(tiers.length == boosts.length, "Arrays must have the same length");
+        
+        for (uint256 i = 0; i < tiers.length; i++) {
+            require(tiers[i] <= MAX_REFINERY_TIER / 1 ether, "Tier exceeds MAX_REFINERY_TIER");
+            refineryBoostMap[tiers[i]] = boosts[i];
+        }
+        
+        emit RefineryBoostUpdated(tiers, boosts);
     }
 
     function enterLottery(uint ftmAmount, uint repeats, uint riskTier) external payable {
