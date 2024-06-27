@@ -208,5 +208,6 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         MAX_REFINERY_TIER = amountDecimal * 10 ** 18;
         emit SetMaxRefineryTier(amountDecimal);
         emit RefineryBoostUpdated(tiers, boosts);
+        emit RefineryTierUpdated(deposits, tiers);
     }
 }
