@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 /// @dev Uses Chainlink VRF for randomness and OpenZeppelin libraries for ERC20 and Ownable functionalities.
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 
@@ -32,6 +33,7 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
     bytes32 internal keyHash;
     uint256 internal fee;
 
+    using SafeERC20 for IXEX;
     IXEX public xex;
 
     error InsufficientXEXBalance();
@@ -77,7 +79,7 @@ contract ELX is ERC20, Ownable, VRFConsumerBase {
             revert InsufficientXEXAllowance();
         }
 
-        xex.transferFrom(msg.sender, address(this), amount);
+        xex.safeTransferFrom(msg.sender, address(this), amount);
         user.refineryTier += amount;
         emit RefineryUpgraded(msg.sender, user.refineryTier);
     }
