@@ -1,13 +1,15 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 interface ILEX {
     struct User {
-        uint256 refineryTier;
-        uint256 xexRefinery;
-        uint256 xexadonBoost;
-        uint256 lotteryMultiplier;
-        uint256 referralPercent;
-        uint256 lotteryTickets;
+        uint userDepositTime;
+        uint refineryTier;
+        uint xexRefinery;
+        uint xexadonBoost;
+        uint lotteryMultiplier;
+        uint referralPercent;
+        uint lotteryTickets;
     }
 
     error InsufficientXEXBalance();
@@ -19,15 +21,18 @@ interface ILEX {
     error IncorrectFTMAmount();
     error ExceedsMaxTier();
     error ExceedsMaxTickets();
+    error InvalidMaxRefineryTier();
+    error NotAdmin();
 
-    event RefineryUpgraded(address indexed user, uint256 tier);
-    event LotteryEntered(address indexed user, uint256 tickets);
-    event LotteryWon(address indexed user, uint256 amount);
+    event SetMaxRefineryTier(uint amount);
+    event RefineryUpgraded(address indexed user, uint tier);
+    event LotteryEntered(address indexed user, uint tickets);
+    event LotteryWon(address indexed user, uint amount);
 
-    function upgradeRefinery(uint256 amount) external;
-    function enterLottery(uint256 ftmAmount, uint256 repeats, uint256 riskTier) external payable;
-    function fulfillRandomness(bytes32 requestId, uint256 randomness) external;
-    function determineOutcome(uint256 randomness, uint256 multiplier) external pure returns (uint256);
-    function calculateReward(uint256 outcome, uint256 tickets) external pure returns (uint256);
-    function buyELX(uint256 ftmAmount) external returns (uint256);
+    function upgradeRefinery(uint amount) external;
+    function enterLottery(uint ftmAmount, uint repeats, uint riskTier) external payable;
+    function fulfillRandomness(bytes32 requestId, uint randomness) external;
+    function determineOutcome(uint randomness, uint multiplier) external pure returns (uint);
+    function calculateReward(uint outcome, uint tickets) external pure returns (uint);
+    function buyELX(uint ftmAmount) external returns (uint);
 }
