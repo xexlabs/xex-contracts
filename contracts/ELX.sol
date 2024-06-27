@@ -84,18 +84,29 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
         users[msg.sender] = user;
         emit RefineryUpgraded(msg.sender, user.refineryTier);
     }
-    function getRefineryTier(uint256 deposit) internal pure returns (uint256) {
-        if (deposit >= 750 ether) {
-            return 4; // Diamond Tier
-        } else if (deposit >= 125 ether) {
-            return 3; // Gold Tier
-        } else if (deposit >= 40 ether) {
-            return 2; // Silver Tier
-        } else if (deposit >= 1 ether) {
-            return 1; // Bronze Tier
-        } else {
-            return 0; // No Tier
+    mapping(uint256 => uint256) public refineryTierMap;
+
+    function getRefineryTier(uint256 deposit) public view returns (uint256) {
+        uint256 highestTier = 0;
+
+        for (uint256 i = 1; i <= MAX_REFINERY_TIER / 1 ether; i++) {
+            if (deposit >= i * 1 ether && refineryTierMap[i] > 0) {
+                highestTier = refineryTierMap[i];
+            }
         }
+
+        return highestTier;
+    }
+
+    function setRefineryTier(uint256[] memory deposits, uint256[] memory tiers) external onlyAdmin {
+        require(deposits.length == tiers.length, "Arrays must have the same length");
+
+        for (uint256 i = 0; i < deposits.length; i++) {
+            require(deposits[i] <= MAX_REFINERY_TIER, "Deposit exceeds MAX_REFINERY_TIER");
+            refineryTierMap[deposits[i] / 1 ether] = tiers[i];
+        }
+
+        emit RefineryTierUpdated(deposits, tiers);
     }
     function getRefineryBoost(uint256 deposit) public view returns (uint256) {
         uint256 highestTier = 0;
