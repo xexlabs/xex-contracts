@@ -97,28 +97,28 @@ contract ELX is ERC20, AccessControl, VRFConsumerBase, ILEX {
             return 0; // No Tier
         }
     }
-    function getRefineryBoost(uint256 deposit) internal view returns (uint256) {
+    function getRefineryBoost(uint256 deposit) public view returns (uint256) {
         uint256 highestTier = 0;
         uint256 boost = 0;
-        
+
         for (uint256 i = 1; i <= MAX_REFINERY_TIER / 1 ether; i++) {
             if (deposit >= i * 1 ether && refineryBoostMap[i] > 0) {
                 highestTier = i;
                 boost = refineryBoostMap[i];
             }
         }
-        
+
         return boost;
     }
 
     function setRefineryBoost(uint256[] memory tiers, uint256[] memory boosts) external onlyAdmin {
         require(tiers.length == boosts.length, "Arrays must have the same length");
-        
+
         for (uint256 i = 0; i < tiers.length; i++) {
             require(tiers[i] <= MAX_REFINERY_TIER / 1 ether, "Tier exceeds MAX_REFINERY_TIER");
             refineryBoostMap[tiers[i]] = boosts[i];
         }
-        
+
         emit RefineryBoostUpdated(tiers, boosts);
     }
 
